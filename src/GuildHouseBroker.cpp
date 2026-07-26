@@ -71,6 +71,8 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
         {
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Your Guild Master must purchase the Guild House.", GOSSIP_SENDER_MAIN, ACTION_NONE);
         }
+        
+        SendGossipMenuFor(player, "Purchase a guild house, creature->GetGUID());
     }
     else
     {
@@ -78,9 +80,10 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
 
         if (IsGuildMaster(player))
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Sell Guild House", GOSSIP_SENDER_MAIN, ACTION_SELL);
+        
+        SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
     }
 
-    SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
     return true;
 }
 
