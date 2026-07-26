@@ -113,7 +113,8 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
         if (guild->GetTotalBankMoney() > location->Price)
         {
             CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-            guild->ModifyBankMoney(trans, location->Price, false);   // false = remove money
+            if(!guild->ModifyBankMoney(trans, location->Price, false))
+                return false;   // false = remove money
             CharacterDatabase.CommitTransaction(trans);
         }
         else
@@ -164,7 +165,8 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
         CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-        guild->ModifyBankMoney(trans, refund, true);   // true = add money
+        if(!guild->ModifyBankMoney(trans, refund, true))
+            return false;   // true = add money
         CharacterDatabase.CommitTransaction(trans);
     }
     else
@@ -533,7 +535,8 @@ bool GuildHouseMgr::SellAsset(Player* player, uint32_t assetId)
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
         CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-        guild->ModifyBankMoney(trans, asset->PurchasePrice, true);   // true = add money
+        if(!guild->ModifyBankMoney(trans, asset->PurchasePrice, true))
+            return false;   // true = add money
         CharacterDatabase.CommitTransaction(trans);
     }
     else
@@ -576,7 +579,8 @@ bool GuildHouseMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
         if (guild->GetTotalBankMoney() > catalog->Price)
         {
             CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-            guild->ModifyBankMoney(trans, catalog->Price, false);   // true = add money
+            if (!guild->ModifyBankMoney(trans, catalog->Price, false))
+                return false;   // true = add money
             CharacterDatabase.CommitTransaction(trans);
         }
         else
@@ -585,8 +589,8 @@ bool GuildHouseMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
     else
         return false;  
 
-    CharacterDatabase.Execute("INSERT INTO guildhouse_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,createdBy) VALUES ({},{},{},{},0,0,0,0,{})",
-        _nextAssetId,guildId, catalogId, catalog->Price, GH_ASSET_PURCHASED, player->GetGUID().GetCounter());
+    CharacterDatabase.Execute("INSERT INTO guildhouse_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,createdBy) VALUES ({},{},{},{},{},0,0,0,0,{})",
+        _nextAssetId, guildId, catalogId, catalog->Price, GH_ASSET_PURCHASED, player->GetGUID().GetCounter());
 
     uint32_t assetId = _nextAssetId++;
 
