@@ -150,6 +150,8 @@ struct GHPhaseRecord
 
     // Online players currently inside 
     std::unordered_set<uint64_t> Members;
+
+     bool Active = false;
 };
 
 // =====================================================
