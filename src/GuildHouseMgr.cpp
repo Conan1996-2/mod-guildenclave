@@ -172,7 +172,7 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
 // =====================================================
 // Money Management
 // =====================================================
-bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
+bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64 amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
         return guild->GetTotalBankMoney() >= amount;
@@ -180,7 +180,7 @@ bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
         return false;      
 }
 
-bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64_t amount)
+bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64 amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
@@ -197,7 +197,7 @@ bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64_t amount)
     return false;      
 }
 
-bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, unit64_t amount)
+bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, unit64 amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
@@ -316,7 +316,7 @@ void GuildHouseMgr::Load()
             location.MaxX = fields[8].Get<float>();
             location.MinY = fields[9].Get<float>();
             location.MaxY = fields[10].Get<float>();
-            location.Price = fields[11].Get<uint64_t>();
+            location.Price = fields[11].Get<uint64>();
             location.Enabled = fields[12].Get<bool>();
 
             _locations.emplace(location.Id, location);
