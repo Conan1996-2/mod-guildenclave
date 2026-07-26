@@ -41,9 +41,9 @@ public:
     // =====================================================
     // Money Management
     // =====================================================
-    bool HasEnoughMoneyInGuild(uint32_t guildId, unit64_t amount);
-    bool RemoveMoneyFromGuild(uint32_t guildId, unit64_t amount);
-    bool AddMoneyToGuild(uint32_t guildId, unit64_t amount);
+    bool HasEnoughMoneyInGuild(uint32_t guildId, unit64 amount);
+    bool RemoveMoneyFromGuild(uint32_t guildId, unit64 amount);
+    bool AddMoneyToGuild(uint32_t guildId, unit64 amount);
 
     // =====================================================
     // Teleport
