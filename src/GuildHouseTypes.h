@@ -84,9 +84,9 @@ struct GHGuildAsset
     uint32_t AssetId = 0;
     uint32_t GuildId = 0;
     uint32_t CatalogId = 0;
-
     uint16_t LayoutId = 0;
 
+    uint64_t PurchasePrice = 0;
     GHAssetStatus Status = GH_ASSET_PURCHASED;
 
     float X = 0.0f;
@@ -185,10 +185,11 @@ struct GHGuildHouse
     uint32_t GuildId = 0;
     uint32_t OwnerGuid = 0;
     uint32_t LocationId = 0;
+
+    uint64_t PurchasePrice = 0;
+
     uint32_t PhaseMask = 0;
     std::unordered_map<uint32_t, GHGuildAsset> Assets;
-    //std::unordered_map<uint32_t, GHGuildSpawn> Spawns;
-    //std::vector<GHGuildAsset> Assets;
     std::vector<GHGuildSpawn> Spawns;
 };
 
