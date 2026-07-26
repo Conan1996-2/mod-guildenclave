@@ -52,6 +52,7 @@ void GuildHousePhaseMgr::Load()
 
 void GuildHousePhaseMgr::Update()
 {
+    /*
     for (auto& [guildId, phase] : _phases)
     {
         for (auto itr = phase.Members.begin(); itr != phase.Members.end(); )
@@ -89,6 +90,7 @@ void GuildHousePhaseMgr::Update()
             ++itr;
         }
     }
+*/
 }
 
 // =====================================================
