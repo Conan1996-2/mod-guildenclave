@@ -54,7 +54,7 @@ void GuildHouseCatalogMgr::Load()
     //
     // Catalog Items
     //
-    if (QueryResult result = WorldDatabase.Query("SELECT catalogId, categoryId, name, spawnFlags, behaviorFlags, enabled FROM guildhouse_catalog"))
+    if (QueryResult result = WorldDatabase.Query("SELECT catalogId, categoryId, name, price, spawnFlags, behaviorFlags, enabled FROM guildhouse_catalog"))
     {
         do
         {
@@ -64,9 +64,10 @@ void GuildHouseCatalogMgr::Load()
             catalog.CatalogId = fields[0].Get<uint32_t>();
             catalog.CategoryId = fields[1].Get<uint32_t>();
             catalog.Name = fields[2].Get<std::string>();
-            catalog.SpawnFlags = static_cast<GHSpawnFlags>(fields[3].Get<uint32_t>());
-            catalog.BehaviorFlags = static_cast<GHBehaviorFlags>(fields[4].Get<uint32_t>());
-            catalog.Enabled = fields[5].Get<bool>();
+            catalog.Price  = fields[3].Get<uint64_t>();
+            catalog.SpawnFlags = static_cast<GHSpawnFlags>(fields[4].Get<uint32_t>());
+            catalog.BehaviorFlags = static_cast<GHBehaviorFlags>(fields[5].Get<uint32_t>());
+            catalog.Enabled = fields[6].Get<bool>();
 
             _catalogs.emplace(catalog.CatalogId, catalog);
 
