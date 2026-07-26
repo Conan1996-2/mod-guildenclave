@@ -104,30 +104,35 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
         if (!location)
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Invalid Guild House location.");
+            CloseGossipMenuFor(player);
             return true;
         }
 
         if (sGuildHouseMgr.HasGuildHouse(guildId))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Your guild already owns a Guild House.");
+            CloseGossipMenuFor(player);
             return true;
         }
 
         if (!IsGuildMaster(player))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Only the Guild Master may purchase a Guild House.");
+            CloseGossipMenuFor(player);
             return true;
         }
 
         if (!player->HasEnoughMoney(uint(location->Price)))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Your guild does not have enough gold.");
+            CloseGossipMenuFor(player);
             return true;
         }
 
         if (!sGuildHouseMgr.CreateGuildHouse(player, guildId, player->GetGUID().GetCounter(), locationId))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Failed to create Guild House.");
+            CloseGossipMenuFor(player);
             return true;
         }       
         
@@ -135,6 +140,7 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
         //sGuildHouseMgr.TeleportToGuildHouse(player);
 
         ChatHandler(player->GetSession()).PSendSysMessage("Guild House purchased: {}", location->Name);
+        CloseGossipMenuFor(player);
         return true;
     }
 
@@ -187,7 +193,8 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
         default:
             break;
     }
-
+    
+    CloseGossipMenuFor(player);
     return true;
 }
 
