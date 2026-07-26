@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Chat.h"
 #include "Log.h"
+#include "GuildMgr.h"
 
 #include <algorithm>
 
