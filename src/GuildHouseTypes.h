@@ -64,6 +64,8 @@ struct GHCatalog
     uint32_t CategoryId = 0;
     std::string Name;
 
+    uint32_t Price = 0;
+
     GHSpawnFlags SpawnFlags = GH_SPAWN_NONE;
     GHBehaviorFlags BehaviorFlags = GH_BEHAVIOR_NONE;
 
