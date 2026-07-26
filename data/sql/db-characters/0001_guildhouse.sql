@@ -4,6 +4,7 @@ CREATE TABLE `guildhouse`
     `guildId` INT UNSIGNED NOT NULL,
     `ownerGuid` INT UNSIGNED NOT NULL,
     `locationId` INT UNSIGNED NOT NULL DEFAULT 0,
+    `purchasePrice` BIGINT UNSIGNED NOT NULL DEFAULT 0,
     `purchaseDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (`guildId`),
@@ -19,6 +20,7 @@ CREATE TABLE `guildhouse_asset`
     `guildId` INT UNSIGNED NOT NULL,
     `layoutId` SMALLINT UNSIGNED NOT NULL DEFAULT 1,
     `catalogId` INT UNSIGNED NOT NULL,
+    `purchasePrice` BIGINT UNSIGNED NOT NULL DEFAULT 0,
     `status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
 
     `positionX` FLOAT NOT NULL,
