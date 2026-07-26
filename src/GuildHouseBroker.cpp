@@ -64,7 +64,7 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
             {
                 AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Purchase a Guild House:", GOSSIP_SENDER_MAIN, ACTION_NONE);
                 for (const GHLocation* location : locations)
-                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, location->Name, GOSSIP_SENDER_MAIN, ACTION_BUY_START + location->Id, "Are you sure you wish to purchase this Guild House?", location->Price);
+                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, location->Name, GOSSIP_SENDER_MAIN, ACTION_BUY_START + location->Id, "Are you sure you wish to purchase this Guild House?", location->Price, false);
             }
         }
         else
