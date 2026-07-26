@@ -148,7 +148,7 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
 
     GHGuildHouse& house = itr->second;
 
-    uint64 refund = house.PurchasePrice;
+    uint64_t refund = house.PurchasePrice;
 
     for (auto const& [assetId, asset] : house.Assets)
         refund += asset.PurchasePrice;
@@ -172,7 +172,7 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
 // =====================================================
 // Money Management
 // =====================================================
-bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64 amount)
+bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
         return guild->GetTotalBankMoney() >= amount;
@@ -180,7 +180,7 @@ bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64 amount)
         return false;      
 }
 
-bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64 amount)
+bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, uint64_t amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
@@ -197,7 +197,7 @@ bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64 amount)
     return false;      
 }
 
-bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, unit64 amount)
+bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, uint64_t amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
@@ -316,7 +316,7 @@ void GuildHouseMgr::Load()
             location.MaxX = fields[8].Get<float>();
             location.MinY = fields[9].Get<float>();
             location.MaxY = fields[10].Get<float>();
-            location.Price = fields[11].Get<uint64>();
+            location.Price = fields[11].Get<uint64_t>();
             location.Enabled = fields[12].Get<bool>();
 
             _locations.emplace(location.Id, location);
@@ -336,7 +336,7 @@ void GuildHouseMgr::Load()
             house.GuildId = fields[0].Get<uint32>();
             house.OwnerGuid = fields[1].Get<uint32>();
             house.LocationId = fields[2].Get<uint32>();
-            house.PurchasePrice = fields[3].Get<uint64>();
+            house.PurchasePrice = fields[3].Get<uint64_t>();
             house.PhaseMask = 0;
 
             _houses.emplace(house.GuildId, house);
@@ -371,7 +371,7 @@ void GuildHouseMgr::Load()
             asset.AssetId = fields[0].Get<uint32>();
             asset.GuildId = fields[1].Get<uint32>();
             asset.CatalogId = fields[2].Get<uint32>();
-            asset.PurchasePrice = fields[3].Get<uint64>();
+            asset.PurchasePrice = fields[3].Get<uint64_t>();
             asset.Status = static_cast<GHAssetStatus>(fields[4].Get<uint8>());
             asset.X = fields[5].Get<float>();
             asset.Y = fields[6].Get<float>();
