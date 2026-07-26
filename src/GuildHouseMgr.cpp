@@ -108,22 +108,12 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
     if (!location)
         return false;
 
-    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    if (!RemoveMoneyFromGuild(guildId, location->Price))
     {
-        if (guild->GetTotalBankMoney() > location->Price)
-        {
-            CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-            if(!guild->ModifyBankMoney(trans, location->Price, false))
-                return false;   // false = remove money
-            CharacterDatabase.CommitTransaction(trans);
-        }
-        else
-        {
             ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
             return false;
-        }
     }
-
+    
     CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, {}, {}, (NOW()))",
         guildId, ownerGuid, location->Price, locationId);
 
@@ -162,14 +152,7 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
     for (auto const& [assetId, asset] : house.Assets)
         refund += asset.PurchasePrice;
 
-    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
-    {
-        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-        if(!guild->ModifyBankMoney(trans, refund, true))
-            return false;   // true = add money
-        CharacterDatabase.CommitTransaction(trans);
-    }
-    else
+    if (!AddMoneyToGuild(guildId, refund))
         return false;
     
     sGuildHouseSpawner.RemoveAllAssets(guildId);
@@ -183,6 +166,48 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
     _houses.erase(itr);
 
     return true;
+}
+
+// =====================================================
+// Money Management
+// =====================================================
+bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount);
+{
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+        return guild->GetTotalBankMoney() >= amount;
+    else
+        return false;      
+}
+
+bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64_t amount);
+{
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    {
+        if (guild->GetTotalBankMoney() >= amount)
+        {
+            CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+            if (guild->ModifyBankMoney(trans, amount, false)) // false = remove money
+            {
+                CharacterDatabase.CommitTransaction(trans);
+                return true;
+            }
+        }
+    }
+    return false;      
+}
+
+bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, unit64_t amount);
+{
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    {
+        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+        if (guild->ModifyBankMoney(trans, amount, true)) // true = add money
+        {
+            CharacterDatabase.CommitTransaction(trans);
+            return true;
+        }
+    }
+    return false;  
 }
 
 // =====================================================
@@ -532,15 +557,8 @@ bool GuildHouseMgr::SellAsset(Player* player, uint32_t assetId)
     if (!sGuildHouseSpawner.RemoveAsset(guildId, assetId))
         return false;
 
-    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
-    {
-        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-        if(!guild->ModifyBankMoney(trans, asset->PurchasePrice, true))
-            return false;   // true = add money
-        CharacterDatabase.CommitTransaction(trans);
-    }
-    else
-        return false;    
+    if (!AddMoneyToGuild(guildId, asset->PurchasePrice))
+        return false;
     
     CharacterDatabase.Execute("DELETE FROM guildhouse_asset WHERE guildId={} AND assetId={}", guildId, assetId);
 
@@ -574,21 +592,12 @@ bool GuildHouseMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
     if (!catalog || !catalog->Enabled)
         return false;
 
-    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    if (!RemoveMoneyFromGuild(guildId, catalog->Price))
     {
-        if (guild->GetTotalBankMoney() > catalog->Price)
-        {
-            CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-            if (!guild->ModifyBankMoney(trans, catalog->Price, false))
-                return false;   // true = add money
-            CharacterDatabase.CommitTransaction(trans);
-        }
-        else
+            ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
             return false;
     }
-    else
-        return false;  
-
+    
     CharacterDatabase.Execute("INSERT INTO guildhouse_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,createdBy) VALUES ({},{},{},{},{},0,0,0,0,{})",
         _nextAssetId, guildId, catalogId, catalog->Price, GH_ASSET_PURCHASED, player->GetGUID().GetCounter());
 
