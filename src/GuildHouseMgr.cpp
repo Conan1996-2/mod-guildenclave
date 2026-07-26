@@ -98,7 +98,7 @@ const GHLocation* GuildHouseMgr::GetGuildLocation(uint32_t guildId) const
 // =====================================================
 // Create Guild House
 // =====================================================
-bool GuildHouseMgr::CreateGuildHouse(Player* /*player*/, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId)
+bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId)
 {
     if (HasGuildHouse(guildId))
         return false;
@@ -107,8 +107,23 @@ bool GuildHouseMgr::CreateGuildHouse(Player* /*player*/, uint32_t guildId, uint3
     if (!location)
         return false;
 
-    CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,locationId,purchaseDate) "
-    "VALUES ({},{},{}, (NOW()))", guildId, ownerGuid, locationId);
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    {
+        if (guild->GetTotalBankMoney() > location->Price)
+        {
+            CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+            guild->ModifyBankMoney(trans, location->Price, false);   // false = remove money
+            CharacterDatabase.CommitTransaction(trans);
+        }
+        else
+        {
+            ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
+            return false;
+        }
+    }
+
+    CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, {}, {}, (NOW()))",
+        guildId, ownerGuid, location->Price, locationId);
 
     uint32_t phaseMask = CreatePhase( guildId, locationId);
     if (!phaseMask)
@@ -122,6 +137,7 @@ bool GuildHouseMgr::CreateGuildHouse(Player* /*player*/, uint32_t guildId, uint3
     house.OwnerGuid = ownerGuid;
     house.LocationId = locationId;
     house.PhaseMask = phaseMask;
+    house.PurchasePrice = location->Price;
 
     _houses.emplace(guildId, house);
 
@@ -137,6 +153,22 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
     if (itr == _houses.end())
         return false;
 
+    GHGuildHouse& house = itr->second;
+
+    uint64 refund = house.PurchasePrice;
+
+    for (auto const& [assetId, asset] : house.Assets)
+        refund += asset.PurchasePrice;
+
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    {
+        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+        guild->ModifyBankMoney(trans, refund, true);   // true = add money
+        CharacterDatabase.CommitTransaction(trans);
+    }
+    else
+        return false;
+    
     sGuildHouseSpawner.RemoveAllAssets(guildId);
 
     CharacterDatabase.Execute("DELETE FROM guildhouse WHERE guildId={}", guildId);
@@ -265,7 +297,7 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     // Guild Houses
     // -------------------------------------------------
-    if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,locationId FROM guildhouse"))
+    if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,locationId,purchasePrice FROM guildhouse"))
     {
         do
         {
@@ -275,6 +307,7 @@ void GuildHouseMgr::Load()
             house.GuildId = fields[0].Get<uint32>();
             house.OwnerGuid = fields[1].Get<uint32>();
             house.LocationId = fields[2].Get<uint32>();
+            house.PurchasePrice = fields[3].Get<uint64>();
             house.PhaseMask = 0;
 
             _houses.emplace(house.GuildId, house);
@@ -294,7 +327,7 @@ void GuildHouseMgr::Load()
     // Assets
     // unused: status, createdBy, enabled, createdDate
     // ------------------------------------------------- 
-    if(QueryResult result = CharacterDatabase.Query("SELECT assetId,guildId,catalogId,status,positionX,positionY,positionZ,orientation FROM guildhouse_asset"))
+    if(QueryResult result = CharacterDatabase.Query("SELECT assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation FROM guildhouse_asset"))
     {
         do
         {
@@ -307,13 +340,14 @@ void GuildHouseMgr::Load()
 
             GHGuildAsset asset;
             asset.AssetId = fields[0].Get<uint32>();
-            asset.GuildId = guildId;
+            asset.GuildId = fields[1].Get<uint32>();
             asset.CatalogId = fields[2].Get<uint32>();
-            asset.Status = static_cast<GHAssetStatus>(fields[3].Get<uint8>());
-            asset.X = fields[4].Get<float>();
-            asset.Y = fields[5].Get<float>();
-            asset.Z = fields[6].Get<float>();
-            asset.O = fields[7].Get<float>();
+            asset.PurchasePrice = fields[3].Get<uint64>();
+            asset.Status = static_cast<GHAssetStatus>(fields[4].Get<uint8>());
+            asset.X = fields[5].Get<float>();
+            asset.Y = fields[6].Get<float>();
+            asset.Z = fields[7].Get<float>();
+            asset.O = fields[8].Get<float>();
 
             //itr->second.Assets.push_back(asset);
             itr->second.Assets.emplace(asset.AssetId, std::move(asset));
@@ -495,8 +529,16 @@ bool GuildHouseMgr::SellAsset(Player* player, uint32_t assetId)
     if (!sGuildHouseSpawner.RemoveAsset(guildId, assetId))
         return false;
 
-    CharacterDatabase.Execute("DELETE FROM guildhouse_asset WHERE guildId={} AND assetId={}",
-        guildId, assetId);
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    {
+        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+        guild->ModifyBankMoney(trans, asset->PurchasePrice, true);   // true = add money
+        CharacterDatabase.CommitTransaction(trans);
+    }
+    else
+        return false;    
+    
+    CharacterDatabase.Execute("DELETE FROM guildhouse_asset WHERE guildId={} AND assetId={}", guildId, assetId);
 
     auto itr = house->Assets.find(assetId);
     if (itr != house->Assets.end())
@@ -527,6 +569,20 @@ bool GuildHouseMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
     const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId);
     if (!catalog || !catalog->Enabled)
         return false;
+
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    {
+        if (guild->GetTotalBankMoney() > catalog->Price)
+        {
+            CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+            guild->ModifyBankMoney(trans, catalog->Price, false);   // true = add money
+            CharacterDatabase.CommitTransaction(trans);
+        }
+        else
+            return false;
+    }
+    else
+        return false;  
 
     CharacterDatabase.Execute("INSERT INTO guildhouse_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,createdBy) VALUES ({},{},{},{},0,0,0,0,{})",
         _nextAssetId,guildId, catalogId, catalog->Price, GH_ASSET_PURCHASED, player->GetGUID().GetCounter());
