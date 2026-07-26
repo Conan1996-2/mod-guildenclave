@@ -132,6 +132,8 @@ struct GHGuildSpawn
 struct GHPhaseRecord
 {
     uint32_t GuildId = 0;
+    uint32_t LocationId = 0;
+
     uint32_t PhaseMask = 0;
     uint32_t MapId = 0;
 
@@ -146,8 +148,8 @@ struct GHPhaseRecord
     float MinY = 0.0f;
     float MaxY = 0.0f;
 
-    // Online players currently inside
-    std::unordered_set<uint64_t> Members;
+    uint32_t PlayersInside = 0;
+    bool Active = false;
 };
 
 // =====================================================
