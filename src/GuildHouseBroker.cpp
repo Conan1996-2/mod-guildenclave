@@ -72,7 +72,7 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Your Guild Master must purchase the Guild House.", GOSSIP_SENDER_MAIN, ACTION_NONE);
         }
         
-        SendGossipMenuFor(player, "Purchase a guild house, creature->GetGUID());
+        SendGossipMenuFor(player, "Purchase a guild house", creature->GetGUID());
     }
     else
     {
