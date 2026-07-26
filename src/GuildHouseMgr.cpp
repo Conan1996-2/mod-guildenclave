@@ -175,6 +175,8 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
 // =====================================================
 bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
 {
+    return true;
+    
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
         return guild->GetTotalBankMoney() >= amount;
     else
@@ -183,6 +185,8 @@ bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
 
 bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, uint64_t amount)
 {
+    return true;
+    
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
         if (guild->GetTotalBankMoney() >= amount)
@@ -200,6 +204,8 @@ bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, uint64_t amount)
 
 bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, uint64_t amount)
 {
+    return true;
+    
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
         CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
