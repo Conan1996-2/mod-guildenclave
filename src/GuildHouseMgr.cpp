@@ -2,6 +2,7 @@
 
 #include "GuildHouseMgr.h"
 
+#include "GuildHouseConfig.h"
 #include "GuildHousePhaseMgr.h"
 #include "GuildHouseSpawner.h"
 #include "GuildHouseCatalogMgr.h"
