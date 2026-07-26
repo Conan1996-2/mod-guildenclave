@@ -64,7 +64,14 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
             {
                 AddGossipItemFor(player, GOSSIP_ICON_DOT, "Purchase a Guild House:", GOSSIP_SENDER_MAIN, ACTION_NONE);
                 for (const GHLocation* location : locations)
-                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, location->Name, GOSSIP_SENDER_MAIN, ACTION_BUY_START + location->Id, "", location->Price, false);
+                {
+                    std::string priceText = location->Name + " - " +
+                    std::to_string(gold) + "G " +
+                    std::to_string(silver) + "S " +
+                    std::to_string(copper) + "C";
+                    
+                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, priceText, GOSSIP_SENDER_MAIN, ACTION_BUY_START + location->Id);
+                }
             }
         }
         else
