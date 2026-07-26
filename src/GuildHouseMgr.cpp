@@ -152,9 +152,9 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
     for (auto const& [assetId, asset] : house.Assets)
         refund += asset.PurchasePrice;
 
-    if (!AddMoneyToGuild(guildId, refund))
+    if (!AddMoneyToGuild(guildId, refund * sGuildHouseConfig.GetRefundPercent() / 100))
         return false;
-    
+
     sGuildHouseSpawner.RemoveAllAssets(guildId);
 
     CharacterDatabase.Execute("DELETE FROM guildhouse WHERE guildId={}", guildId);
@@ -171,7 +171,7 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
 // =====================================================
 // Money Management
 // =====================================================
-bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount);
+bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
         return guild->GetTotalBankMoney() >= amount;
@@ -179,7 +179,7 @@ bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount);
         return false;      
 }
 
-bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64_t amount);
+bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64_t amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
@@ -196,7 +196,7 @@ bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, unit64_t amount);
     return false;      
 }
 
-bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, unit64_t amount);
+bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, unit64_t amount)
 {
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
@@ -557,9 +557,9 @@ bool GuildHouseMgr::SellAsset(Player* player, uint32_t assetId)
     if (!sGuildHouseSpawner.RemoveAsset(guildId, assetId))
         return false;
 
-    if (!AddMoneyToGuild(guildId, asset->PurchasePrice))
+    if (!AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildHouseConfig.GetRefundPercent() / 100))
         return false;
-    
+
     CharacterDatabase.Execute("DELETE FROM guildhouse_asset WHERE guildId={} AND assetId={}", guildId, assetId);
 
     auto itr = house->Assets.find(assetId);
