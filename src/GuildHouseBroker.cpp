@@ -75,8 +75,8 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
                         priceText += std::to_string(gold) + "G ";            
                     if (silver)
                         priceText += std::to_string(silver) + "S ";                
-                    if (cop || result.empty())
-                        priceText += std::to_string(cop) + "C";
+                    if (copper || result.empty())
+                        priceText += std::to_string(copper) + "C";
                     
                     AddGossipItemFor(player, GOSSIP_ICON_CHAT, priceText, GOSSIP_SENDER_MAIN, ACTION_BUY_START + location->Id);
                 }
