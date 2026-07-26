@@ -16,6 +16,7 @@
 #include "GuildMgr.h"
 
 #include <algorithm>
+#include <cstdint>
 
 GuildHouseMgr& GuildHouseMgr::Instance()
 {
