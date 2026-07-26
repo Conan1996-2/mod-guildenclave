@@ -148,8 +148,8 @@ struct GHPhaseRecord
     float MinY = 0.0f;
     float MaxY = 0.0f;
 
-    uint32_t PlayersInside = 0;
-    bool Active = false;
+    // Online players currently inside 
+    std::unordered_set<uint64_t> Members;
 };
 
 // =====================================================
