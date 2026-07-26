@@ -139,7 +139,7 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
             return true;
         }
 
-        if (!player->HasEnoughMoney(uint(location->Price)))
+        if (!sGuildHouseMgr.HasEnoughMoneyInGuild(guildId, location->Price)) // player->HasEnoughMoney(uint(location->Price)))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Your guild does not have enough gold.");
             CloseGossipMenuFor(player);
@@ -152,9 +152,6 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
             CloseGossipMenuFor(player);
             return true;
         }       
-        
-        player->ModifyMoney(-int64(location->Price));
-        //sGuildHouseMgr.TeleportToGuildHouse(player);
 
         ChatHandler(player->GetSession()).PSendSysMessage("Guild House purchased: {}", location->Name);
         CloseGossipMenuFor(player);
@@ -198,9 +195,6 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
                 break;
             }
 
-            uint64 refund = location->Price * sGuildHouseConfig.GetRefundPercent() / 100;
-            player->ModifyMoney(refund);
-            ChatHandler(player->GetSession()).PSendSysMessage("Guild House sold for {}.", refund);
             break;
         }
 
