@@ -101,6 +101,29 @@ namespace GuildHouseUtil
         return HasFlag(flags, GH_FACTION_NEUTRAL);
     }
 
+/*
+    GR_GUILDMASTER  = 0,
+    GR_OFFICER      = 1,
+    GR_VETERAN      = 2,
+    GR_MEMBER       = 3,
+    GR_INITIATE     = 4
+*/
+
+    inline bool IsGuildRank(Player* player)
+    {
+        if (!player)
+            return false;
+
+        Guild* guild = player->GetGuild();
+        if (!guild)
+            return false;
+
+        uint32_t validRank = 0;
+
+        return guild->GetRankId(player->GetGUID()) >= validRank;
+    }
+
+/*
     inline bool IsGuildMaster(Player* player)
     {
         if (!player)
@@ -112,10 +135,11 @@ namespace GuildHouseUtil
 
         return guild->GetLeaderGUID() == player->GetGUID();
     }
+*/
 
     inline bool CanManageGuildHouse(Player* player)
     {
-        return IsGuildMaster(player) && IsInGuildHouse(player);
+        return IsGuildRank(player) && IsInGuildHouse(player);
     }
 }
 
