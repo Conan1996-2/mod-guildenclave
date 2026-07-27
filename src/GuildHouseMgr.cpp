@@ -116,7 +116,7 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
             return false;
     }
     
-    CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, {}, {}, (NOW()))",
+    CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,RequiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, 0, {}, {}, (NOW()))",
         guildId, ownerGuid, locationId, location->Price);
 
     uint32_t phaseMask = CreatePhase( guildId, locationId);
@@ -333,7 +333,7 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     // Guild Houses
     // -------------------------------------------------
-    if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,locationId,purchasePrice FROM guildhouse"))
+    if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,requiredGuildRank,locationId,purchasePrice FROM guildhouse"))
     {
         do
         {
@@ -342,8 +342,9 @@ void GuildHouseMgr::Load()
             GHGuildHouse house;
             house.GuildId = fields[0].Get<uint32>();
             house.OwnerGuid = fields[1].Get<uint32>();
-            house.LocationId = fields[2].Get<uint32>();
-            house.PurchasePrice = fields[3].Get<uint64_t>();
+            house.RequiredGuildRank = fields[2].Get<uint8>();
+            house.LocationId = fields[3].Get<uint32>();
+            house.PurchasePrice = fields[4].Get<uint64_t>();
             house.PhaseMask = 0;
 
             _houses.emplace(house.GuildId, house);
