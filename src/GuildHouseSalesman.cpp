@@ -58,9 +58,12 @@ bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creatu
         return false;
     }
 
-    //
-    // Verify player phase
-    //
+    if (!GuildHouseUtil::IsGuildRank(player))
+    {
+        ChatHandler(player->GetSession()).PSendSysMessage("You do not have the authority to access the Salesman.");
+        return false;
+    }
+    
     uint32 phaseMask = sGuildHouseMgr.GetPhaseMask(guildId);
     if (!phaseMask)
     {
@@ -74,18 +77,12 @@ bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creatu
         return false;
     }
 
-    //
-    // Verify salesman phase
-    //
     if (creature->GetPhaseMask() != phaseMask)
     {
         ChatHandler(player->GetSession()).PSendSysMessage("This salesman belongs to another Guild House.");
         return false;
     }
 
-    //
-    // Boundary check
-    //
     if (!sGuildHouseMgr.IsInsideGuildHouseBoundary(guildId, player->GetPositionX(), player->GetPositionY()))
     {
         ChatHandler(player->GetSession()).PSendSysMessage("You are outside the Guild House area.");
