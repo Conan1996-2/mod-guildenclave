@@ -132,7 +132,7 @@ bool GuildHouseCommandScript::HandleSellGuildHouse(ChatHandler* handler, char co
         return true;
     }
 
-    if (!GuildHouseUtil::IsGuildMaster(player))
+    if (!GuildHouseUtil::IsGuildRank(player))
     {
         handler->PSendSysMessage("Only the Guild Master may sell the Guild House.");
         return true;
