@@ -24,18 +24,6 @@ namespace
 
 }
 
-bool GuildHouseBroker::IsGuildMaster(Player* player)
-{
-    if (!player)
-        return false;
-
-    Guild* guild = player->GetGuild();
-    if (!guild)
-        return false;
-
-    return guild->GetLeaderGUID() == player->GetGUID();
-}
-
 bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
 {
     ClearGossipMenuFor(player);
@@ -52,7 +40,7 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
 
     if (!sGuildHouseMgr.HasGuildHouse(guildId))
     {
-        if (IsGuildMaster(player))
+        if (GuildHouseUtil::IsGuildRank(player))
         {
             auto locations = sGuildHouseMgr.GetLocations();
 
@@ -93,7 +81,7 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
     {
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Teleport to Guild House", GOSSIP_SENDER_MAIN, ACTION_TELEPORT);
 
-        if (IsGuildMaster(player))
+        if (GuildHouseUtil::IsGuildRank(player))
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Sell Guild House", GOSSIP_SENDER_MAIN, ACTION_SELL);
     }
 
