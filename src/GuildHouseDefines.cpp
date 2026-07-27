@@ -9,6 +9,31 @@
 
 namespace GuildHouseUtil
 {
+/*
+    GR_GUILDMASTER  = 0,
+    GR_OFFICER      = 1,
+    GR_VETERAN      = 2,
+    GR_MEMBER       = 3,
+    GR_INITIATE     = 4
+*/
+
+    bool IsGuildRank(Player* player)
+    {
+        if (!player)
+            return false;
+    
+        Guild* guild = player->GetGuild();
+        if (!guild)
+            return false;
+    
+        uint32_t guildId = guild->GetId();
+    
+        const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+        if (!house)
+            return false;
+        
+        return guild->GetRankId(player->GetGUID()) <= house->RequiredGuildRank;
+    }
 
     // =====================================================
     // Is Player Inside Guild House
