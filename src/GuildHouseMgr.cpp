@@ -294,6 +294,9 @@ void GuildHouseMgr::Load()
     _houses.clear();
     _locations.clear();
 
+    // -------------------------------------------------
+    // Get asset maximum database number
+    // -------------------------------------------------
     if(QueryResult result = CharacterDatabase.Query("SELECT MAX(assetId) FROM guildhouse_asset"))
     {
         Field* fields = result->Fetch();
@@ -305,6 +308,8 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     // Locations
     // -------------------------------------------------
+    LOG_INFO("server.loading", "Loading GuildHouseMgr::guildhouse_locations");    
+
     if(QueryResult result = WorldDatabase.Query("SELECT id,name,mapId,positionX,positionY,positionZ,orientation,minX,maxX,minY,maxY,price,enabled FROM guildhouse_locations"))
     {
         do
@@ -333,6 +338,8 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     // Guild Houses
     // -------------------------------------------------
+    LOG_INFO("server.loading", "Loading GuildHouseMgr::guildhouse");    
+
     if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,requiredGuildRank,locationId,purchasePrice FROM guildhouse"))
     {
         do
@@ -364,6 +371,8 @@ void GuildHouseMgr::Load()
     // Assets
     // unused: status, createdBy, enabled, createdDate
     // ------------------------------------------------- 
+    LOG_INFO("server.loading", "Loading GuildHouseMgr::asset");    
+
     if(QueryResult result = CharacterDatabase.Query("SELECT assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation FROM guildhouse_asset"))
     {
         do
@@ -394,6 +403,8 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     // Spawns
     // -------------------------------------------------
+    LOG_INFO("server.loading", "Loading GuildHouseMgr::spawns");    
+
     if(QueryResult result = CharacterDatabase.Query("SELECT spawnId,guildId,assetId,phaseMask,spawnGuid,spawnType,mapId,x,y,z,o FROM guildhouse_spawn"))
     {
         do
