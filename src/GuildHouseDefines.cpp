@@ -32,7 +32,12 @@ namespace GuildHouseUtil
         if (!house)
             return false;
         
-        return guild->GetRankId(player->GetGUID()) <= house->RequiredGuildRank;
+        Guild::Member* member = guild->GetMember(player->GetGUID());
+        
+        if (!member)
+            return false;
+        
+        return member->GetRankId() <= house->RequiredGuildRank;
     }
 
     // =====================================================
