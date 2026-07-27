@@ -35,7 +35,7 @@ KEY:
  |  (pipe character) indicates argument choices (i.e. this|that  = this OR that)  
 _ARGUMENT_  indicates argument names  
 ```
-**COMMAND**: **`.guildhouse`**, **`.gh`** -- (Player command) by itself will list all syntax available  
+**COMMAND**: **`.guildhouse | .gh`** -- (Player command) by itself will list all syntax available  
 
   - **`asset`** -- (Proper Guild Rank Access to use command)  
     - **`list`** -- Lists all owned assets in the world, and their asset ID and status of the asset.  
