@@ -340,7 +340,7 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     LOG_INFO("server.loading", "Loading GuildHouseMgr::guildhouse");    
 
-    if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,locationId,purchasePrice FROM guildhouse"))
+    if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,requiredGuildRank,locationId,purchasePrice FROM guildhouse"))
     {
         do
         {
@@ -349,9 +349,9 @@ void GuildHouseMgr::Load()
             GHGuildHouse house;
             house.GuildId = fields[0].Get<uint32>();
             house.OwnerGuid = fields[1].Get<uint32>();
-            house.RequiredGuildRank = 0; // fields[2].Get<uint8>();
-            house.LocationId = fields[2].Get<uint32>();
-            house.PurchasePrice = fields[3].Get<uint64_t>();
+            house.RequiredGuildRank = fields[2].Get<uint8_t>();
+            house.LocationId = fields[3].Get<uint32>();
+            house.PurchasePrice = fields[4].Get<uint64_t>();
             house.PhaseMask = 0;
 
             _houses.emplace(house.GuildId, house);
