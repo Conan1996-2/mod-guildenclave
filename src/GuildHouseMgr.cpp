@@ -594,7 +594,7 @@ bool GuildHouseMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
     if (!house)
         return false;
 
-    if (!GuildHouseUtil::IsGuildMaster(player))
+    if (!GuildHouseUtil::IsGuildRank(player))
         return false;
 
     const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId);
