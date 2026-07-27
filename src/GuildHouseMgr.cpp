@@ -362,6 +362,8 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     // Load phases
     // -------------------------------------------------
+    LOG_INFO("server.loading", "Loading GuildHouseMgr::phases");    
+
     sGuildHousePhaseMgr.Load();
 
     for(auto& [guildId, house] : _houses)
