@@ -39,10 +39,10 @@ void GuildHousePhaseMgr::Load()
         phase.Y = fields[4].Get<float>();
         phase.Z = fields[5].Get<float>();
         phase.O = fields[6].Get<float>();
-        phase.MinX = fields[7].Get<float>();
-        phase.MaxX = fields[8].Get<float>();
-        phase.MinY = fields[9].Get<float>();
-        phase.MaxY = fields[10].Get<float>();
+        //phase.MinX = fields[7].Get<float>();
+        //phase.MaxX = fields[8].Get<float>();
+        //phase.MinY = fields[9].Get<float>();
+        //phase.MaxY = fields[10].Get<float>();
 
         _phases.emplace(phase.GuildId, phase);
     } while(result->NextRow());
