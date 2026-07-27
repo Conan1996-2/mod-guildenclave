@@ -17,6 +17,11 @@ namespace GuildHouseUtil
     GR_INITIATE     = 4
 */
 
+    // =====================================================
+    // Does the Player have a guildhouse?
+    // If not, return if its a guild master,
+    // else return if it matches the the required guild rank
+    // =====================================================
     bool IsGuildRank(Player* player)
     {
         if (!player)
@@ -25,17 +30,15 @@ namespace GuildHouseUtil
         Guild* guild = player->GetGuild();
         if (!guild)
             return false;
-    
-        uint32_t guildId = guild->GetId();
-    
-        const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
-        if (!house)
-            return false;
-        
+
         Guild::Member* member = guild->GetMember(player->GetGUID());
-        
         if (!member)
             return false;
+
+        uint32_t guildId = guild->GetId();
+        const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+        if (!house)
+            return guild->GetLeaderGUID() == player->GetGUID();
         
         return member->GetRankId() <= house->RequiredGuildRank;
     }
