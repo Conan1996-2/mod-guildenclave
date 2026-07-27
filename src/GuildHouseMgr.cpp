@@ -116,7 +116,7 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
             return false;
     }
     
-    CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,RequiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, 0, {}, {}, (NOW()))",
+    CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,requiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, 0, {}, {}, (NOW()))",
         guildId, ownerGuid, locationId, location->Price);
 
     uint32_t phaseMask = CreatePhase( guildId, locationId);
