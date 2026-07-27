@@ -22,8 +22,6 @@ public:
 
 private:
 
-    bool IsGuildMaster(Player* player);
-
     void SendMainMenu(Player* player, Creature* creature);
 
 };
