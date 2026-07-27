@@ -120,7 +120,7 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
             return true;
         }
 
-        if (!IsGuildMaster(player))
+        if (!GuildHouseUtil::IsGuildRank(player))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Only the Guild Master may purchase a Guild House.");
             CloseGossipMenuFor(player);
@@ -157,7 +157,7 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
 
         case ACTION_SELL:
         {
-            if (!IsGuildMaster(player))
+            if (!GuildHouseUtil::IsGuildRank(player))
             {
                 ChatHandler(player->GetSession()).PSendSysMessage("Only the Guild Master may sell the Guild House.");
                 break;
