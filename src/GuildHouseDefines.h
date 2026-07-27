@@ -81,6 +81,8 @@ namespace GuildHouseUtil
 
     bool IsInGuildHouse(Player* player);
 
+    bool IsGuildRank(Player* player);
+
     inline bool HasFlag(uint32_t value, uint32_t flag)
     {
         return (value & flag) != 0;
