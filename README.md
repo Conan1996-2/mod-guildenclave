@@ -79,13 +79,15 @@ _ARGUMENT_  indicates argument names
                 - `.gh npc salesman`  
 
   - **`shop`** -- (Proper Guild Rank Access command)  
-    - **`buy`** -- Purchase a specific item  
+    - **`buy <_CATALOGID_>`** -- Purchase a specific item  
+        - _CATALOGID_ = specific owned asset in your list  
             **Example Usage**:  
                 - `.gh shop buy`  
     - **`categories`** -- List all categories  
             **Example Usage**:  
                 - `.gh shop categories`  
-    - **`list`** -- Lists all items in a category  
+    - **`list <_CATEGORYID_>`** -- Lists all items in a category  
+        - _CATEGORYID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.gh shop list`  
+                - `.gh shop list 100`  
 
