@@ -79,10 +79,10 @@ uint32_t GuildHousePhaseMgr::CreatePhase(uint32_t guildId, uint32_t locationId)
     phase.Y = fields[2].Get<float>();
     phase.Z = fields[3].Get<float>();
     phase.O = fields[4].Get<float>();
-    //phase.MinX = fields[5].Get<float>();
-    //phase.MaxX = fields[6].Get<float>();
-    //phase.MinY = fields[7].Get<float>();
-    //phase.MaxY = fields[8].Get<float>();
+    phase.MinX = fields[5].Get<float>();
+    phase.MaxX = fields[6].Get<float>();
+    phase.MinY = fields[7].Get<float>();
+    phase.MaxY = fields[8].Get<float>();
 
     _phases.emplace(guildId, phase);
 
