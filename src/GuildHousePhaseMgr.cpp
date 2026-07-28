@@ -19,8 +19,7 @@ void GuildHousePhaseMgr::Load()
 {
     _phases.clear();
 
-    // QueryResult result = CharacterDatabase.Query("SELECT guildId,phaseMask,mapId,positionX,positionY,positionZ,orientation,minX,maxX,minY,maxY FROM guildhouse_phase");
-    QueryResult result = CharacterDatabase.Query("SELECT guildId,phaseMask,mapId,spawnX,spawnY,spawnZ,spawnO FROM guildhouse_phase");
+    QueryResult result = CharacterDatabase.Query("SELECT gp.guildId,gp.phaseMask,gh.locationId FROM guildhouse_phase gp INNER JOIN guildhouse gh ON gp.guildId = gh.guildId");
     if (!result)
     {
         LOG_INFO("server.loading", "No Guild House phases found");
@@ -30,19 +29,30 @@ void GuildHousePhaseMgr::Load()
     do
     {
         Field* fields = result->Fetch();
-
         GHPhaseRecord phase;
         phase.GuildId = fields[0].Get<uint32>();
         phase.PhaseMask = fields[1].Get<uint32>();
-        phase.MapId = fields[2].Get<uint32>();
-        phase.X = fields[3].Get<float>();
-        phase.Y = fields[4].Get<float>();
-        phase.Z = fields[5].Get<float>();
-        phase.O = fields[6].Get<float>();
-        //phase.MinX = fields[7].Get<float>();
-        //phase.MaxX = fields[8].Get<float>();
-        //phase.MinY = fields[9].Get<float>();
-        //phase.MaxY = fields[10].Get<float>();
+
+        uint32 locationId = fields[2].Get<uint32>();
+        if (QueryResult location = WorldDatabase.Query("SELECT mapId,positionX,positionY,positionZ,orientation,minX,maxX,minY,maxY FROM guildhouse_locations WHERE id={}", locationId))
+        {
+            Field* loc = location->Fetch();
+
+            phase.MapId = fields[0].Get<uint32>();
+            phase.X = fields[1].Get<float>();
+            phase.Y = fields[2].Get<float>();
+            phase.Z = fields[3].Get<float>();
+            phase.O = fields[4].Get<float>();
+            phase.MinX = loc[5].Get<float>();
+            phase.MaxX = loc[6].Get<float>();
+            phase.MinY = loc[7].Get<float>();
+            phase.MaxY = loc[8].Get<float>();
+        }
+        else
+        {
+            LOG_ERROR("server.loading", "GuildHousePhaseMgr: Missing guildhouse location {} for guild {}", locationId, phase.GuildId);
+            continue;
+        }
 
         _phases.emplace(phase.GuildId, phase);
     } while(result->NextRow());
@@ -86,10 +96,7 @@ uint32_t GuildHousePhaseMgr::CreatePhase(uint32_t guildId, uint32_t locationId)
 
     _phases.emplace(guildId, phase);
 
-    //CharacterDatabase.Execute("INSERT INTO guildhouse_phase (guildId,phaseMask,mapId,positionX,positionY,positionZ,orientation,minX,maxX,minY,maxY)"
-    //    "VALUES ({},{},{},{},{},{},{},{},{},{},{})", phase.GuildId, phase.PhaseMask, phase.MapId, phase.X, phase.Y, phase.Z, phase.O, phase.MinX, phase.MaxX, phase.MinY, phase.MaxY);
-    CharacterDatabase.Execute("INSERT INTO guildhouse_phase (guildId,phaseMask,mapId,spawnX,spawnY,spawnZ,spawnO) "
-        "VALUES ({},{},{},{},{},{},{})", phase.GuildId, phase.PhaseMask, phase.MapId, phase.X, phase.Y, phase.Z, phase.O);
+    CharacterDatabase.Execute("INSERT INTO guildhouse_phase (guildId,phaseMask) VALUES ({},{})", phase.GuildId, phase.PhaseMask);
 
     LOG_INFO("module", "Created Guild House phase {} for guild {}", phaseMask, guildId);
 
