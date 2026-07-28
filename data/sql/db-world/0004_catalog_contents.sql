@@ -5,6 +5,8 @@ INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`
     (1200, 1000, "Profession Trainers", 1, 1),
     (1300, 1000, "Other Trainers", 2, 1),
     (1400, 1000, "Vendors", 3, 1),
+    (1500, 1000, "Guards", 3, 1),
+    (1600, 1000, "Townsfolk", 3, 1),
     (2000, 0, "Portals", 1, 1),
     (2100, 2000, "Common Portals", 0, 1),
     (2200, 2000, "Expansion Portals", 1, 1),
@@ -13,8 +15,13 @@ INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`
     (3100, 3000, "Chairs", 0, 1),
     (3200, 3000, "Tables", 1, 1),
     (3300, 3000, "Chests", 2, 1),
+    (3400, 3000, "Dressers", 2, 1),
+    (3500, 3000, "Bookcases", 2, 1),
     (4000, 0, "Indoor Decorations", 3, 1),
-    (5000, 0, "Outdoor Decorations", 4, 1);
+    (5000, 0, "Outdoor Decorations", 4, 1)
+    (5100, 3000, "Mailbox", 2, 1),
+    (5200, 3000, "Braziers", 2, 1),
+    (6000, 0, "Animals", 4, 1);
 
 TRUNCATE TABLE `guildhouse_catalog`;
 INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `spawnFlags`, `behaviorFlags`, `enabled`) VALUES
