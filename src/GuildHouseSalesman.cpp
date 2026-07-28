@@ -98,7 +98,7 @@ bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creatu
 // =====================================================
 void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creature, uint32 catalogId)
 {
-    const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId, player->GetTeamId());
+    const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId);
     if (!catalog)
     {
         CloseGossipMenuFor(player);
