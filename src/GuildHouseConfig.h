@@ -22,7 +22,7 @@ private:
     GuildHouseConfig() = default;
 
     bool _enabled = false;
-    bool _free = false;
+    uint8_t _free = false;
 
     double _refundPercent = 0;
 };
