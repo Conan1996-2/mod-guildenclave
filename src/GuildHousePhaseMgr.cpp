@@ -38,11 +38,11 @@ void GuildHousePhaseMgr::Load()
         {
             Field* loc = location->Fetch();
 
-            phase.MapId = fields[0].Get<uint32>();
-            phase.X = fields[1].Get<float>();
-            phase.Y = fields[2].Get<float>();
-            phase.Z = fields[3].Get<float>();
-            phase.O = fields[4].Get<float>();
+            phase.MapId = loc[0].Get<uint32>();
+            phase.X = loc[1].Get<float>();
+            phase.Y = loc[2].Get<float>();
+            phase.Z = loc[3].Get<float>();
+            phase.O = loc[4].Get<float>();
             phase.MinX = loc[5].Get<float>();
             phase.MaxX = loc[6].Get<float>();
             phase.MinY = loc[7].Get<float>();
