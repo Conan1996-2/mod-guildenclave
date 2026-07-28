@@ -28,16 +28,6 @@ GuildHouse.Enable = 0
 
 GuildHouse.Free = 0
 
-#    GuildHouse.LoadAll
-#        Description: This will load every option when a Guild House is purchased.
-#            If set to 0, access will be disabled.
-#
-#        Default:    0 - Disabled
-#                    1 - Enabled
-#
-
-GuildHouse.LoadAll = 0
-
 #    GuildHouse.Refund
 #        Description: Refund percentage of cost when returning an item or selling the House.
 #            Min 0, Max 1.
@@ -52,30 +42,4 @@ GuildHouse.Refund = .8
 #
 #        Default:    1000000 - 100 Gold
 #
-
-GuildHouse.Cost.House = 1000000
-
-#    GuildHouse.Cost.NPC
-#        Description: The cost of any NPC hired in copper.
-#
-#        Default:    1000000 - 100 Gold
-#
-
-GuildHouse.Cost.NPC = 1000000
-
-#    GuildHouse.Cost.Portal
-#        Description: The cost of any Portal in copper.
-#
-#        Default:    10000000 - 1000 Gold
-#
-
-GuildHouse.Cost.Portal = 10000000
-
-#    GuildHouse.Cost.Object
-#        Description: The cost of any Object in copper.
-#
-#        Default:    500000 - 50 Gold
-#
-
-GuildHouse.Cost.Object = 500000
 
