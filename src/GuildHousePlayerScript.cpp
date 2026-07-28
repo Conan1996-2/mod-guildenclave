@@ -26,8 +26,17 @@ public:
 
     void OnPlayerMapChanged(Player* player) override
     {
-        if (sGuildHousePhaseMgr.IsMember(player))
-            sGuildHousePhaseMgr.LeavePhase(player);
+        if (!sGuildHousePhaseMgr.IsMember(player))
+            return;
+
+        const GHPhaseRecord* phase = sGuildHousePhaseMgr.GetPhase(player->GetGuildId());
+        if (!phase)
+            return;
+
+        if (player->GetMapId() == phase->MapId)
+            return;
+        
+        sGuildHousePhaseMgr.LeavePhase(player);
     }
 
     void OnPlayerLogout(Player* player) override
