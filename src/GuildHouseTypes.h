@@ -143,10 +143,10 @@ struct GHPhaseRecord
     float O = 0.0f;
 
     // Boundary
-    //float MinX = 0.0f;
-    //float MaxX = 0.0f;
-    //float MinY = 0.0f;
-    //float MaxY = 0.0f;
+    float MinX = 0.0f;
+    float MaxX = 0.0f;
+    float MinY = 0.0f;
+    float MaxY = 0.0f;
 
     // Online players currently inside 
     std::unordered_set<uint64_t> Members;
