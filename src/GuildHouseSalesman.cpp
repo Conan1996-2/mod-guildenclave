@@ -141,6 +141,18 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
         return true;
     }
 
+    if (action >= ACTION_BACK)
+    {
+        uint32 parentId = action - ACTION_BACK;
+    
+        if (parentId == 0)
+            SendCatalogMenu(player, creature);
+        else
+            SendCategoryMenu(player, creature, parentId);
+    
+        return true;
+    }
+
     if (action >= ACTION_CATEGORY_START && action < ACTION_CATALOG_START)
     {
         uint32 categoryId = action - ACTION_CATEGORY_START;
@@ -175,6 +187,27 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
     auto children = sGuildHouseCatalogMgr.GetChildCategories( categoryId);
 
     LOG_INFO("server.loading", "Found {} child categories", children.size());
+
+    const GHCategory* current = sGuildHouseCatalogMgr.GetCategory(categoryId);
+    if (current)
+    {
+        if (current->ParentId != 0)
+        {
+            AddGossipItemFor(player,
+                GOSSIP_ICON_CHAT,
+                "<< Back",
+                GOSSIP_SENDER_MAIN,
+                ACTION_BACK + current->ParentId);
+        }
+        else
+        {
+            AddGossipItemFor(player,
+                GOSSIP_ICON_CHAT,
+                "<< Back",
+                GOSSIP_SENDER_MAIN,
+                ACTION_BACK);
+        }
+    }
     
     for (const GHCategory* child : children)
     {
