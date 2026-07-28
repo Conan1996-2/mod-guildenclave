@@ -193,22 +193,9 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
     if (current)
     {
         if (current->ParentId != 0)
-        {
-            AddGossipItemFor(player,
-                GOSSIP_ICON_CHAT,
-                "<< Back",
-                GOSSIP_SENDER_MAIN,
-                ACTION_BACK + current->ParentId);
-        }
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK + current->ParentId);
         else
-        {
-            // Root category goes back to the main catalog
-            AddGossipItemFor(player,
-                GOSSIP_ICON_CHAT,
-                "<< Back",
-                GOSSIP_SENDER_MAIN,
-                ACTION_BACK);
-        }
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK);
     }
     
     for (const GHCategory* child : children)
@@ -227,7 +214,8 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
         if (!catalog)
             continue;
 
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, catalog->Name, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
+        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, catalog->Name, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
+        //AddGossipItemFor(player, GOSSIP_ICON_CHAT, catalog->Name, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
     }
 
     SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
