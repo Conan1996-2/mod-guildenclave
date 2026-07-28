@@ -47,12 +47,6 @@ CREATE TABLE guildhouse_phase
 (
     guildId INT UNSIGNED NOT NULL,
     phaseMask INT UNSIGNED NOT NULL,
-    mapId INT UNSIGNED NOT NULL,
-
-    spawnX FLOAT NOT NULL,
-    spawnY FLOAT NOT NULL,
-    spawnZ FLOAT NOT NULL,
-    spawnO FLOAT NOT NULL,
 
     activeMembers INT UNSIGNED NOT NULL DEFAULT 0,
 
