@@ -24,6 +24,7 @@ GuildHouse.Enable = 0
 #
 #        Default:    0 - Disabled (All items have a cost)
 #                    1 - Enabled (All items will be free)
+#                    2 - Enabled (All items will be free and given to guild on house purchase)
 #
 
 GuildHouse.Free = 0
@@ -36,10 +37,4 @@ GuildHouse.Free = 0
 #
 
 GuildHouse.Refund = .8
-
-#    GuildHouse.Cost.House
-#        Description: The cost of purchasing the Guild House in copper.
-#
-#        Default:    1000000 - 100 Gold
-#
 
