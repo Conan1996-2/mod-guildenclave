@@ -68,7 +68,7 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
                     if (!gold && !silver && !copper)
                         priceText += "Free";
                     
-                    AddGossipItemFor(player, GOSSIP_ICON_CHAT, priceText, GOSSIP_SENDER_MAIN, ACTION_BUY_START + location->Id);
+                    AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, priceText, GOSSIP_SENDER_MAIN, ACTION_BUY_START + location->Id);
                 }
             }
         }
