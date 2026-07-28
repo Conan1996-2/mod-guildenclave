@@ -21,6 +21,7 @@ public:
 
 private:
 
+    const GHCatalog* GuildHouseCatalogMgr::GetCatalog(uint32 catalogId, TeamId team) const;
     void SendCatalogMenu(Player* player, Creature* creature);
     void SendCategoryMenu(Player* player, Creature* creature, uint32 categoryId);
     bool ValidateSalesmanAccess(Player* player, Creature* creature);
