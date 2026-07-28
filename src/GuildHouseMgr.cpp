@@ -154,7 +154,7 @@ bool GuildHouseMgr::SellGuildHouse(uint32_t guildId)
     for (auto const& [assetId, asset] : house.Assets)
         refund += asset.PurchasePrice;
 
-    if (!AddMoneyToGuild(guildId, refund * sGuildHouseConfig.GetRefundPercent() / 100))
+    if (!AddMoneyToGuild(guildId, refund * sGuildHouseConfig.GetRefundPercent()))
         return false;
 
     sGuildHouseSpawner.RemoveAllAssets(guildId);
@@ -579,7 +579,7 @@ bool GuildHouseMgr::SellAsset(Player* player, uint32_t assetId)
     if (!sGuildHouseSpawner.RemoveAsset(guildId, assetId))
         return false;
 
-    if (!AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildHouseConfig.GetRefundPercent() / 100))
+    if (!AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildHouseConfig.GetRefundPercent()))
         return false;
 
     CharacterDatabase.Execute("DELETE FROM guildhouse_asset WHERE guildId={} AND assetId={}", guildId, assetId);
