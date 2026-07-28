@@ -565,8 +565,8 @@ bool GuildHouseMgr::SellAsset(Player* player, uint32_t assetId)
     if (!guildId)
         return false;
 
-    if (!sGuildHousePhaseMgr.IsMember(player))
-        return false;
+    //if (!sGuildHousePhaseMgr.IsMember(player))
+    //    return false;
 
     GHGuildHouse* house = GetGuildHouse(guildId);
     if (!house)
