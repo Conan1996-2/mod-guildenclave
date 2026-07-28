@@ -19,10 +19,10 @@ void GuildHouseConfig::Load()
     _portalCost = sConfigMgr->GetOption<uint64_t>("GuildHouse.Cost.Portal", 10000000ULL);
     _objectCost = sConfigMgr->GetOption<uint64_t>("GuildHouse.Cost.Object", 500000ULL);
 
-    _refundPercent = sConfigMgr->GetOption<uint64_t>("GuildHouse.Refund", 80ULL);
+    _refundPercent = sConfigMgr->GetOption<float>("GuildHouse.Refund", .8);
 
-    if (_refundPercent > 100)
-        _refundPercent = 100;
+    if (_refundPercent > 1)
+        _refundPercent = 1;
 
     LOG_INFO("server.loading", "GuildHouse: Configuration loaded.");
 }
@@ -57,7 +57,7 @@ uint64_t GuildHouseConfig::GetObjectCost() const
     return _objectCost;
 }
 
-uint64_t GuildHouseConfig::GetRefundPercent() const
+float GuildHouseConfig::GetRefundPercent() const
 {
     return _refundPercent;
 }
