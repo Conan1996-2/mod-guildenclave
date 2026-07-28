@@ -18,7 +18,7 @@ public:
     uint64_t GetNpcCost() const;
     uint64_t GetPortalCost() const;
     uint64_t GetObjectCost() const;
-    float GetRefundPercent() const;
+    double GetRefundPercent() const;
 
 private:
 
@@ -32,7 +32,7 @@ private:
     uint64_t _portalCost = 0;
     uint64_t _objectCost = 0;
 
-    float _refundPercent = 0;
+    double _refundPercent = 0;
 };
 
 #define sGuildHouseConfig GuildHouseConfig::Instance()
