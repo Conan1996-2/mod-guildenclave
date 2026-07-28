@@ -50,10 +50,6 @@ void GuildHousePhaseMgr::Load()
     LOG_INFO("server.loading", "Loaded {} Guild House phases", _phases.size());
 }
 
-void GuildHousePhaseMgr::Update()
-{
-}
-
 // =====================================================
 // Create Phase
 // =====================================================
