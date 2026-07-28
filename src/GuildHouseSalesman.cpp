@@ -214,8 +214,26 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
         if (!catalog)
             continue;
 
-        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, catalog->Name, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
-        //AddGossipItemFor(player, GOSSIP_ICON_CHAT, catalog->Name, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
+        uint64 price = catalog->Price;
+        uint64 gold = price / GOLD;
+        uint64 silver = (price % GOLD) / SILVER;
+        uint64 copper = price % SILVER;
+    
+        std::string displayName = catalog->Name + " - ";
+    
+        if (gold)
+            displayName += std::to_string(gold) + "G ";
+    
+        if (silver)
+            displayName += std::to_string(silver) + "S ";
+    
+        if (copper)
+            displayName += std::to_string(copper) + "C";
+    
+        if (!gold && !silver && !copper)
+            displayName += "Free";
+        
+        AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, displayName, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
     }
 
     SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
