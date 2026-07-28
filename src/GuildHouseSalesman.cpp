@@ -21,7 +21,8 @@ namespace
     {
         ACTION_CATEGORY_START = 100000,
         ACTION_CATALOG_START  = 200000,
-        ACTION_BACK           = 300000
+        ACTION_BACK           = 300000,
+        ACTION_CONFIRM        = 400000
     };
 
 }
@@ -93,6 +94,52 @@ bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creatu
 }
 
 // =====================================================
+// Confirmation of sale
+// =====================================================
+void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creature, uint32 catalogId)
+{
+    const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId, player->GetTeamId());
+    if (!catalog)
+    {
+        CloseGossipMenuFor(player);
+        return;
+    }
+
+    uint64 price = catalog->Price;
+    uint64 gold   = price / GOLD;
+    uint64 silver = (price % GOLD) / SILVER;
+    uint64 copper = price % SILVER;
+
+    std::string cost = "Cost: ";
+
+    if (gold)
+        cost += std::to_string(gold) + "G ";
+
+    if (silver)
+        cost += std::to_string(silver) + "S ";
+
+    if (copper)
+        cost += std::to_string(copper) + "C";
+
+    if (!gold && !silver && !copper)
+        cost += "Free";
+
+    AddGossipItemFor(player,
+        GOSSIP_ICON_MONEY_BAG,
+        "Purchase " + catalog->Name,
+        GOSSIP_SENDER_MAIN,
+        ACTION_CONFIRM + catalogId);
+
+    AddGossipItemFor(player,
+        GOSSIP_ICON_CHAT,
+        "<< Back",
+        GOSSIP_SENDER_MAIN,
+        ACTION_BACK + catalog->CategoryId);
+
+    SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+}
+
+// =====================================================
 // Gossip Hello
 // =====================================================
 bool GuildHouseSalesman::OnGossipHello(Player* player, Creature* creature)
@@ -141,6 +188,17 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
         return true;
     }
 
+    if (action >= ACTION_CONFIRM)
+    {
+        uint32 catalogId = action - ACTION_CONFIRM;
+    
+        if (!sGuildHouseMgr.PurchaseCatalogItem(player, catalogId))
+            ChatHandler(player->GetSession()).PSendSysMessage("Unable to purchase item.");
+    
+        CloseGossipMenuFor(player);
+        return true;
+    }
+    
     if (action >= ACTION_BACK)
     {
         uint32 parentId = action - ACTION_BACK;
@@ -160,7 +218,16 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
         return true;
     }
 
-    if (action >= ACTION_CATALOG_START)
+    if (action >= ACTION_CATALOG_START && action < ACTION_BACK)
+    {
+        uint32 catalogId = action - ACTION_CATALOG_START;
+    
+        SendPurchaseConfirmMenu(player, creature, catalogId);
+        CloseGossipMenuFor(player);
+        return true;
+    }
+    
+/*    if (action >= ACTION_CATALOG_START)
     {
         uint32 Id = action - ACTION_CATALOG_START;
         if (!sGuildHouseMgr.PurchaseCatalogItem(player, Id))
@@ -171,7 +238,8 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
         CloseGossipMenuFor(player);
         return true;
     }
-
+*/
+    
     CloseGossipMenuFor(player);
 
     return true;
