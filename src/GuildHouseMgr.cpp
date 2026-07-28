@@ -112,8 +112,8 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
 
     if (!RemoveMoneyFromGuild(guildId, location->Price))
     {
-            ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
-            return false;
+        ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
+        return false;
     }
     
     CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,requiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, 0, {}, {}, (NOW()))",
@@ -177,6 +177,9 @@ bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
 {
     return true;
     
+    if (sGuildHouseConfig.IsFree())
+        return true;
+
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
         return guild->GetTotalBankMoney() >= amount;
     else
@@ -186,6 +189,9 @@ bool GuildHouseMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
 bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, uint64_t amount)
 {
     return true;
+    
+    if (sGuildHouseConfig.IsFree())
+        return true;
     
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
@@ -205,6 +211,9 @@ bool GuildHouseMgr::RemoveMoneyFromGuild(uint32_t guildId, uint64_t amount)
 bool GuildHouseMgr::AddMoneyToGuild(uint32_t guildId, uint64_t amount)
 {
     return true;
+    
+    if (sGuildHouseConfig.IsFree())
+        return true;
     
     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
     {
