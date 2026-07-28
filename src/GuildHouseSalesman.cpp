@@ -189,6 +189,7 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
     LOG_INFO("server.loading", "Found {} child categories", children.size());
 
     const GHCategory* current = sGuildHouseCatalogMgr.GetCategory(categoryId);
+    
     if (current)
     {
         if (current->ParentId != 0)
@@ -201,6 +202,7 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
         }
         else
         {
+            // Root category goes back to the main catalog
             AddGossipItemFor(player,
                 GOSSIP_ICON_CHAT,
                 "<< Back",
