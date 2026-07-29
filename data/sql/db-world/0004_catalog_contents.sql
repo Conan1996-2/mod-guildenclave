@@ -19,9 +19,9 @@ INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`
     (3400, 3000, "Dressers", 2, 1),
     (3500, 3000, "Bookcases", 2, 1),
     (4000, 0, "Indoor Decorations", 3, 1),
-    (5000, 0, "Outdoor Decorations", 4, 1)
-    (5100, 3000, "Mailbox", 2, 1),
-    (5200, 3000, "Braziers", 2, 1),
+    (5000, 0, "Outdoor Decorations", 4, 1),
+    (5100, 5000, "Mailbox", 2, 1),
+    (5200, 5000, "Braziers", 2, 1),
     (6000, 0, "Animals", 4, 1);
 
 TRUNCATE TABLE `guildhouse_catalog`;
@@ -84,17 +84,17 @@ INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `s
     (1505, 1500, "Auctioneer", 500000, 1, 1 + 1024, 1),
     (1506, 1500, "Auctioneer", 500000, 1, 2 + 1024, 1),
     (1507, 1500, "Neutral Auctioneer", 500000, 1, 4 + 1024, 1),
-    (1508, 1500, "Trade Supplies", 500000, 1, 2 + 1024, 1),
+    (1508, 1500, "Trade Supplies", 500000, 1, 1 + 1024, 1),
     (1509, 1500, "Trade Supplies", 500000, 1, 2 + 1024, 1),
-    (1510, 1500, "Tabard Vendor", 500000, 1, 2 + 1024, 1),
+    (1510, 1500, "Tabard Vendor", 500000, 1, 1 + 1024, 1),
     (1511, 1500, "Tabard Vendor", 500000, 1, 2 + 1024, 1),
-    (1512, 1500, "Food & Drink Vendor", 500000, 1, 2 + 1024, 1),
+    (1512, 1500, "Food & Drink Vendor", 500000, 1, 1 + 1024, 1),
     (1513, 1500, "Food & Drink Vendor", 500000, 1, 2 + 1024, 1),
-    (1514, 1500, "Reagent Vendor", 500000, 1, 2 + 1024, 1),
+    (1514, 1500, "Reagent Vendor", 500000, 1, 1 + 1024, 1),
     (1515, 1500, "Reagent Vendor", 500000, 1, 2 + 1024, 1),
-    (1516, 1500, "Ammo & Repair Vendor", 500000, 1, 2 + 1024, 1),
+    (1516, 1500, "Ammo & Repair Vendor", 500000, 1, 1 + 1024, 1),
     (1517, 1500, "Ammo & Repair Vendor", 500000, 1, 2 + 1024, 1),
-    (1518, 1500, "Poisons Vendor", 500000, 1, 2 + 1024, 1),
+    (1518, 1500, "Poisons Vendor", 500000, 1, 1 + 1024, 1),
     (1519, 1500, "Poisons Vendor", 500000, 1, 2 + 1024, 1),
 
     (2101, 2100, "Stormwind", 500000, 3, 1, 1),
