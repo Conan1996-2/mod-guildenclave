@@ -22,6 +22,7 @@ INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`
     (5000, 0, "Outdoor Decorations", 4, 1),
     (5100, 5000, "Mailbox", 2, 1),
     (5200, 5000, "Braziers", 2, 1),
+    (5300, 5000, "Lamp Posts", 2, 1),
     (6000, 0, "Animals", 4, 1);
 
 TRUNCATE TABLE `guildhouse_catalog`;
@@ -105,7 +106,17 @@ INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `s
     (2201, 2200, "Shatrath", 500000, 3, 4, 1),
     (2202, 2200, "Dalaran", 500000, 3, 4, 1),
     (2203, 2200, "Caverns of Time", 500000, 3, 4, 1),
-    (2204, 2200, "Blasted Lands", 500000, 3, 4, 1);
+    (2204, 2200, "Blasted Lands", 500000, 3, 4, 1),
+
+    (5101, 5100, "Standard Alliance Mailbox", 500000, 1, 1 + 1024, 1),
+    (5102, 5100, "Standard Horde  Mailbox", 500000, 1, 2 + 1024, 1),
+    (5103, 5100, "Bouncing Mailbox", 500000, 1, 4 + 1024, 1),
+    (5104, 5100, "Dalaran Mailbox", 500000, 1, 4 + 1024, 1),
+    (5105, 5100, "Totem Mailbox", 500000, 1, 2 + 1024, 1),
+    (5106, 5100, "Tuskar Mailbox", 500000, 1, 4 + 1024, 1),
+
+    (5301, 5300, "Dalaran Lamp Post", 500000, 1, 4 + 1024, 1);
+
 
 TRUNCATE TABLE `guildhouse_catalog_asset`;
 INSERT INTO `guildhouse_catalog_asset` (`componentId`,`catalogId`,`spawnFlags`,`behaviorFlags`,`entryId`,`displayId`,`scale`,`scriptType`,`scriptData`,`xOffset`,`yOffset`,`zOffset`,`oOffset`,`targetMapId`,`targetX`,`targetY`,`targetZ`,`targetO`,`childCatalogId`,`sortOrder`) VALUES
@@ -188,5 +199,13 @@ INSERT INTO `guildhouse_catalog_asset` (`componentId`,`catalogId`,`spawnFlags`,`
     (2201, 2201, 3, 1, 183384, 7146, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     (2202, 2202, 3, 1, 191164, 8111, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     (2203, 2203, 3, 1, 193604, 8475, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    (2204, 2204, 3, 1, 195142, 8948, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    (2204, 2204, 3, 1, 195142, 8948, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 
+    (5101, 5101, 3, 1 + 1024, 143982, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    (5102, 5102, 3, 2 + 1024, 143982, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    (5103, 5103, 3, 4 + 1024, 144112, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    (5104, 5104, 3, 4 + 1024, 191952, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    (5105, 5105, 3, 2 + 1024, 143983, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    (5106, 5106, 3, 4 + 1024, 188604, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+
+    (5301, 5301, 3, 4 + 1024, 192083, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
