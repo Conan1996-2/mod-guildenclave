@@ -98,6 +98,9 @@ bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creatu
 // =====================================================
 void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creature, uint32 catalogId)
 {
+
+    ChatHandler(player->GetSession()).PSendSysMessage("In Confirmation.");
+
     const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId);
     if (!catalog)
     {
@@ -124,18 +127,8 @@ void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creat
     if (!gold && !silver && !copper)
         cost += "Free";
 
-    AddGossipItemFor(player,
-        GOSSIP_ICON_MONEY_BAG,
-        "Purchase " + catalog->Name,
-        GOSSIP_SENDER_MAIN,
-        ACTION_CONFIRM + catalogId);
-
-    AddGossipItemFor(player,
-        GOSSIP_ICON_CHAT,
-        "<< Back",
-        GOSSIP_SENDER_MAIN,
-        ACTION_BACK + catalog->CategoryId);
-
+    AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase " + catalog->Name, GOSSIP_SENDER_MAIN, ACTION_CONFIRM + catalogId);
+    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK + catalog->CategoryId);
     SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 }
 
@@ -223,7 +216,7 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
         uint32 catalogId = action - ACTION_CATALOG_START;
     
         SendPurchaseConfirmMenu(player, creature, catalogId);
-        CloseGossipMenuFor(player);
+//        CloseGossipMenuFor(player);
         return true;
     }
     
