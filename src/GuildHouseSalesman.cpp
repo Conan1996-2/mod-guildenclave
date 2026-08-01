@@ -127,7 +127,7 @@ void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creat
     if (!gold && !silver && !copper)
         cost += "Free";
 
-    AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase " + catalog->Name, GOSSIP_SENDER_MAIN, ACTION_CONFIRM + catalogId);
+    AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase " + catalog->Name + " - " + cost, GOSSIP_SENDER_MAIN, ACTION_CONFIRM + catalogId);
     AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK + catalog->CategoryId);
     SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 }
