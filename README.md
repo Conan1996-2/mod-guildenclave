@@ -26,8 +26,11 @@ This Addon will use a guild area in the world. Default predefined areas are GM I
 ### Added/In Progress
 
 - Added Locations to use for guilds with boundries, teleports player back to port location if trying to go out of bounds
-- Added phases
-    - Need to create temporary phase when available, per location and free up phase when last member leaves
+- Added Broker - Purchase/Sell Guild Hall, Teleport to Guild area (only GM or higher can place in game) **working**
+- Added Salesperson - Purchase Items that can be placed in the guild area (Security of who in guild can access set by GM) **working**
+- Added commands to Purchase/Sell/Place/Move/Store items For the guild area design (Security of who in guild can access set by GM) **working**
+- Added phases **working**
+    - Need to create temporary phase when available, per location and free up phase when last member leaves **(to do)**
 - Work on:
     - NPC
         - Class Trainers **(Completed not tested)**
