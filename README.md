@@ -3,7 +3,7 @@
 >Version 0.1 - 27 July 2026
 
 ---------------------------------------
-## Introduction
+### Introduction
 GuildHouse is a [AzerothCore](https://github.com/azerothcore/azerothcore-wotlk/) wotlk mod  
 
 This manual is created to officially state the purpose and explain the usage of GuildHouse system
@@ -11,19 +11,49 @@ This manual is created to officially state the purpose and explain the usage of 
 This Addon will use a guild area in the world. Default predefined areas are GM Island and a map not in use broken down into 3 areas.  
 
 ---------------------------------------
-Features of the GuildHouse:  
+### Features of the GuildHouse:  
 
 - Purchase your own area to be used as a GuildHouse (via the Broker)  
-
 - Purchase Items that can be placed anywhere in your GuildHouse (via the Salesman)  
 
 ---------------------------------------
-Things the Broker can do:
+### Things the Broker can do:
 
 - Purchase, Sell a GuildHouse
-
 - Teleport a player to the GuildHouse they own
 
+---------------------------------------
+### Added/In Progress
+
+- Added Locations to use for guilds with boundries, teleports player back to port location if trying to go out of bounds
+- Added phases
+    - Need to create temporary phase when available, per location and free up phase when last member leaves
+- Work on:
+    - NPC
+        - Class Trainers **(Completed not tested)**
+        - Manufacturing Trainers **(Completed not tested)**
+        - Gathering Trainers **(Completed not tested)**
+        - Secondary Trainers **(Completed not tested)**
+        - Townsfolk
+        - Vendors
+        - Guards
+    - Portals
+        - Common Portals **(Completed not tested)**
+        - Expansion Portals **(Completed not tested)**
+        - Custom Portals
+    - Furnature
+        - Chairs
+        - Tables **(Completed not tested)**
+        - Chests
+        - Dressers
+        - Bookcases
+    - Indoor Decorations
+    - Outdoor Decorations
+        - Mailboxs **(Completed not tested)**
+        - Braziers
+        - Lamp Posts
+    - Animals
+  
 ---------------------------------------
 ### GuildHouse Commands
 Note that some commands may not be available to all accounts (depending on their access level and permissions set in the RBAC tables (TC) / in the `command` table (AC)). You may need to change your account permissions / security level to enable usage of some commands
