@@ -91,10 +91,10 @@ void GuildHouseCatalogMgr::Load()
             GHCatalogAsset component;
             component.ComponentId = fields[0].Get<uint32_t>();
             component.CatalogId = catalogId;
-            component.SpawnFlags = catalogItr->second.SpawnFlags;
-            component.BehaviorFlags = catalogItr->second.BehaviorFlags;
-            //component.SpawnFlags = static_cast<GHSpawnFlags>(fields[2].Get<uint32_t>());
-            //component.BehaviorFlags = static_cast<GHBehaviorFlags>(fields[3].Get<uint32_t>());
+//            component.SpawnFlags = catalogItr->second.SpawnFlags;
+//            component.BehaviorFlags = catalogItr->second.BehaviorFlags;
+            component.SpawnFlags = static_cast<GHSpawnFlags>(fields[2].Get<uint32_t>());
+            component.BehaviorFlags = static_cast<GHBehaviorFlags>(fields[3].Get<uint32_t>());
             component.Entry = fields[4].Get<uint32_t>();
             component.DisplayId = fields[5].Get<uint32_t>();
             component.Scale = fields[6].Get<float>();
