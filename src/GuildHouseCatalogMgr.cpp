@@ -28,7 +28,7 @@ void GuildHouseCatalogMgr::Load()
 {
     _categories.clear();
     _catalogs.clear();
-    _assets.clear();
+   // _assets.clear();
 
     //
     // Categories
@@ -114,7 +114,7 @@ void GuildHouseCatalogMgr::Load()
             //
             // Store direct lookup
             //
-            _assets.emplace(component.ComponentId, component);
+//            _assets.emplace(component.ComponentId, component);
 
             //
             // Store component in parent catalog
@@ -146,14 +146,14 @@ const GHCategory* GuildHouseCatalogMgr::GetCategory(uint32_t categoryId) const
     return &itr->second;
 }
 
-const GHCatalogAsset* GuildHouseCatalogMgr::GetCatalogAsset(uint32_t componentId) const
-{
-    auto itr = _assets.find(componentId);
-    if (itr == _assets.end())
-        return nullptr;
+//const GHCatalogAsset* GuildHouseCatalogMgr::GetCatalogAsset(uint32_t componentId) const
+//{
+//    auto itr = _assets.find(componentId);
+//    if (itr == _assets.end())
+//        return nullptr;
 
-    return &itr->second;
-}
+//    return &itr->second;
+//}
 
 // =====================================================
 // Root category list
