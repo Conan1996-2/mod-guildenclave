@@ -29,22 +29,6 @@ enum GHBehaviorFlags : uint32_t
     GH_FACTION_ALLIANCE = 1 << 0,
     GH_FACTION_HORDE    = 1 << 1,
     GH_FACTION_NEUTRAL  = 1 << 2,
-
-    GH_ROLE_VENDOR       = 1 << 3,
-    GH_ROLE_REPAIR       = 1 << 4,
-    GH_ROLE_BANKER       = 1 << 5,
-    GH_ROLE_AUCTIONEER   = 1 << 6,
-    GH_ROLE_INNKEEPER    = 1 << 7,
-    GH_ROLE_FLIGHTMASTER = 1 << 8,
-    GH_ROLE_STABLEMASTER = 1 << 9,
-    GH_ROLE_TRAINER      = 1 << 10,
-
-    GH_ROLE_MAILBOX = 1 << 11,
-    GH_ROLE_FORGE   = 1 << 12,
-    GH_ROLE_ANVIL   = 1 << 13,
-
-    GH_FLAG_UNIQUE  = 1 << 14,
-    GH_FLAG_STARTER = 1 << 15
 };
 
 // =====================================================
