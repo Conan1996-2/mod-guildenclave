@@ -19,7 +19,7 @@ public:
     // =====================================================
     const GHCatalog* GetCatalog(uint32_t catalogId) const;
     const GHCategory* GetCategory(uint32_t categoryId) const;
-    const GHCatalogAsset* GetCatalogAsset(uint32_t componentId) const;
+    //const GHCatalogAsset* GetCatalogAsset(uint32_t componentId) const;
 
     // =====================================================
     // Salesman browsing
