@@ -20,15 +20,13 @@ GuildHouseCatalogMgr& GuildHouseCatalogMgr::Instance()
 // - catalog entries
 // - catalog components
 //
-// Components are stored both:
+// Components are stored:
 // - inside catalog.Components
-// - inside _assets lookup map
 // =====================================================
 void GuildHouseCatalogMgr::Load()
 {
     _categories.clear();
     _catalogs.clear();
-   // _assets.clear();
 
     //
     // Categories
@@ -112,11 +110,6 @@ void GuildHouseCatalogMgr::Load()
             component.SortOrder = fields[19].Get<uint16_t>();
 
             //
-            // Store direct lookup
-            //
-//            _assets.emplace(component.ComponentId, component);
-
-            //
             // Store component in parent catalog
             //
             catalogItr->second.Components.push_back(component);
@@ -124,8 +117,8 @@ void GuildHouseCatalogMgr::Load()
         } while (result->NextRow());
     }
 
-    //LOG_INFO("module","  >>>  GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), _assets.size());
-    //LOG_INFO("server.loading","   >>>   GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), _assets.size());
+    LOG_INFO("module","  >>>  GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), _catalogs.Components.size());
+    LOG_INFO("server.loading","   >>>   GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), _catalogs.Components.size());
 }
 
 const GHCatalog* GuildHouseCatalogMgr::GetCatalog(uint32_t catalogId) const
@@ -145,15 +138,6 @@ const GHCategory* GuildHouseCatalogMgr::GetCategory(uint32_t categoryId) const
 
     return &itr->second;
 }
-
-//const GHCatalogAsset* GuildHouseCatalogMgr::GetCatalogAsset(uint32_t componentId) const
-//{
-//    auto itr = _assets.find(componentId);
-//    if (itr == _assets.end())
-//        return nullptr;
-
-//    return &itr->second;
-//}
 
 // =====================================================
 // Root category list
