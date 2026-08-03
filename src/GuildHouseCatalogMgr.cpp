@@ -120,7 +120,7 @@ void GuildHouseCatalogMgr::Load()
     }
 
     LOG_INFO("module","  >>>  GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
-    LOG_INFO("server.loading","   >>>   GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount));
+    LOG_INFO("server.loading","   >>>   GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
 }
 
 const GHCatalog* GuildHouseCatalogMgr::GetCatalog(uint32_t catalogId) const
