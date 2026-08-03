@@ -12,11 +12,8 @@
 enum GHSpawnFlags : uint32_t
 {
     GH_SPAWN_NONE        = 0,
-
     GH_SPAWN_CREATURE    = 1 << 0,
     GH_SPAWN_GAMEOBJECT  = 1 << 1,
-    GH_SPAWN_PORTAL      = 1 << 2,
-    GH_SPAWN_TRIGGER     = 1 << 3
 };
 
 // =====================================================
@@ -25,7 +22,6 @@ enum GHSpawnFlags : uint32_t
 enum GHBehaviorFlags : uint32_t
 {
     GH_BEHAVIOR_NONE = 0,
-
     GH_FACTION_ALLIANCE = 1 << 0,
     GH_FACTION_HORDE    = 1 << 1,
     GH_FACTION_NEUTRAL  = 1 << 2,
