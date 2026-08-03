@@ -173,21 +173,6 @@ INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `s
 
     (5301, 5300, "Dalaran Lamp Post", 500000, 1, 4, 1);
 
---enum GHSpawnFlags : uint32_t
---{
---    GH_SPAWN_NONE        = 0,         (0)
---    GH_SPAWN_CREATURE    = 1 << 0,    (1)
---    GH_SPAWN_GAMEOBJECT  = 1 << 1,    (2)
---};
-
---enum GHBehaviorFlags : uint32_t
---{
---    GH_BEHAVIOR_NONE = 0,            (0)
---    GH_FACTION_ALLIANCE = 1 << 0,    (1)
---    GH_FACTION_HORDE    = 1 << 1,    (2)
---    GH_FACTION_NEUTRAL  = 1 << 2,    (4)
---};
-
 TRUNCATE TABLE `guildhouse_catalog_asset`;
 INSERT INTO `guildhouse_catalog_asset` (`componentId`,`catalogId`,`spawnFlags`,`behaviorFlags`,`entryId`,`displayId`,`scale`,`scriptType`,`scriptData`,`xOffset`,`yOffset`,`zOffset`,`oOffset`,`targetMapId`,`targetX`,`targetY`,`targetZ`,`targetO`,`childCatalogId`,`sortOrder`) VALUES
     (1101, 1101, 1, 4, 29195, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
