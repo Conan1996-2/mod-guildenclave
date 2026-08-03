@@ -45,7 +45,7 @@ This Addon will use a guild area in the world. Default predefined areas are GM I
         - Expansion Portals **(Completed not tested)**
         - Custom Portals
     - Furnature
-        - Chairs
+        - Chairs **(Completed not tested)**
         - Tables **(Completed not tested)**
         - Chests
         - Dressers
