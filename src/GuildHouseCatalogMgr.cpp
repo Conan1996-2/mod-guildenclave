@@ -75,6 +75,7 @@ void GuildHouseCatalogMgr::Load()
     //
     // Catalog Components
     //
+    uint16_t componentCount = 0;
     if (QueryResult result = WorldDatabase.Query("SELECT componentId,catalogId,spawnFlags,behaviorFlags,entryId,displayId,scale,scriptType,scriptData,xOffset,yOffset,zOffset,oOffset,targetMapId,targetX,targetY,targetZ,targetO,childCatalogId,sortOrder "
         "FROM guildhouse_catalog_asset ORDER BY sortOrder"))
     {
@@ -113,12 +114,13 @@ void GuildHouseCatalogMgr::Load()
             // Store component in parent catalog
             //
             catalogItr->second.Components.push_back(component);
+            componentCount++;
 
         } while (result->NextRow());
     }
 
-    LOG_INFO("module","  >>>  GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), _catalogs.Components.size());
-    LOG_INFO("server.loading","   >>>   GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), _catalogs.Components.size());
+    LOG_INFO("module","  >>>  GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
+    LOG_INFO("server.loading","   >>>   GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount));
 }
 
 const GHCatalog* GuildHouseCatalogMgr::GetCatalog(uint32_t catalogId) const
