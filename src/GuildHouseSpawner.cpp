@@ -87,10 +87,12 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
     
     for(auto const& component : catalog->Components)
     {
+        LOG_INFO("server.loading", "Checking if team matches. behaviorflag = {}", component.BehaviorFlags);
+
         if (!GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
         {
             if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_ALLIANCE) && team != TEAM_ALLIANCE)
-                continue;        
+                continue;
             if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != TEAM_HORDE)
                 continue;
         }
