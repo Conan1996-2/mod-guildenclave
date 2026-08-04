@@ -69,26 +69,19 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
     if(HasExistingSpawn(guildId, assetId))
         return false;
 
-    LOG_INFO("server.loading", "No Duplicate");
-    
     const GHPhaseRecord* phase = sGuildHousePhaseMgr.GetPhase(guildId);
     if(!phase)
         return false;
-
-    LOG_INFO("server.loading", "In correct Phase");
     
     const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId);
     if(!catalog)
         return false;
 
-    LOG_INFO("server.loading", "Have Catalog: Spawning");
-    
-    Guild* guild = sGuildMgr->GetGuildById(guildId);
-    if (!guild)
+    GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    if (!house)
         return false;
     
-    TeamId team = guild->GetTeam();
-    
+    uint8_t team = house.Team;    
     for(auto const& component : catalog->Components)
     {
         if (!GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
