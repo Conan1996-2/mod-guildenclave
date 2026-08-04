@@ -98,11 +98,19 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
         }
 
         LOG_INFO("server.loading", "Going to spawn now:");
-        
-        float cx = x + component.XOffset;
-        float cy = y + component.YOffset;
+
+        float sinO = std::sin(o);
+        float cosO = std::cos(o);
+    
+        float cx = x + component.XOffset * cosO - component.YOffset * sinO;
+        float cy = y + component.XOffset * sinO + component.YOffset * cosO;
         float cz = z + component.ZOffset;
-        float co = o + component.OOffset;
+        float co = Position::NormalizeOrientation(o + component.OOffset);
+        
+        //float cx = x + component.XOffset;
+        //float cy = y + component.YOffset;
+        //float cz = z + component.ZOffset;
+        //float co = o + component.OOffset;
 
         if(GuildHouseUtil::HasFlag(component.SpawnFlags, GH_SPAWN_CREATURE))
             SpawnCreature(guildId, assetId, phase->PhaseMask, phase->MapId, component.Entry, cx, cy, cz, co);
