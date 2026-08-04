@@ -82,6 +82,9 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
         return false;
     
     uint8_t team = house->Team;    
+
+    LOG_INFO("server.loading", "Get team {}", team);
+    
     for(auto const& component : catalog->Components)
     {
         if (!GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
@@ -91,6 +94,8 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
             if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != TEAM_HORDE)
                 continue;
         }
+
+        LOG_INFO("server.loading", "Going to spawn now:");
         
         float cx = x + component.XOffset;
         float cy = y + component.YOffset;
