@@ -83,7 +83,7 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
     
     uint8_t team = house->Team;    
 
-    LOG_INFO("server.loading", "Get team {}", team);
+    LOG_INFO("server.loading", "Get team {}  ({} - {})", team, TEAM_ALLIANCE, TEAM_HORDE);
     
     for(auto const& component : catalog->Components)
     {
