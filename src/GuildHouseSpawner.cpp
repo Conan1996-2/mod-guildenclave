@@ -81,9 +81,23 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
         return false;
 
     LOG_INFO("server.loading", "Have Catalog: Spawning");
-
+    
+    Guild* guild = sGuildMgr->GetGuildById(guildId);
+    if (!guild)
+        return false;
+    
+    TeamId team = guild->GetTeam();
+    
     for(auto const& component : catalog->Components)
     {
+        if (!GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
+        {
+            if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_ALLIANCE) && team != ALLIANCE)
+                continue;        
+            if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != HORDE)
+                continue;
+        }
+        
         float cx = x + component.XOffset;
         float cy = y + component.YOffset;
         float cz = z + component.ZOffset;
