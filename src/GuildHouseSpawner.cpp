@@ -81,7 +81,7 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
     if (!house)
         return false;
     
-    uint8_t team = house.Team;    
+    uint8_t team = house->Team;    
     for(auto const& component : catalog->Components)
     {
         if (!GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
