@@ -27,10 +27,8 @@ INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`
 TRUNCATE TABLE `guildhouse_catalog`;
 INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `spawnFlags`, `behaviorFlags`, `enabled`) VALUES
     (1101, 1100, "Death Knight", 500000, 0, 4, 1),
-    (1102, 1100, "Druid A", 500000, 1, 4, 1),
-    (1103, 1100, "Druid B", 500000, 1, 2, 1),
-    (1104, 1100, "Hunter A", 500000, 1, 4, 1),
-    (1105, 1100, "Hunter B", 500000, 1, 2, 1),
+    (1102, 1100, "Druid", 500000, 1, 4, 1),
+    (1104, 1100, "Hunter", 500000, 1, 4, 1),
     (1106, 1100, "Mage", 500000, 1, 1, 1),
     (1107, 1100, "Mage", 500000, 1, 2, 1),
     (1108, 1100, "Paladin", 500000, 1, 1, 1),
@@ -176,8 +174,8 @@ TRUNCATE TABLE `guildhouse_catalog_asset`;
 INSERT INTO `guildhouse_catalog_asset` (`componentId`,`catalogId`,`spawnFlags`,`behaviorFlags`,`entryId`,`displayId`,`scale`,`scriptType`,`scriptData`,`xOffset`,`yOffset`,`zOffset`,`oOffset`,`targetMapId`,`targetX`,`targetY`,`targetZ`,`targetO`,`childCatalogId`,`sortOrder`) VALUES
     (1101, 1101, 1, 4, 29195, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     (1102, 1102, 1, 1, 26324, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    (1103, 1102, 1, 1, 26324, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    (1104, 1104, 1, 2, 26325, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    (1103, 1102, 1, 2, 26324, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    (1104, 1104, 1, 1, 26325, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     (1105, 1104, 1, 2, 26325, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     (1106, 1106, 1, 1, 26326, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     (1107, 1107, 1, 2, 26326, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
