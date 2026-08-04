@@ -116,8 +116,8 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
         return false;
     }
     
-    CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,requiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, 0, {}, {}, (NOW()))",
-        guildId, ownerGuid, locationId, location->Price);
+    CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,faction,requiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, {}, 0, {}, {}, (NOW()))",
+        guildId, ownerGuid, static_cast<uint8>(player->GetTeamId()), locationId, location->Price);
 
     uint32_t phaseMask = CreatePhase( guildId, locationId);
     if (!phaseMask)
@@ -128,6 +128,7 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
 
     GHGuildHouse house;
     house.GuildId = guildId;
+    house.Team = static_cast<uint8>(player->GetTeamId());
     house.OwnerGuid = ownerGuid;
     house.LocationId = locationId;
     house.PhaseMask = phaseMask;
@@ -349,7 +350,7 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     LOG_INFO("server.loading", "Loading GuildHouseMgr::guildhouse");    
 
-    if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,requiredGuildRank,locationId,purchasePrice FROM guildhouse"))
+    if(QueryResult result = CharacterDatabase.Query("SELECT guildId,ownerGuid,faction,requiredGuildRank,locationId,purchasePrice FROM guildhouse"))
     {
         do
         {
@@ -358,9 +359,10 @@ void GuildHouseMgr::Load()
             GHGuildHouse house;
             house.GuildId = fields[0].Get<uint32>();
             house.OwnerGuid = fields[1].Get<uint32>();
-            house.RequiredGuildRank = fields[2].Get<uint8_t>();
-            house.LocationId = fields[3].Get<uint32>();
-            house.PurchasePrice = fields[4].Get<uint64_t>();
+            house.Team =  fields[2].Get<uint8_t>();
+            house.RequiredGuildRank = fields[3].Get<uint8_t>();
+            house.LocationId = fields[4].Get<uint32>();
+            house.PurchasePrice = fields[5].Get<uint64_t>();
             house.PhaseMask = 0;
 
             _houses.emplace(house.GuildId, house);
