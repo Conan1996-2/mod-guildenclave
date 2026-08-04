@@ -86,9 +86,9 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
     {
         if (!GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
         {
-            if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_ALLIANCE) && team != ALLIANCE)
+            if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_ALLIANCE) && team != TEAM_ALLIANCE)
                 continue;        
-            if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != HORDE)
+            if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != TEAM_HORDE)
                 continue;
         }
         
