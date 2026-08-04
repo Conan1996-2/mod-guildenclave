@@ -3,6 +3,7 @@ CREATE TABLE `guildhouse`
 (
     `guildId` INT UNSIGNED NOT NULL,
     `ownerGuid` INT UNSIGNED NOT NULL,
+    `faction` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     `requiredGuildRank` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     `locationId` INT UNSIGNED NOT NULL DEFAULT 0,
     `purchasePrice` BIGINT UNSIGNED NOT NULL DEFAULT 0,
