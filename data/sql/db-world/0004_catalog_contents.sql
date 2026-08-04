@@ -27,9 +27,9 @@ INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`
 TRUNCATE TABLE `guildhouse_catalog`;
 INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `spawnFlags`, `behaviorFlags`, `enabled`) VALUES
     (1101, 1100, "Death Knight", 500000, 0, 4, 1),
-    (1102, 1100, "Druid A", 500000, 1, 1, 1),
+    (1102, 1100, "Druid A", 500000, 1, 4, 1),
     (1103, 1100, "Druid B", 500000, 1, 2, 1),
-    (1104, 1100, "Hunter A", 500000, 1, 1, 1),
+    (1104, 1100, "Hunter A", 500000, 1, 4, 1),
     (1105, 1100, "Hunter B", 500000, 1, 2, 1),
     (1106, 1100, "Mage", 500000, 1, 1, 1),
     (1107, 1100, "Mage", 500000, 1, 2, 1),
