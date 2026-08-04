@@ -11,6 +11,7 @@
 #include "Log.h"
 #include "GameObject.h"
 #include "Transport.h"
+#include "GuildMgr.h"
 
 #include <sstream>
 
