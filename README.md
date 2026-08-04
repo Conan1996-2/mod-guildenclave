@@ -44,13 +44,12 @@ This Addon will use a guild area in the world. Default predefined areas are GM I
         - Common Portals **(Completed not tested)**
         - Expansion Portals **(Completed not tested)**
         - Custom Portals
-    - Furnature
+    - Indoor Decorations
         - Chairs **(Completed not tested)**
         - Tables **(Completed not tested)**
         - Chests
         - Dressers
         - Bookcases
-    - Indoor Decorations
     - Outdoor Decorations
         - Mailboxs **(Completed not tested)**
         - Braziers
