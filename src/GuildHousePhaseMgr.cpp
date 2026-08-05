@@ -116,6 +116,7 @@ bool GuildHousePhaseMgr::EnterPhase(Player* player, uint32_t guildId)
         return false;
 
     player->SetPhaseMask(phase->PhaseMask, true);
+    player->SetRestType(REST_TYPE_IN_TAVERN);
 
     AddMember(guildId, player->GetGUID().GetCounter());
 
@@ -134,6 +135,7 @@ bool GuildHousePhaseMgr::LeavePhase(Player* player)
     RemoveMember(player->GetGuildId(), player->GetGUID().GetCounter());
 
     player->SetPhaseMask(1, true);
+    player->SetRestType(REST_TYPE_NO);
     return true;
 }
 
