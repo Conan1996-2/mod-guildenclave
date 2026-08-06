@@ -694,7 +694,7 @@ bool GuildHouseMgr::CreatePermanentSalesman(Player* player, uint32_t entry)
     if(!phaseMask)
         return false;
 
-    return (sGuildHouseSpawner.SpawnCreature(guildId, 0, phaseMask, player->GetMapId(), entry, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation()));
+    return (sGuildHouseSpawner.SpawnCreature(guildId, 0, phaseMask, player->GetMapId(), entry, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation(), 0));
 }
 
 // =====================================================
