@@ -193,8 +193,11 @@ bool GuildHouseSpawner::SpawnGameObject(uint32_t guildId, uint32_t assetId, uint
     if (objectInfo->displayId && !sGameObjectDisplayInfoStore.LookupEntry(objectInfo->displayId))
         return false;
 
+    float halfAngle = o * 0.5f;
+    G3D::Quat rotation(0.0f, 0.0f, std::sin(halfAngle), std::cos(halfAngle));
     GameObject* object = sObjectMgr->IsGameObjectStaticTransport(objectInfo->entry) ? new StaticTransport() : new GameObject();
-    if (!object->Create(map->GenerateLowGuid<HighGuid::GameObject>(), objectInfo->entry, map, phaseMask, x, y, z, o, G3D::Quat(), 255, GO_STATE_READY))
+    //
+    if (!object->Create(map->GenerateLowGuid<HighGuid::GameObject>(), objectInfo->entry, map, phaseMask, x, y, z, o, rotation, 255, GO_STATE_READY))
     {
         delete object;
         return false;
