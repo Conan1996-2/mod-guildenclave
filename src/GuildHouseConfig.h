@@ -14,6 +14,7 @@ public:
     bool IsEnabled() const;
     bool IsFree() const;
     bool LoadAll() const;
+    bool AllWander() const;
 
     double GetRefundPercent() const;
 
@@ -22,6 +23,8 @@ private:
     GuildHouseConfig() = default;
 
     bool _enabled = false;
+    bool _allWander = true;
+
     uint8_t _free = false;
 
     double _refundPercent = 0;
