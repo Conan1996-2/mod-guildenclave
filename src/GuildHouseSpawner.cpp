@@ -125,7 +125,7 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
 // =====================================================
 // Creature
 // =====================================================
-bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32_t phaseMask, uint32_t mapId, uint32_t entry, float x, float y, float z, float o)
+bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32_t phaseMask, uint32_t mapId, uint32_t entry, float x, float y, float z, float o, int w)
 {
    Map* map = sMapMgr->CreateBaseMap(mapId);
     if (!map)
@@ -137,9 +137,15 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
         delete creature;
         return false;
     }
-    
-    creature->SetWanderDistance(10.0f);          // 10 yard radius
-    creature->SetDefaultMovementType(MovementGeneratorType::RANDOM_MOTION_TYPE);
+
+    if (sConfig->doWander && w== 0)
+        w = 10;
+
+    if (w > 0)
+    {
+        creature->SetWanderDistance(10.0f);          // 10 yard radius
+        creature->SetDefaultMovementType(MovementGeneratorType::RANDOM_MOTION_TYPE);
+    }
     creature->SaveToDB(mapId, (1 << map->GetSpawnMode()), phaseMask);
     uint32 spawnId = creature->GetSpawnId();
     creature->CleanupsBeforeDelete();
