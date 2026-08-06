@@ -35,7 +35,7 @@ void GuildHouseSpawner::LoadPlacedAssets()
             if (asset.Status != GH_ASSET_PLACED)
                 continue;
 
-            SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.W);
+            SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.w);
         }
     }
 }
@@ -106,11 +106,6 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
         float cy = y + component.XOffset * sinO + component.YOffset * cosO;
         float cz = z + component.ZOffset;
         float co = Position::NormalizeOrientation(o + component.OOffset);
-        
-        //float cx = x + component.XOffset;
-        //float cy = y + component.YOffset;
-        //float cz = z + component.ZOffset;
-        //float co = o + component.OOffset;
 
         if(GuildHouseUtil::HasFlag(component.SpawnFlags, GH_SPAWN_CREATURE))
             SpawnCreature(guildId, assetId, phase->PhaseMask, phase->MapId, component.Entry, cx, cy, cz, co);
@@ -143,7 +138,7 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
 
     if (w > 0)
     {
-        creature->SetWanderDistance(10.0f);          // 10 yard radius
+        creature->SetWanderDistance(w);
         creature->SetDefaultMovementType(MovementGeneratorType::RANDOM_MOTION_TYPE);
     }
     creature->SaveToDB(mapId, (1 << map->GetSpawnMode()), phaseMask);
@@ -178,6 +173,8 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
         spawn.Y = y;
         spawn.Z = z;
         spawn.O = o;
+
+        spawn.w = w
 
         house->Spawns.push_back(std::move(spawn));
     }
@@ -243,6 +240,8 @@ bool GuildHouseSpawner::SpawnGameObject(uint32_t guildId, uint32_t assetId, uint
         spawn.Y = y;
         spawn.Z = z;
         spawn.O = o;
+
+        spawn.w = 0;
 
         house->Spawns.push_back(std::move(spawn));
     }
