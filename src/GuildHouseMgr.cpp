@@ -520,11 +520,12 @@ bool GuildHouseMgr::PlaceAsset(Player* player, uint32_t assetId)
 
     float x = player->GetPositionX();
     float y = player->GetPositionY();
-    float z = player->GetPositionZ();    
-    
+    float z = player->GetPositionZ();
+    int_16 w = asset->w;
+
     player->UpdateGroundPositionZ(x, y, z);
-    
-    if (!sGuildHouseSpawner.SpawnAsset(guildId, asset->AssetId, asset->CatalogId, x, y, z, player->GetOrientation()))
+
+    if (!sGuildHouseSpawner.SpawnAsset(guildId, asset->AssetId, asset->CatalogId, x, y, z, player->GetOrientation(), w))
         return false;
 
     asset->Status = GH_ASSET_PLACED;
@@ -532,9 +533,10 @@ bool GuildHouseMgr::PlaceAsset(Player* player, uint32_t assetId)
     asset->Y = y;
     asset->Z = z;
     asset->O = player->GetOrientation();
+    asset->w = w;
 
-    CharacterDatabase.Execute("UPDATE guildhouse_asset SET status={}, positionX={}, positionY={}, positionZ={}, orientation={} WHERE assetId={} AND guildId={}",
-        asset->Status, x, y, z, asset->O, assetId, guildId);
+    CharacterDatabase.Execute("UPDATE guildhouse_asset SET status={}, positionX={}, positionY={}, positionZ={}, orientation={}, wander={} WHERE assetId={} AND guildId={}",
+        asset->Status, x, y, z, asset->O, w, assetId, guildId);
     return true;
 }
 
