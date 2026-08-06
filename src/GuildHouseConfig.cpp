@@ -13,6 +13,7 @@ void GuildHouseConfig::Load()
 {
     _enabled = sConfigMgr->GetOption<bool>("GuildHouse.Enable", false);
     _free = sConfigMgr->GetOption<bool>("GuildHouse.Free", false);
+    _canWander = sConfigMgr->GetOption<bool>("GuildHouse.NPC.AllWander", false);
 
     _refundPercent = sConfigMgr->GetOption<float>("GuildHouse.Refund", .8);
 
@@ -40,4 +41,9 @@ bool GuildHouseConfig::LoadAll() const
 double GuildHouseConfig::GetRefundPercent() const
 {
     return _refundPercent;
+}
+
+bool GuildHouseconfig::isWander() const
+{
+    return _canWander;
 }
