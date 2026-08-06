@@ -30,6 +30,8 @@ CREATE TABLE `guildhouse_asset`
     `positionZ` FLOAT NOT NULL,
     `orientation` FLOAT NOT NULL,
 
+    `wander` INT NOT NULL,
+    
     `createdBy` INT UNSIGNED NOT NULL,
     `enabled` TINYINT(1) NOT NULL DEFAULT 1,
     `createdDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
