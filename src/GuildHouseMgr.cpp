@@ -641,8 +641,8 @@ bool GuildHouseMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
             return false;
     }
     
-    CharacterDatabase.Execute("INSERT INTO guildhouse_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,createdBy) VALUES ({},{},{},{},{},0,0,0,0,{})",
-        _nextAssetId, guildId, catalogId, catalog->Price, GH_ASSET_PURCHASED, player->GetGUID().GetCounter());
+    CharacterDatabase.Execute("INSERT INTO guildhouse_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,wander,createdBy) VALUES ({},{},{},{},{},0,0,0,0,{},{})",
+        _nextAssetId, guildId, catalogId, catalog->Price, GH_ASSET_PURCHASED, 0, player->GetGUID().GetCounter());
 
     uint32_t assetId = _nextAssetId++;
 
@@ -656,6 +656,7 @@ bool GuildHouseMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
     asset.Y = 0.0f;
     asset.Z = 0.0f;
     asset.O = 0.0f;
+    asset.w = 0;
 
     house->Assets.emplace(assetId, std::move(asset));
 
