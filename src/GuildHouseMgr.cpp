@@ -521,7 +521,7 @@ bool GuildHouseMgr::PlaceAsset(Player* player, uint32_t assetId)
     float x = player->GetPositionX();
     float y = player->GetPositionY();
     float z = player->GetPositionZ();
-    int_16 w = asset->w;
+    int16_t w = asset->w;
 
     player->UpdateGroundPositionZ(x, y, z);
 
