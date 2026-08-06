@@ -137,7 +137,9 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
         delete creature;
         return false;
     }
-
+    
+    creature->SetWanderDistance(10.0f);          // 10 yard radius
+    creature->SetDefaultMovementType(MovementGeneratorType::RANDOM_MOTION_TYPE);
     creature->SaveToDB(mapId, (1 << map->GetSpawnMode()), phaseMask);
     uint32 spawnId = creature->GetSpawnId();
     creature->CleanupsBeforeDelete();
