@@ -43,7 +43,7 @@ double GuildHouseConfig::GetRefundPercent() const
     return _refundPercent;
 }
 
-bool GuildHouseconfig::isWanderer() const
+bool GuildHouseconfig::AllWander() const
 {
     return _allWander;
 }
