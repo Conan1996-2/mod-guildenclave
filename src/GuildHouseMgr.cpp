@@ -386,7 +386,7 @@ void GuildHouseMgr::Load()
     // ------------------------------------------------- 
     LOG_INFO("server.loading", "Loading GuildHouseMgr::asset");    
 
-    if(QueryResult result = CharacterDatabase.Query("SELECT assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation FROM guildhouse_asset"))
+    if(QueryResult result = CharacterDatabase.Query("SELECT assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,wander FROM guildhouse_asset"))
     {
         do
         {
@@ -407,6 +407,7 @@ void GuildHouseMgr::Load()
             asset.Y = fields[6].Get<float>();
             asset.Z = fields[7].Get<float>();
             asset.O = fields[8].Get<float>();
+            asset.w = fields[9].Get<int16_t>();
 
             //itr->second.Assets.push_back(asset);
             itr->second.Assets.emplace(asset.AssetId, std::move(asset));
@@ -418,7 +419,7 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     LOG_INFO("server.loading", "Loading GuildHouseMgr::spawns");    
 
-    if(QueryResult result = CharacterDatabase.Query("SELECT spawnId,guildId,assetId,phaseMask,spawnGuid,spawnType,mapId,x,y,z,o FROM guildhouse_spawn"))
+    if(QueryResult result = CharacterDatabase.Query("SELECT spawnId,guildId,assetId,phaseMask,spawnGuid,spawnType,mapId,x,y,z,o,w FROM guildhouse_spawn"))
     {
         do
         {
@@ -442,6 +443,7 @@ void GuildHouseMgr::Load()
             spawn.Y = fields[8].Get<float>();
             spawn.Z = fields[9].Get<float>();
             spawn.O = fields[10].Get<float>();
+            spawn.w = fields[11].Get<float>();
 
             itr->second.Spawns.push_back(spawn);
         }while(result->NextRow());
