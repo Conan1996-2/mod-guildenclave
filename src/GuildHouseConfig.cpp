@@ -13,7 +13,9 @@ void GuildHouseConfig::Load()
 {
     _enabled = sConfigMgr->GetOption<bool>("GuildHouse.Enable", false);
     _free = sConfigMgr->GetOption<bool>("GuildHouse.Free", false);
-    _allWander = sConfigMgr->GetOption<bool>("GuildHouse.NPC.AllWander", false);
+    
+    _allWander = sConfigMgr->GetOption<bool>("GuildHouse.NPCWander.Enabled", false);
+    _wanderDistance = sConfigMgr->GetOption<bool>("GuildHouse.NPCWander.Distance", 0);
 
     _refundPercent = sConfigMgr->GetOption<float>("GuildHouse.Refund", .8);
 
@@ -46,4 +48,9 @@ double GuildHouseConfig::GetRefundPercent() const
 bool GuildHouseConfig::AllWander() const
 {
     return _allWander;
+}
+
+int16_t GuildHouseConfig::WanderDistance() const
+{
+    return _wanderDistance;
 }
