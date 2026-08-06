@@ -175,7 +175,7 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
         spawn.Z = z;
         spawn.O = o;
 
-        spawn.w = w
+        spawn.w = w;
 
         house->Spawns.push_back(std::move(spawn));
     }
