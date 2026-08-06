@@ -156,8 +156,8 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
 
     sObjectMgr->AddCreatureToGrid(spawnId, sObjectMgr->GetCreatureData(spawnId));
 
-    CharacterDatabase.Execute("INSERT INTO guildhouse_spawn (guildId,assetId,spawnGuid,spawnType,mapId,phaseMask,x,y,z,o) "
-        "VALUES ({},{},{},{},{},{},{},{},{},{})", guildId, assetId, spawnId, GH_SPAWN_CREATURE, mapId, phaseMask, x, y, z, o);
+    CharacterDatabase.Execute("INSERT INTO guildhouse_spawn (guildId,assetId,spawnGuid,spawnType,mapId,phaseMask,x,y,z,o,w) "
+        "VALUES ({},{},{},{},{},{},{},{},{},{})", guildId, assetId, spawnId, GH_SPAWN_CREATURE, mapId, phaseMask, x, y, z, o, w);
 
     GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
     if (house)
