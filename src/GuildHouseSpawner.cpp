@@ -35,7 +35,7 @@ void GuildHouseSpawner::LoadPlacedAssets()
             if (asset.Status != GH_ASSET_PLACED)
                 continue;
 
-            SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O);
+            SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.W);
         }
     }
 }
@@ -62,7 +62,7 @@ bool GuildHouseSpawner::HasExistingSpawn(uint32_t guildId, uint32_t assetId)
 // =====================================================
 // Spawn Asset
 // =====================================================
-bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t catalogId, float x, float y, float z, float o)
+bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t catalogId, float x, float y, float z, float o, int w)
 {
     LOG_INFO("server.loading", "In SpawnAsset {}, {}", guildId, assetId);
     
