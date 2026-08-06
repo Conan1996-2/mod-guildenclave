@@ -46,7 +46,7 @@ GuildHouse.Refund = .8
 #        Default:    0 - Disabled (Some NPCs dont move)
 #                    1 - Enabled (ALL NPCs move)
 
-GuildHouse.NPCWander.Enabled = 0
+GuildHouse.NPCWander.Enabled = 1
 
 #    GuildHouse.NPCWander.Distance
 #        Description: The distance a NPC will move if they have a wander of 0 set in the database.
