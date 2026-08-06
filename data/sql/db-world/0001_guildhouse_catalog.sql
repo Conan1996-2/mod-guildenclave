@@ -65,7 +65,7 @@ CREATE TABLE `guildhouse_catalog_asset`
     `targetZ` FLOAT DEFAULT NULL,
     `targetO` FLOAT DEFAULT NULL,
 
-    `wander' INT NOT NULL DEFAULT 0,
+    `wander` INT NOT NULL DEFAULT 0,
 
     `childCatalogId` INT UNSIGNED DEFAULT NULL,
 
