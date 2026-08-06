@@ -73,7 +73,8 @@ CREATE TABLE guildhouse_spawn
     x FLOAT,
     y FLOAT,
     z FLOAT,
-    o FLOAT
+    o FLOAT,
+    w INT
 );
 
 DROP TABLE IF EXISTS guildhouse_phase_object;
