@@ -45,6 +45,8 @@ struct GHCatalogAsset
     float ZOffset = 0.0f;
     float OOffset = 0.0f;
 
+    uint16_t w = 0;
+
     uint32_t TargetMap = 0;
     float TargetX = 0.0f;
     float TargetY = 0.0f;
@@ -95,6 +97,8 @@ struct GHGuildAsset
     float Y = 0.0f;
     float Z = 0.0f;
     float O = 0.0f;
+
+    uint16_t w = 0;
 };
 
 // =====================================================
@@ -177,6 +181,8 @@ struct GHSpawnRecord
     float Y = 0.0f;
     float Z = 0.0f;
     float O = 0.0f;
+
+    uint16_t w = 0;
 };
 
 // =====================================================
