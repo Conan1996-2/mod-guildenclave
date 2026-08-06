@@ -518,9 +518,9 @@ bool GuildHouseMgr::PlaceAsset(Player* player, uint32_t assetId)
 
     LOG_INFO("server.loading", "GuildHouseMgr PlaceAsset spawning asset {}", assetId);
 
-    int32_t x = player->GetPositionX();
-    int32_t y = player->GetPositionY();
-    int32_t z = player->GetPositionZ();    
+    float x = player->GetPositionX();
+    float y = player->GetPositionY();
+    float z = player->GetPositionZ();    
     
     player->UpdateGroundPositionZ(x, y, z);
     
