@@ -16,6 +16,8 @@ public:
     bool LoadAll() const;
     bool AllWander() const;
 
+    int16_t WanderDistance() const;
+
     double GetRefundPercent() const;
 
 private:
@@ -23,9 +25,11 @@ private:
     GuildHouseConfig() = default;
 
     bool _enabled = false;
-    bool _allWander = true;
+    bool _allWander = false;
 
     uint8_t _free = false;
+
+    int16_t _wanderDistance = 0;
 
     double _refundPercent = 0;
 };
