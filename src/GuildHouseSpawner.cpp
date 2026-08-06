@@ -1,9 +1,10 @@
 #include "GuildHouseSpawner.h"
 
+#include "GuildHouseConfig.h"
+#include "GuildHouseTypes.h"
 #include "GuildHouseMgr.h"
 #include "GuildHousePhaseMgr.h"
 #include "GuildHouseCatalogMgr.h"
-#include "GuildHouseTypes.h"
 
 #include "MapMgr.h"
 #include "DatabaseEnv.h"
@@ -108,7 +109,7 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
         float co = Position::NormalizeOrientation(o + component.OOffset);
 
         if(GuildHouseUtil::HasFlag(component.SpawnFlags, GH_SPAWN_CREATURE))
-            SpawnCreature(guildId, assetId, phase->PhaseMask, phase->MapId, component.Entry, cx, cy, cz, co);
+            SpawnCreature(guildId, assetId, phase->PhaseMask, phase->MapId, component.Entry, cx, cy, cz, co, w);
 
         if(GuildHouseUtil::HasFlag(component.SpawnFlags, GH_SPAWN_GAMEOBJECT))
             SpawnGameObject(guildId, assetId, phase->PhaseMask, phase->MapId, component.Entry, cx, cy, cz, co);
@@ -133,8 +134,8 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
         return false;
     }
 
-    if (sConfig->doWander && w== 0)
-        w = 10;
+    if (sGuildHouseConfig.AllWander() && w== 0)
+        w = sGuildHouseConfig.WanderDistance();
 
     if (w > 0)
     {
