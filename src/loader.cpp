@@ -14,7 +14,7 @@ void AddGuildHouseScripts()
     //
     // Startup
     //
-    //AddSC_GuildHouseWorld();
+    AddSC_GuildHouseWorld();
 
     //
     // Systems
