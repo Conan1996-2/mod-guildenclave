@@ -4,6 +4,7 @@
 #include "MotionMaster.h"
 #include "GuildHouseMgr.h"
 
+/*
 GuildHouseNPCMovement::GuildHouseNPCMovement() : PlayerScript("GuildHouseNPCMovement")
 {
 }
@@ -23,6 +24,7 @@ void GuildHouseNPCMovement::OnCreatureInteraction(Player* player, Creature* crea
 
     creature->m_Events.AddEvent(new ResumeGuildHouseMovementEvent(creature), creature->m_Events.CalculateTime(30000));
 }
+*/
 
 ResumeGuildHouseMovementEvent::ResumeGuildHouseMovementEvent(Creature* creature) : _creature(creature)
 {
@@ -38,5 +40,5 @@ bool ResumeGuildHouseMovementEvent::Execute(uint64 /*time*/, uint32 /*diff*/)
 
 void AddSC_GuildHouseNPCMovementScripts()
 {
-   new GuildHouseNPCMovement();
+//   new GuildHouseNPCMovement();
 }
