@@ -699,7 +699,7 @@ bool GuildHouseMgr::CreatePermanentSalesman(Player* player, uint32_t entry)
 
     return (sGuildHouseSpawner.SpawnCreature(guildId, 0, phaseMask, player->GetMapId(), entry, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation(), 0));
 }
-
+/*
 // =====================================================
 // Script Registration
 // =====================================================
@@ -723,5 +723,6 @@ public:
 
 void AddSC_GuildHouseMgr()
 {
-    new GuildHouseWorldScript();
+   // new GuildHouseWorldScript();
 }
+*/
