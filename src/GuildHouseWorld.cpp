@@ -1,17 +1,18 @@
+#include "GuildHouseConfig.h"
+
 #include "GuildHouseWorld.h"
 
 #include "GuildHouseMgr.h"
 #include "GuildHousePhaseMgr.h"
 #include "GuildHouseSpawner.h"
 
-
-
 void GuildHouseWorldScript::OnStartup()
 {
     //
     // Load database definitions
     //
-
+    sGuildHouseConfig.Load();
+    
     sGuildHouseMgr.Load();
 
     sGuildHousePhaseMgr.Load();
