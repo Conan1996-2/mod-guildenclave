@@ -19,7 +19,7 @@ void AddGuildHouseScripts()
     //
     // Systems
     //
-    AddSC_GuildHouseMgr();
+//    AddSC_GuildHouseMgr();
     AddSC_GuildHouseScripts();
 
     //
