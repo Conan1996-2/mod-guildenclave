@@ -22,15 +22,15 @@ void GuildHouseNPCMovement::OnCreatureInteraction(Player* player, Creature* crea
     creature->StopMoving();
     creature->GetMotionMaster()->MoveIdle();
 
-    creature->m_Events.AddEvent(new ResumeGuildHouseMovementEvent(creature), creature->m_Events.CalculateTime(30000));
+    creature->m_Events.AddEvent(new ResumeCreatureMovementEvent (creature), creature->m_Events.CalculateTime(30000));
 }
 */
 
-ResumeGuildHouseMovementEvent::ResumeGuildHouseMovementEvent(Creature* creature) : _creature(creature)
+ResumeGuildHouseMovementEvent::ResumeCreatureMovementEvent (Creature* creature) : _creature(creature)
 {
 }
 
-bool ResumeGuildHouseMovementEvent::Execute(uint64 /*time*/, uint32 /*diff*/)
+bool ResumeCreatureMovementEvent ::Execute(uint64 /*time*/, uint32 /*diff*/)
 {
     if (_creature && _creature->IsInWorld())
         _creature->GetMotionMaster()->Initialize();
