@@ -77,7 +77,7 @@ uint32_t GuildHousePhaseMgr::CreatePhase(uint32_t guildId, uint32_t locationId)
 
     Field* fields = result->Fetch();
 
-    uint32_t phaseMask = GeneratePhaseMask();
+    uint32_t phaseMask = GeneratePhaseMask(locationId);
     if (!phaseMask)
         return 0;
 
