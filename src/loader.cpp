@@ -24,7 +24,7 @@ void AddGuildHouseScripts()
     // Gameplay
     //
     AddSC_GuildHouseCommands();
-    //AddSC_GuildHouseNPCMovementScripts();
+    AddSC_GuildHouseNPCMovementScripts();
     
     //
     // NPCs
