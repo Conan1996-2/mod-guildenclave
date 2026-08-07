@@ -17,8 +17,8 @@ public:
         uint32 spawnId = creature->GetSpawnId();
 
         // Check if this is one of your guild house NPCs
-        if (!sGuildHouseMgr.IsGuildHouseCreature(spawnId))
-            return;
+        //if (!sGuildHouseMgr.IsGuildHouseCreature(spawnId))
+        //    return;
 
         // Stop wandering
         creature->StopMoving();
