@@ -1,38 +1,23 @@
-#include "GuildHouseConfig.h"
-
 #include "GuildHouseWorld.h"
 
-#include "GuildHouseMgr.h"
+#include "GuildHouseConfig.h"
+#include "GuildHouseCatalogMgr.h"
 #include "GuildHousePhaseMgr.h"
+#include "GuildHouseMgr.h"
 #include "GuildHouseSpawner.h"
-
-void GuildHouseWorldScript::OnStartup()
-{
-    //
-    // Load database definitions
-    //
-    sGuildHouseConfig.Load();
-    
-    //sGuildHouseMgr.Load();
-
-    sGuildHousePhaseMgr.Load();
-
-
-    //
-    // Restore placed assets
-    //
-
-    sGuildHouseSpawner.LoadPlacedAssets();
-}
-
-
 
 void GuildHouseWorldScript::OnAfterConfigLoad(bool)
 {
-
+    sGuildHouseConfig.Load();
 }
 
-
+void GuildHouseWorldScript::OnStartup()
+{
+    sGuildHouseCatalogMgr.Load();
+    sGuildHousePhaseMgr.Load();
+    sGuildHouseMgr.Load();
+    sGuildHouseSpawner.LoadPlacedAssets();
+}
 
 void AddSC_GuildHouseWorld()
 {
