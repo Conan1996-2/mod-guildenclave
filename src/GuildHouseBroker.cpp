@@ -26,7 +26,8 @@ namespace
 
 bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
 {
-    creature->PauseMovement(30000); // 30 seconds
+    creature->GetMotionMaster()->MoveIdle();
+    creature->m_Events.AddEvent(new ResumeCreatureMovementEvent(creature), creature->m_Events.CalculateTime(30000));
     
     ClearGossipMenuFor(player);
 
