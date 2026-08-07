@@ -26,6 +26,8 @@ namespace
 
 bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
 {
+    creature->PauseMovement(30000); // 30 seconds
+    
     ClearGossipMenuFor(player);
 
     Guild* guild = player->GetGuild();
