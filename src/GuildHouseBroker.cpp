@@ -1,5 +1,6 @@
 #include "GuildHouseBroker.h"
 
+#include "GuildHouseNPCMovement.h"
 #include "GuildHouseMgr.h"
 #include "GuildHouseConfig.h"
 #include "GuildHouseDefines.h"
