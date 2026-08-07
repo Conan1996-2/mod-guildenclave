@@ -242,8 +242,32 @@ bool GuildHousePhaseMgr::IsMember(Player* player) const
 // =====================================================
 // Phase generator
 // =====================================================
-uint32_t GuildHousePhaseMgr::GeneratePhaseMask()
+uint32_t GuildHousePhaseMgr::GeneratePhaseMask(uint32_t locationId)
 {
+    std::unordered_set<uint32_t> usedMasks;
+
+    QueryResult result = CharacterDatabase.Query("SELECT gp.phaseMask FROM guildhouse_phase gp INNER JOIN guildhouse gh ON gp.guildId = gh.guildId WHERE gh.locationId = {}", locationId);
+    if (result)
+    {
+        do
+        {
+            usedMasks.insert(result->Fetch()[0].Get<uint32>());
+        }
+        while (result->NextRow());
+    }
+
+    for (uint32_t mask = 2; mask <= (1u << 30); mask <<= 1)
+    {
+        if (usedMasks.find(mask) == usedMasks.end())
+        {
+            LOG_INFO("server.loading", "available phase masks for location {}: {}", locationId, mask);
+            return mask;
+        }
+    }
+
+    LOG_INFO("server.loading", "No available phase masks for location {}", locationId);
+    return 0;
+/*    
     static uint32_t nextMask = 2;
 
     while(nextMask && nextMask <= (1 << 30))
@@ -266,4 +290,5 @@ uint32_t GuildHousePhaseMgr::GeneratePhaseMask()
     }
 
     return 0;
+    */
 }
