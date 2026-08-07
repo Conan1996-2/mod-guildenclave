@@ -8,19 +8,15 @@ class GuildHouseWorldScript : public WorldScript
 {
 public:
 
-    GuildHouseWorldScript()
-        : WorldScript("GuildHouseWorldScript")
+    GuildHouseWorldScript() : WorldScript("GuildHouseWorldScript")
     {
     }
-
 
     void OnAfterConfigLoad(bool reload) override;
 
     void OnStartup() override;
 };
 
-
 void AddSC_GuildHouseWorld();
-
 
 #endif
