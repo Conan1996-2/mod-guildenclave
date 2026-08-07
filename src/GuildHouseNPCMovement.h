@@ -3,7 +3,6 @@
 
 #include "ScriptMgr.h"
 
-
 class Player;
 class Creature;
 
@@ -18,7 +17,7 @@ private:
     Creature* _creature;
 };
 
-
+/*
 class GuildHouseNPCMovement : public PlayerScript
 {
 public:
@@ -26,7 +25,7 @@ public:
 
     void OnCreatureInteraction(Player* player, Creature* creature) override;
 };
-
+*/
 
 void AddSC_GuildHouseNPCMovementScripts();
 
