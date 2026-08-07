@@ -40,7 +40,7 @@ private:
 
     GuildHousePhaseMgr() = default;
 
-    uint32_t GeneratePhaseMask();
+    uint32_t GeneratePhaseMask(uint32_t locationId);
     bool AddMember(uint32_t guildId, uint64_t guid);
     bool RemoveMember(uint32_t guildId, uint64_t guid);
 
