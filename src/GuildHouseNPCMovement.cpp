@@ -26,7 +26,7 @@ void GuildHouseNPCMovement::OnCreatureInteraction(Player* player, Creature* crea
 }
 */
 
-ResumeGuildHouseMovementEvent::ResumeCreatureMovementEvent (Creature* creature) : _creature(creature)
+ResumeCreatureMovementEvent ::ResumeCreatureMovementEvent (Creature* creature) : _creature(creature)
 {
 }
 
