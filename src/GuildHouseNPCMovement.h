@@ -1,8 +1,7 @@
 class ResumeCreatureMovementEvent : public BasicEvent
 {
 public:
-    explicit ResumeCreatureMovementEvent(Creature* creature)
-        : _creature(creature) {}
+    explicit ResumeCreatureMovementEvent(Creature* creature) : _creature(creature) {}
 
     bool Execute(uint64 /*time*/, uint32 /*diff*/) override
     {
