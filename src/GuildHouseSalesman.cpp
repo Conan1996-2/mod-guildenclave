@@ -137,7 +137,17 @@ void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creat
 // =====================================================
 bool GuildHouseSalesman::OnGossipHello(Player* player, Creature* creature)
 {
-    creature->PauseMovement(30000); // 30 seconds
+    creature->GetMotionMaster()->MoveIdle();
+    creature->m_Events.AddEvent(new BasicEvent([creature](uint64 /*time*/, uint32 /*diff*/) -> bool
+    {
+        if (creature && creature->IsInWorld())
+        {
+            creature->GetMotionMaster()->Initialize();
+        }
+
+        return true;
+    }),
+    creature->m_Events.CalculateTime(30000));
     
     ClearGossipMenuFor(player);
 
