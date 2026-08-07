@@ -137,11 +137,16 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
     if (sGuildHouseConfig.AllWander() && w== 0)
         w = sGuildHouseConfig.WanderDistance();
 
+    LOG_INFO("server.loading", ">> Checking Wander: {}, {}", sGuildHouseConfig.AllWander(), w);
+
     if (w > 0)
     {
         creature->SetWanderDistance(w);
         creature->SetDefaultMovementType(MovementGeneratorType::RANDOM_MOTION_TYPE);
     }
+
+    LOG_INFO("server.loading", ">> New w: {}, {}", sGuildHouseConfig.AllWander(), w);
+
     creature->SaveToDB(mapId, (1 << map->GetSpawnMode()), phaseMask);
     uint32 spawnId = creature->GetSpawnId();
     creature->CleanupsBeforeDelete();
