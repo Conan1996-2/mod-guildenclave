@@ -1,52 +1,40 @@
-#include "ScriptMgr.h"
-#include "Player.h"
+#include "GuildHouseNPCMovement.h"
+
 #include "Creature.h"
 #include "MotionMaster.h"
 #include "GuildHouseMgr.h"
 
-class GuildHouseNPCMovement : public PlayerScript
+GuildHouseNPCMovement::GuildHouseNPCMovement() : PlayerScript("GuildHouseNPCMovement")
 {
-public:
-    GuildHouseNPCMovement() : PlayerScript("GuildHouseNPCMovement") {}
+}
 
-    void OnCreatureInteraction(Player* player, Creature* creature) override
-    {
-        if (!creature)
-            return;
-
-        uint32 spawnId = creature->GetSpawnId();
-
-        // Check if this is one of your guild house NPCs
-        //if (!sGuildHouseMgr.IsGuildHouseCreature(spawnId))
-        //    return;
-
-        // Stop wandering
-        creature->StopMoving();
-        creature->GetMotionMaster()->MoveIdle();
-
-        // Resume after 30 seconds
-        creature->m_Events.AddEvent(new ResumeCreatureMovementEvent(creature), creature->m_Events.CalculateTime(30000));
-    }
-};
-
-class ResumeCreatureMovementEvent : public BasicEvent
+void GuildHouseNPCMovement::OnCreatureInteraction(Player* player, Creature* creature)
 {
-public:
-    explicit ResumeCreatureMovementEvent(Creature* creature) : _creature(creature) {}
+    if (!creature)
+        return;
 
-    bool Execute(uint64 /*time*/, uint32 /*diff*/) override
-    {
-        if (_creature && _creature->IsInWorld())
-        {
-            _creature->GetMotionMaster()->Initialize();
-        }
+    uint32 spawnId = creature->GetSpawnId();
 
-        return true;
-    }
+//    if (!sGuildHouseMgr.IsGuildHouseCreature(spawnId))
+//        return;
 
-private:
-    Creature* _creature;
-};
+    creature->StopMoving();
+    creature->GetMotionMaster()->MoveIdle();
+
+    creature->m_Events.AddEvent(new ResumeGuildHouseMovementEvent(creature), creature->m_Events.CalculateTime(30000));
+}
+
+ResumeGuildHouseMovementEvent::ResumeGuildHouseMovementEvent(Creature* creature) : _creature(creature)
+{
+}
+
+bool ResumeGuildHouseMovementEvent::Execute(uint64 /*time*/, uint32 /*diff*/)
+{
+    if (_creature && _creature->IsInWorld())
+        _creature->GetMotionMaster()->Initialize();
+
+    return true;
+}
 
 void AddSC_GuildHouseNPCMovementScripts()
 {
