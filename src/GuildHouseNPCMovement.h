@@ -17,7 +17,7 @@ private:
     Creature* _creature;
 };
 
-void AddGuildHouseNPCMovementScripts()
+void AddSC_GuildHouseNPCMovementScripts()
 {
-    new GuildHouseNPCMovement();
+   // new GuildHouseNPCMovement();
 }
