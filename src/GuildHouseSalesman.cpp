@@ -137,6 +137,8 @@ void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creat
 // =====================================================
 bool GuildHouseSalesman::OnGossipHello(Player* player, Creature* creature)
 {
+    creature->PauseMovement(30000); // 30 seconds
+    
     ClearGossipMenuFor(player);
 
     if (!ValidateSalesmanAccess(player, creature))
