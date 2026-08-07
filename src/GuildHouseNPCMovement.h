@@ -2,7 +2,7 @@
 #define GUILD_HOUSE_NPC_MOVEMENT_H
 
 #include "ScriptMgr.h"
-#include "BasicEvent.h"
+
 
 class Player;
 class Creature;
