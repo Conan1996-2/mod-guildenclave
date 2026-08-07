@@ -13,7 +13,7 @@ void GuildHouseWorldScript::OnStartup()
     //
     sGuildHouseConfig.Load();
     
-    sGuildHouseMgr.Load();
+    //sGuildHouseMgr.Load();
 
     sGuildHousePhaseMgr.Load();
 
