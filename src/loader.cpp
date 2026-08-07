@@ -6,6 +6,7 @@ void AddSC_GuildHouseWorld();
 void AddSC_GuildHouseBroker();
 void AddSC_GuildHouseSalesman();
 void AddSC_GuildHouseCommands();
+void AddSC_GuildHouseNPCMovementScripts();
 void AddSC_GuildHouseScripts();
 
 void AddGuildHouseScripts()
