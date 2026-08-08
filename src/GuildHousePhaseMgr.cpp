@@ -53,6 +53,8 @@ void GuildHousePhaseMgr::Load()
             LOG_ERROR("server.loading", "GuildHousePhaseMgr: Missing guildhouse location {} for guild {}", locationId, phase.GuildId);
             continue;
         }
+        
+        CharacterDatabase.Execute("UPDATE guildhouse_phase SET activeMembers=0 WHERE guildId={}", phase.GuildId);
 
         _phases.emplace(phase.GuildId, phase);
     } while(result->NextRow());
@@ -149,6 +151,9 @@ bool GuildHousePhaseMgr::AddMember(uint32_t guildId, uint64_t guid)
         return false;
 
     itr->second.Members.insert(guid);
+    
+    uint32_t activeMembers = static_cast<uint32_t>(itr->second.Members.size());
+    CharacterDatabase.Execute( "UPDATE guildhouse_phase SET activeMembers={} WHERE guildId={}", activeMembers, guildId);
     return true;
 }
 
@@ -159,6 +164,9 @@ bool GuildHousePhaseMgr::RemoveMember(uint32_t guildId, uint64_t guid)
         return false;
 
     itr->second.Members.erase(guid);
+
+    uint32_t activeMembers = static_cast<uint32_t>(itr->second.Members.size());
+    CharacterDatabase.Execute( "UPDATE guildhouse_phase " "SET activeMembers={} WHERE guildId={}", activeMembers, guildId);
     return true;
 }
 
@@ -267,28 +275,4 @@ uint32_t GuildHousePhaseMgr::GeneratePhaseMask(uint32_t locationId)
 
     LOG_INFO("server.loading", "No available phase masks for location {}", locationId);
     return 0;
-/*    
-    static uint32_t nextMask = 2;
-
-    while(nextMask && nextMask <= (1 << 30))
-    {
-        uint32_t candidate = nextMask;
-        nextMask <<= 1;
-        bool used = false;
-
-        for(auto const& [guildId, phase] : _phases)
-        {
-            if(phase.PhaseMask == candidate)
-            {
-                used = true;
-                break;
-            }
-        }
-
-        if(!used)
-            return candidate;
-    }
-
-    return 0;
-    */
 }
