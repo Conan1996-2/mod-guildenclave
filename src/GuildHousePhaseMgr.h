@@ -34,7 +34,7 @@ public:
     // =====================================================
     bool HasPhase(uint32_t guildId) const;
     uint32_t GetPhaseMask(uint32_t guildId) const;
-    const GHPhaseRecord* GetPhase(uint32_t guildId) const;
+    const GHGuildHouse* GetPhase(uint32_t guildId) const;
 
 private:
 
@@ -45,9 +45,6 @@ private:
     bool RemoveMember(uint32_t guildId, uint64_t guid);
 
 private:
-
-    // guildId -> phase
-    std::unordered_map<uint32_t, GHPhaseRecord> _phases;
 
 };
 
