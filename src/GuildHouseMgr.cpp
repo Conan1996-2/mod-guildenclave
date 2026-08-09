@@ -33,7 +33,7 @@ bool GuildHouseMgr::HasPhase(uint32_t guildId) const
     return sGuildHousePhaseMgr.HasPhase(guildId);
 }
 
-const GHPhaseRecord* GuildHouseMgr::GetPhase(uint32_t guildId) const
+const GHGuildHouse* GuildHouseMgr::GetPhase(uint32_t guildId) const
 {
     return sGuildHousePhaseMgr.GetPhase(guildId);
 }
