@@ -21,7 +21,7 @@ public:
     // Phase
     // =====================================================
     bool HasPhase(uint32_t guildId) const;
-    const GHPhaseRecord* GetPhase(uint32_t guildId) const;
+    const GHGuildHouse* GetPhase(uint32_t guildId) const;
     uint32_t GetPhaseMask(uint32_t guildId) const;
     uint32_t CreatePhase(uint32_t guildId, uint32_t locationId);
     bool EnterPhase(Player* player, uint32_t guildId);
