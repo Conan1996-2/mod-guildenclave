@@ -22,6 +22,25 @@ struct GHCategory
 };
 
 // =====================================================
+// Catalog Item
+// =====================================================
+struct GHCatalog
+{
+    uint32_t CatalogId = 0;
+    uint32_t CategoryId = 0;
+    std::string Name;
+
+    uint32_t Price = 0;
+
+    GHSpawnFlags SpawnFlags = GH_SPAWN_NONE;
+    GHBehaviorFlags BehaviorFlags = GH_BEHAVIOR_NONE;
+
+    bool Enabled = false;
+
+    std::vector<GHCatalogAsset> Components;
+};
+
+// =====================================================
 // Catalog Component
 //
 // Individual component belonging to a catalog item.
@@ -55,25 +74,6 @@ struct GHCatalogAsset
 
     uint32_t ChildCatalogId = 0;
     uint16_t SortOrder = 0;
-};
-
-// =====================================================
-// Catalog Item
-// =====================================================
-struct GHCatalog
-{
-    uint32_t CatalogId = 0;
-    uint32_t CategoryId = 0;
-    std::string Name;
-
-    uint32_t Price = 0;
-
-    GHSpawnFlags SpawnFlags = GH_SPAWN_NONE;
-    GHBehaviorFlags BehaviorFlags = GH_BEHAVIOR_NONE;
-
-    bool Enabled = false;
-
-    std::vector<GHCatalogAsset> Components;
 };
 
 // =====================================================
@@ -127,40 +127,6 @@ struct GHGuildSpawn
 };
 
 // =====================================================
-// Guild Phase Record
-//
-// Replaces Guild Instance.
-//
-// One phase belongs to one guild.
-//
-// The phase mask is the guild house instance.
-// =====================================================
-struct GHPhaseRecord
-{
-    uint32_t GuildId = 0;
-    uint32_t LocationId = 0;
-
-    uint32_t PhaseMask = 0;
-    uint32_t MapId = 0;
-
-    float X = 0.0f;
-    float Y = 0.0f;
-    float Z = 0.0f;
-    float O = 0.0f;
-
-    // Boundary
-    float MinX = 0.0f;
-    float MaxX = 0.0f;
-    float MinY = 0.0f;
-    float MaxY = 0.0f;
-
-    // Online players currently inside 
-    std::unordered_set<uint64_t> Members;
-
-     bool Active = false;
-};
-
-// =====================================================
 // Permanent Spawn Registry
 //
 // Stored in guildhouse_spawn
@@ -188,31 +154,8 @@ struct GHSpawnRecord
 };
 
 // =====================================================
-// Guild House Ownership
-//
-// One house per guild.
-//
-// Phase owns the house.
+// Locations and constraints for each Guild House
 // =====================================================
-struct GHGuildHouse
-{
-    uint32_t GuildId = 0;
-    uint8_t Team = 0;
-    uint32_t OwnerGuid = 0;
-    uint8_t RequiredGuildRank = 0;
-    uint32_t LocationId = 0;
-
-    uint64_t PurchasePrice = 0;
-
-    uint32_t PhaseMask = 0;
-    std::unordered_map<uint32_t, GHGuildAsset> Assets;
-    std::vector<GHGuildSpawn> Spawns;
-};
-
-// =====================================================
-// Guild House Location
-// =====================================================
-
 struct GHLocation
 {
     uint32_t Id = 0;
@@ -231,6 +174,32 @@ struct GHLocation
 
     uint64_t Price = 0;
     bool Enabled = false;
+};
+
+// =====================================================
+// Guild House Ownership
+//
+// One house per guild.
+//
+// Phase owns the house.
+// =====================================================
+struct GHGuildHouse
+{
+    uint32_t GuildId = 0;
+    uint8_t Team = 0;
+
+    uint32_t OwnerGuid = 0;
+    uint8_t RequiredGuildRank = 0;
+
+    uint32_t LocationId = 0;
+    uint64_t PurchasePrice = 0;
+
+    uint32_t PhaseMask = 0;
+
+    std::unordered_map<uint32_t, GHGuildAsset> Assets;
+    std::vector<GHGuildSpawn> Spawns;
+
+    std::unordered_set<uint64_t> Members;
 };
 
 // =====================================================
