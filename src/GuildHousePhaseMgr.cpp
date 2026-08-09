@@ -117,12 +117,12 @@ bool GuildHousePhaseMgr::EnterPhase(Player* player, uint32_t guildId)
     if (!phase)
         return false;
 
-    player->SetPhaseMask(phase->PhaseMask, true);
-    player->SetRestFlag(REST_FLAG_IN_TAVERN);
-
     AddMember(guildId, player->GetGUID().GetCounter());
 
     player->TeleportTo(phase->MapId, phase->X, phase->Y, phase->Z, phase->O);
+    player->SetPhaseMask(phase->PhaseMask, true);
+    player->SetRestFlag(REST_FLAG_IN_TAVERN);
+    
     return true;
 }
 
@@ -146,6 +146,8 @@ bool GuildHousePhaseMgr::LeavePhase(Player* player)
 // =====================================================
 bool GuildHousePhaseMgr::AddMember(uint32_t guildId, uint64_t guid)
 {
+    LOG_INFO("server.loading", "Addmember enter");
+
     auto itr = _phases.find(guildId);
     if (itr == _phases.end())
         return false;
@@ -154,11 +156,16 @@ bool GuildHousePhaseMgr::AddMember(uint32_t guildId, uint64_t guid)
     
     uint32_t activeMembers = static_cast<uint32_t>(itr->second.Members.size());
     CharacterDatabase.Execute( "UPDATE guildhouse_phase SET activeMembers={} WHERE guildId={}", activeMembers, guildId);
+    
+    LOG_INFO("server.loading", "Addmember to guild phase. Count: {}", activeMembers);
+    
     return true;
 }
 
 bool GuildHousePhaseMgr::RemoveMember(uint32_t guildId, uint64_t guid)
 {
+    LOG_INFO("server.loading", "Removemember enter");
+
     auto itr = _phases.find(guildId);
     if (itr == _phases.end())
         return false;
@@ -166,7 +173,10 @@ bool GuildHousePhaseMgr::RemoveMember(uint32_t guildId, uint64_t guid)
     itr->second.Members.erase(guid);
 
     uint32_t activeMembers = static_cast<uint32_t>(itr->second.Members.size());
-    CharacterDatabase.Execute( "UPDATE guildhouse_phase " "SET activeMembers={} WHERE guildId={}", activeMembers, guildId);
+    CharacterDatabase.Execute("UPDATE guildhouse_phase SET activeMembers={} WHERE guildId={}", activeMembers, guildId);
+    
+    LOG_INFO("server.loading", "Removemember from guild phase. Count: {}", activeMembers);
+    
     return true;
 }
 
