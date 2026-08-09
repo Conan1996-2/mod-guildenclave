@@ -21,7 +21,10 @@ public:
         timer = 3000; // check once per second
         
         if (sGuildHousePhaseMgr.IsMember(player))
+        {
             sGuildHousePhaseMgr.CheckBoundary(player);
+            player->SetRestFlag(REST_FLAG_IN_TAVERN);
+        }
     }
 
     void OnPlayerMapChanged(Player* player) override
