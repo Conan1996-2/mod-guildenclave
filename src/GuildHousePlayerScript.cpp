@@ -23,7 +23,7 @@ public:
         if (sGuildHousePhaseMgr.IsMember(player))
         {
             sGuildHousePhaseMgr.CheckBoundary(player);
-            player->SetRestFlag(REST_FLAG_IN_TAVERN);
+            //player->SetRestFlag(REST_FLAG_IN_TAVERN);
         }
     }
 
