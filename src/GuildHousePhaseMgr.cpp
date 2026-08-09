@@ -121,7 +121,6 @@ bool GuildHousePhaseMgr::EnterPhase(Player* player, uint32_t guildId)
 
     player->TeleportTo(phase->MapId, phase->X, phase->Y, phase->Z, phase->O);
     player->SetPhaseMask(phase->PhaseMask, true);
-    player->SetRestFlag(REST_FLAG_IN_CITY);
     return true;
 }
 
