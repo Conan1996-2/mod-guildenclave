@@ -10,37 +10,6 @@
 #include "GuildHouseDefines.h"
 
 // =====================================================
-// Catalog Category
-// =====================================================
-struct GHCategory
-{
-    uint32_t Id = 0;
-    uint32_t ParentId = 0;
-    std::string Name;
-    uint16_t SortOrder = 0;
-    bool Enabled = false;
-};
-
-// =====================================================
-// Catalog Item
-// =====================================================
-struct GHCatalog
-{
-    uint32_t CatalogId = 0;
-    uint32_t CategoryId = 0;
-    std::string Name;
-
-    uint32_t Price = 0;
-
-    GHSpawnFlags SpawnFlags = GH_SPAWN_NONE;
-    GHBehaviorFlags BehaviorFlags = GH_BEHAVIOR_NONE;
-
-    bool Enabled = false;
-
-    std::vector<GHCatalogAsset> Components;
-};
-
-// =====================================================
 // Catalog Component
 //
 // Individual component belonging to a catalog item.
@@ -74,6 +43,37 @@ struct GHCatalogAsset
 
     uint32_t ChildCatalogId = 0;
     uint16_t SortOrder = 0;
+};
+
+// =====================================================
+// Catalog Category
+// =====================================================
+struct GHCategory
+{
+    uint32_t Id = 0;
+    uint32_t ParentId = 0;
+    std::string Name;
+    uint16_t SortOrder = 0;
+    bool Enabled = false;
+};
+
+// =====================================================
+// Catalog Item
+// =====================================================
+struct GHCatalog
+{
+    uint32_t CatalogId = 0;
+    uint32_t CategoryId = 0;
+    std::string Name;
+
+    uint32_t Price = 0;
+
+    GHSpawnFlags SpawnFlags = GH_SPAWN_NONE;
+    GHBehaviorFlags BehaviorFlags = GH_BEHAVIOR_NONE;
+
+    bool Enabled = false;
+
+    std::vector<GHCatalogAsset> Components;
 };
 
 // =====================================================
