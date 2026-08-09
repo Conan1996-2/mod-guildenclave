@@ -121,6 +121,7 @@ bool GuildHousePhaseMgr::EnterPhase(Player* player, uint32_t guildId)
 
     player->TeleportTo(phase->MapId, phase->X, phase->Y, phase->Z, phase->O);
     player->SetPhaseMask(phase->PhaseMask, true);
+    player->SetRestFlag(REST_FLAG_IN_CITY);
     return true;
 }
 
@@ -135,7 +136,7 @@ bool GuildHousePhaseMgr::LeavePhase(Player* player)
     RemoveMember(player->GetGuildId(), player->GetGUID().GetCounter());
 
     player->SetPhaseMask(1, true);
-    player->RemoveRestFlag(REST_FLAG_IN_TAVERN);
+    player->SetRestFlag(REST_FLAG_IN_CITY);
     return true;
 }
 
