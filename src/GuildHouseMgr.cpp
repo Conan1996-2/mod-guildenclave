@@ -125,14 +125,12 @@ bool GuildHouseMgr::LeavePhase(Player* player)
     if (!player)
         return false;
 
-    if (RemoveMember(player->GetGuildId(), player->GetGUID().GetCounter()))
-    {
-        player->SetPhaseMask(1, true);
-        player->SetRestFlag(REST_FLAG_IN_CITY);
-        return true;
-    }
+    if (!RemoveMember(player->GetGuildId(), player->GetGUID().GetCounter()))
+        return false;
 
-    return false;
+    player->SetPhaseMask(1, true);
+    player->SetRestFlag(REST_FLAG_IN_CITY);
+    return true;
 }
 
 // =====================================================
@@ -169,10 +167,15 @@ bool GuildHouseMgr::RemoveMember(uint32_t guildId, uint64_t guid)
     if (!house)
         return false;
 
-    house->Members.erase(guid);
-
     LOG_INFO("server.loading", "Removemember from guild phase");
-    
+
+    house->Members.erase(guid);
+    if (house->Members.size() == 0)
+    {
+        sGuildHouseSpawner.RemoveAllAssets(guildId);
+        RemovePhase (guildId);
+    }
+
     return true;
 }
 
