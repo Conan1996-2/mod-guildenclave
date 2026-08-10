@@ -20,21 +20,33 @@ public:
     // =====================================================
     // Phase
     // =====================================================
-    bool HasPhase(uint32_t guildId) const;
-    const GHGuildHouse* GetPhase(uint32_t guildId) const;
     uint32_t GetPhaseMask(uint32_t guildId) const;
+    bool HasPhase(uint32_t guildId) const;
+    uint32_t GeneratePhaseMask(uint32_t locationId);
     uint32_t CreatePhase(uint32_t guildId, uint32_t locationId);
-    bool EnterPhase(Player* player, uint32_t guildId);
     bool RemovePhase(uint32_t guildId);
+    bool EnterPhase(Player* player, uint32_t guildId);
+    bool LeavePhase(Player* player);
 
     // =====================================================
-    // Ownership
+    // Guild House Ownership
+    // =====================================================
+    bool IsMember(Player* player) const;
+    bool AddMember(uint32_t guildId, uint64_t guid);
+    bool RemoveMember(uint32_t guildId, uint64_t guid);
+
+    // =====================================================
+    // Guild House Ownership
     // =====================================================
     bool HasGuildHouse(uint32_t guildId) const;
     const std::unordered_map<uint32_t, GHGuildHouse>& GetHouses() const;
     const GHGuildHouse* GetGuildHouse(uint32_t guildId) const;
     GHGuildHouse* GetGuildHouse(uint32_t guildId);
     const GHLocation* GetGuildLocation(uint32_t guildId) const;
+
+    // =====================================================
+    // Create and Sell Guild House
+    // =====================================================
     bool CreateGuildHouse(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId);
     bool SellGuildHouse(uint32_t guildId);
 
@@ -53,16 +65,24 @@ public:
     // =====================================================
     // Locations
     // =====================================================
-    const GHLocation*
-    GetLocation(uint32_t locationId) const;
-
-    std::vector<const GHLocation*>
-    GetLocations() const;
+    const GHLocation* GetLocation(uint32_t locationId) const;
+    std::vector<const GHLocation*> GetLocations() const;
 
     // =====================================================
     // Boundary
     // =====================================================
     bool IsInsideGuildHouseBoundary(uint32_t guildId, float x, float y) const;
+
+    // =====================================================
+    // Assets
+    // =====================================================
+    const GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId) const;
+    GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId);
+    std::vector<const GHGuildAsset*> GetPurchasedAssets(uint32_t guildId) const;
+    bool PlaceAsset(Player* player, uint32_t assetId);
+    bool MoveAsset(Player* player, uint32_t assetId);
+    bool StoreAsset(Player* player, uint32_t assetId);
+    bool SellAsset(Player* player, uint32_t assetId);
 
     // =====================================================
     // Catalog
@@ -74,18 +94,7 @@ public:
     // =====================================================
     bool HasSalesman(uint32_t guildId) const;
     bool CreatePermanentSalesman(Player* player, uint32_t entry);
-    void RecordSalesmanSpawn(uint32_t guildId, uint32_t spawnId, uint32_t mapId, uint32_t phaseMask, float x, float y, float z, float o);
-
-    // =====================================================
-    // Assets
-    // =====================================================
-    std::vector<const GHGuildAsset*> GetPurchasedAssets(uint32_t guildId) const;
-    const GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId) const;
-    GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId);
-    bool PlaceAsset(Player* player, uint32_t assetId);
-    bool MoveAsset(Player* player, uint32_t assetId);
-    bool StoreAsset(Player* player, uint32_t assetId);
-    bool SellAsset(Player* player, uint32_t assetId);
+    //void RecordSalesmanSpawn(uint32_t guildId, uint32_t spawnId, uint32_t mapId, uint32_t phaseMask, float x, float y, float z, float o);
 
 private:
 
