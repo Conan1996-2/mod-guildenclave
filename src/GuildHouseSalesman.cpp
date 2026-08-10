@@ -3,7 +3,6 @@
 #include "GuildHouseMgr.h"
 #include "GuildHouseCatalogMgr.h"
 #include "GuildHouseDefines.h"
-#include "GuildHousePhaseMgr.h"
 #include "GuildHouseNPCMovement.h"
 
 #include "Player.h"
