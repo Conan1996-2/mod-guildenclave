@@ -72,6 +72,7 @@ public:
     // Boundary
     // =====================================================
     bool IsInsideGuildHouseBoundary(uint32_t guildId, float x, float y) const;
+    bool CheckBoundary(Player* player);
 
     // =====================================================
     // Assets
