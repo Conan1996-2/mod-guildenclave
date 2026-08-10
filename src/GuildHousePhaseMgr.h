@@ -1,3 +1,4 @@
+/*
 #ifndef MOD_GUILDHOUSE_PHASE_MGR_H
 #define MOD_GUILDHOUSE_PHASE_MGR_H
 
@@ -51,3 +52,4 @@ private:
 #define sGuildHousePhaseMgr GuildHousePhaseMgr::Instance()
 
 #endif
+*/
