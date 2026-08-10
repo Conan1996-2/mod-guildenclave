@@ -3,7 +3,7 @@
 #include "GuildHouseMgr.h"
 
 #include "GuildHouseConfig.h"
-#include "GuildHousePhaseMgr.h"
+//#include "GuildHousePhaseMgr.h"
 #include "GuildHouseSpawner.h"
 #include "GuildHouseCatalogMgr.h"
 #include "GuildHouseDefines.h"
@@ -28,34 +28,152 @@ GuildHouseMgr& GuildHouseMgr::Instance()
 // =====================================================
 // Phase Management
 // =====================================================
-bool GuildHouseMgr::HasPhase(uint32_t guildId) const
-{
-    return sGuildHousePhaseMgr.HasPhase(guildId);
-}
-
-const GHGuildHouse* GuildHouseMgr::GetPhase(uint32_t guildId) const
-{
-    return sGuildHousePhaseMgr.GetPhase(guildId);
-}
-
 uint32_t GuildHouseMgr::GetPhaseMask(uint32_t guildId) const
 {
-    return sGuildHousePhaseMgr.GetPhaseMask(guildId);
+    const GHGuildHouse* house = GetGuildHouse(guildId);
+    if (!house)
+        return 0;
+    
+    return house->PhaseMask;
+}
+
+bool GuildHouseMgr::HasPhase(uint32_t guildId) const
+{
+    const GHGuildHouse* house = GetGuildHouse(guildId);
+    if (!house)
+        return false;
+    
+    return house->PhaseMask > 0;
+}
+
+uint32_t GuildHouseMgr::GeneratePhaseMask(uint32_t locationId)
+{
+    GHLocation* location = GetLocation(locationId);
+    if (!location)
+        return 0;
+
+    for (uint32_t mask = 2; mask <= (1u << 30); mask <<= 1)
+    {
+        if ((location->InUseBitMask & mask) == 0)
+        {
+            LOG_INFO("server.loading", "available phase masks for location {}: {}", locationId, mask);
+            location->InUseBitMask |= mask;
+            return mask;
+        }
+    }
+
+    LOG_INFO("server.loading", "No available phase masks for location {}", locationId);
+    return 0;
 }
 
 uint32_t GuildHouseMgr::CreatePhase(uint32_t guildId, uint32_t locationId)
 {
-    return sGuildHousePhaseMgr.CreatePhase(guildId, locationId);
-}
+    uint32_t phaseMask = GetPhaseMask(guildId);
+    if (phaseMask > 0)
+        return phaseMask;
 
-bool GuildHouseMgr::EnterPhase(Player* player, uint32_t guildId)
-{
-    return sGuildHousePhaseMgr.EnterPhase(player, guildId);
+    phaseMask = GeneratePhaseMask(locationId);
+    if (!phaseMask)
+        return 0;
+
+    LOG_INFO("module", "Created Guild House phase {} for guild {}", phaseMask, guildId);
+
+    return phaseMask;
 }
 
 bool GuildHouseMgr::RemovePhase(uint32_t guildId)
 {
-    return sGuildHousePhaseMgr.RemovePhase(guildId);
+    GHGuildHouse* house = GetGuildHouse(guildId);
+    if (!house || house->PhaseMask == 0)
+        return false;
+
+    GHLocation* location = GetLocation(house->LocationId);
+    if (!location)
+        return false;
+
+    location->InUseBitMask &= ~house->PhaseMask;
+    house->PhaseMask = 0;
+
+    return true;
+}
+
+bool GuildHouseMgr::EnterPhase(Player* player, uint32_t guildId)
+{
+    if (!player)
+        return false;
+
+    const GHGuildHouse* house = GetGuildHouse(guildId);
+    if (!house)
+        return false;
+
+    GHLocation* location = GetLocation(house->LocationId);
+    if (!location)
+        return false;
+
+    if (AddMember(guildId, player->GetGUID().GetCounter()))
+    {
+        player->TeleportTo(phase->MapId, phase->X, phase->Y, phase->Z, phase->O);
+        player->SetPhaseMask(phase->PhaseMask, true);
+        return true;
+    }
+
+    return false;
+}
+
+bool GuildHouseMgr::LeavePhase(Player* player)
+{
+    if (!player)
+        return false;
+
+    if (RemoveMember(player->GetGuildId(), player->GetGUID().GetCounter()))
+    {
+        player->SetPhaseMask(1, true);
+        player->SetRestFlag(REST_FLAG_IN_CITY);
+        return true;
+    }
+
+    return false;
+}
+
+// =====================================================
+// Guild House member 
+// =====================================================
+bool GuildHouseMgr::IsMember(Player* player) const
+{
+    if (!player)
+        return false;
+
+    const GHGuildHouse* house = GetGuildHouse(player->GetGuildId());
+    if (!house || house->PhaseMask == 0)
+        return false;
+    
+    return house->Members.find(player->GetGUID().GetCounter()) != house->Members.end();
+}
+
+bool GuildHouseMgr::AddMember(uint32_t guildId, uint64_t guid)
+{
+    GHGuildHouse* house = GetGuildHouse(guildId);
+    if (!house)
+        return false;
+
+    house->Members.insert(guid);
+
+    LOG_INFO("server.loading", "Addmember to guild phase {}. ", house->PhaseMask);
+
+    return true;
+}
+
+bool GuildHouseMgr::RemoveMember(uint32_t guildId, uint64_t guid)
+{
+    GHGuildHouse* house = GetGuildHouse(guildId);
+    if (!house)
+        return false;
+
+    house->Members.erase(guid);
+
+    LOG_INFO("server.loading", "Removemember from guild phase");
+    
+    return true;
 }
 
 // =====================================================
@@ -119,19 +237,21 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
     CharacterDatabase.Execute("INSERT INTO guildhouse (guildId,ownerGuid,faction,requiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, {}, 0, {}, {}, (NOW()))",
         guildId, ownerGuid, static_cast<uint8>(player->GetTeamId()), locationId, location->Price);
 
+/*
     uint32_t phaseMask = CreatePhase( guildId, locationId);
     if (!phaseMask)
     {
         CharacterDatabase.Execute("DELETE FROM guildhouse WHERE guildId={}", guildId);
         return false;
     }
-
+*/
+    
     GHGuildHouse house;
     house.GuildId = guildId;
     house.Team = static_cast<uint8>(player->GetTeamId());
     house.OwnerGuid = ownerGuid;
     house.LocationId = locationId;
-    house.PhaseMask = phaseMask;
+    house.PhaseMask = 0; //phaseMask;
     house.PurchasePrice = location->Price;
 
     _houses.emplace(guildId, house);
@@ -252,6 +372,8 @@ bool GuildHouseMgr::TeleportToGuildHouse(Player* player)
     {
         if (!CreatePhase(guildId, house->LocationId))
             return false;
+
+        // SPAWN OBJECTS HERE, NEW PHASE CREATED
     }
 
     return EnterPhase(player, guildId);
@@ -375,7 +497,7 @@ void GuildHouseMgr::Load()
     // -------------------------------------------------
     LOG_INFO("server.loading", "Loading GuildHouseMgr::phases");    
 
-    sGuildHousePhaseMgr.Load();
+    //sGuildHousePhaseMgr.Load();
 
     for(auto& [guildId, house] : _houses)
         house.PhaseMask = GetPhaseMask(guildId);
@@ -511,7 +633,7 @@ bool GuildHouseMgr::PlaceAsset(Player* player, uint32_t assetId)
     if (!house)
         return false;
 
-    if (!sGuildHousePhaseMgr.IsMember(player))
+    if (!IsMember(player))
         return false;
 
     GHGuildAsset* asset = GetAsset(guildId, assetId);
@@ -551,7 +673,7 @@ bool GuildHouseMgr::StoreAsset(Player* player, uint32_t assetId)
     if (!guildId)
         return false;
 
-    if (!sGuildHousePhaseMgr.IsMember(player))
+    if (!IsMember(player))
         return false;
 
     GHGuildAsset* asset = GetAsset(guildId, assetId);
@@ -586,7 +708,7 @@ bool GuildHouseMgr::SellAsset(Player* player, uint32_t assetId)
     if (!guildId)
         return false;
 
-    //if (!sGuildHousePhaseMgr.IsMember(player))
+    //if (!IsMember(player))
     //    return false;
 
     GHGuildHouse* house = GetGuildHouse(guildId);
@@ -715,7 +837,7 @@ public:
     void OnStartup() override
     {
         sGuildHouseCatalogMgr.Load();
-        sGuildHousePhaseMgr.Load();
+        //sGuildHousePhaseMgr.Load();
         sGuildHouseMgr.Load();
         sGuildHouseSpawner.LoadPlacedAssets();
     }
