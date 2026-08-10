@@ -36,7 +36,7 @@ public:
         if (!house)
             return;
 
-        GHLocation* location = sGuildHouseMgr.GetLocation(house->locationId);
+        GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
         if (!location)
             return;
 
