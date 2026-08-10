@@ -174,6 +174,7 @@ bool GuildHouseMgr::RemoveMember(uint32_t guildId, uint64_t guid)
     {
         sGuildHouseSpawner.RemoveAllAssets(guildId);
         RemovePhase (guildId);
+        LOG_INFO("server.loading", "Free up guild phase");
     }
 
     return true;
