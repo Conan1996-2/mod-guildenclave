@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "PlayerScript.h"
-#include "GuildHousePhaseMgr.h"
+#include "GuildHouseMgr.h"
 
 class GuildHousePlayerScript : public PlayerScript
 {
@@ -20,32 +20,36 @@ public:
     
         timer = 3000; // check once per second
         
-        if (sGuildHousePhaseMgr.IsMember(player))
+        if (sGuildHouseMgr.IsMember(player))
         {
-            sGuildHousePhaseMgr.CheckBoundary(player);
+            sGuildHouseMgr.CheckBoundary(player);
             player->SetRestFlag(REST_FLAG_IN_CITY);
         }
     }
 
     void OnPlayerMapChanged(Player* player) override
     {
-        if (!sGuildHousePhaseMgr.IsMember(player))
+        if (!sGuildHouseMgr.IsMember(player))
             return;
 
-        const GHPhaseRecord* phase = sGuildHousePhaseMgr.GetPhase(player->GetGuildId());
-        if (!phase)
+        const GHGuildHouse* house = sGuildHouseMgr.GetGuild(player->GetGuildId());
+        if (!house)
             return;
 
-        if (player->GetMapId() == phase->MapId)
+        GHLocation* location = sGuildHouseMgr.GetLocation(house->locationId);
+        if (!location)
+            return;
+
+        if (player->GetMapId() == location->MapId)
             return;
         
-        sGuildHousePhaseMgr.LeavePhase(player);
+        sGuildHouseMgr.LeavePhase(player);
     }
 
     void OnPlayerLogout(Player* player) override
     {
-        if (sGuildHousePhaseMgr.IsMember(player))
-            sGuildHousePhaseMgr.LeavePhase(player);
+        if (sGuildHouseMgr.IsMember(player))
+            sGuildHouseMgr.LeavePhase(player);
     }
 };
 
