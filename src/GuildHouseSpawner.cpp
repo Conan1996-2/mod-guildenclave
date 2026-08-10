@@ -3,7 +3,7 @@
 #include "GuildHouseConfig.h"
 #include "GuildHouseTypes.h"
 #include "GuildHouseMgr.h"
-#include "GuildHousePhaseMgr.h"
+//#include "GuildHousePhaseMgr.h"
 #include "GuildHouseCatalogMgr.h"
 
 #include "MapMgr.h"
@@ -70,16 +70,16 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
     if(HasExistingSpawn(guildId, assetId))
         return false;
 
-    const GHPhaseRecord* phase = sGuildHousePhaseMgr.GetPhase(guildId);
-    if(!phase)
-        return false;
-    
     const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId);
     if(!catalog)
         return false;
 
     GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
     if (!house)
+        return false;
+
+    GHLocation* location = sGuildHouseMgr.GetLocation(house->locationId);
+    if (!location)
         return false;
     
     uint8_t team = house->Team;    
@@ -109,10 +109,10 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
         float co = Position::NormalizeOrientation(o + component.OOffset);
 
         if(GuildHouseUtil::HasFlag(component.SpawnFlags, GH_SPAWN_CREATURE))
-            SpawnCreature(guildId, assetId, phase->PhaseMask, phase->MapId, component.Entry, cx, cy, cz, co, w);
+            SpawnCreature(guildId, assetId, house->PhaseMask, location->MapId, component.Entry, cx, cy, cz, co, w);
 
         if(GuildHouseUtil::HasFlag(component.SpawnFlags, GH_SPAWN_GAMEOBJECT))
-            SpawnGameObject(guildId, assetId, phase->PhaseMask, phase->MapId, component.Entry, cx, cy, cz, co);
+            SpawnGameObject(guildId, assetId, house->PhaseMask, location->MapId, component.Entry, cx, cy, cz, co);
     }
 
     return true;
