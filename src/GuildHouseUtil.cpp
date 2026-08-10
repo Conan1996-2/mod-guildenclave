@@ -1,8 +1,5 @@
 #include "GuildHouseUtil.h"
-
 #include "GuildHouseMgr.h"
-#include "GuildHousePhaseMgr.h"
-
 #include "GuildHouseTypes.h"
 
 #include "Guild.h"
@@ -53,7 +50,7 @@ namespace GuildHouseUtil
         //
         // Correct guild phase
         //
-        return sGuildHousePhaseMgr.IsMember(player);
+        return sGuildHouseMgr.IsMember(player);
     }
     
     // =====================================================
@@ -62,7 +59,7 @@ namespace GuildHouseUtil
     
     bool IsGuildHousePhase(uint32_t guildId, uint32_t phaseMask)
     {
-        uint32_t guildPhase = sGuildHousePhaseMgr.GetPhaseMask(guildId);
+        uint32_t guildPhase = sGuildHouseMgr.GetPhaseMask(guildId);
         if (!guildPhase)
             return false;
     
