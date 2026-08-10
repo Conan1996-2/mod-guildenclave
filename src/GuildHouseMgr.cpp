@@ -348,7 +348,7 @@ bool GuildHouseMgr::TeleportToGuildHouse(Player* player)
     if (!guildId)
         return false;
 
-    const GHGuildHouse* house = GetGuildHouse(guildId);
+    GHGuildHouse* house = GetGuildHouse(guildId);
     if (!house)
         return false;
 
