@@ -1,7 +1,6 @@
 #include "GuildHouseDefines.h"
 
 #include "GuildHouseMgr.h"
-#include "GuildHousePhaseMgr.h"
 #include "GuildHouseTypes.h"
 
 #include "Player.h"
@@ -94,7 +93,7 @@ namespace GuildHouseUtil
         //
         // Must have guild phase active
         //
-        uint32_t phaseMask = sGuildHousePhaseMgr.GetPhaseMask(guildId);
+        uint32_t phaseMask = sGuildHouseMgr.GetPhaseMask(guildId);
         if (!phaseMask)
             return false;
     
