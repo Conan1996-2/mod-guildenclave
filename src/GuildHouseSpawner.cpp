@@ -78,7 +78,7 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
     if (!house)
         return false;
 
-    GHLocation* location = sGuildHouseMgr.GetLocation(house->locationId);
+    GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
     if (!location)
         return false;
     
