@@ -32,7 +32,7 @@ public:
         if (!sGuildHouseMgr.IsMember(player))
             return;
 
-        const GHGuildHouse* house = sGuildHouseMgr.GetGuild(player->GetGuildId());
+        const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(player->GetGuildId());
         if (!house)
             return;
 
