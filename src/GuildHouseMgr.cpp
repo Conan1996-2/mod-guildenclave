@@ -379,6 +379,15 @@ const GHLocation* GuildHouseMgr::GetLocation(uint32_t locationId) const
     return &itr->second;
 }
 
+GHLocation* GuildHouseMgr::GetLocation(uint32_t locationId)
+{
+    auto itr = _locations.find(locationId);
+    if (itr == _locations.end())
+        return nullptr;
+
+    return &itr->second;
+}
+
 std::vector<const GHLocation*> GuildHouseMgr::GetLocations() const
 {
     std::vector<const GHLocation*> result;
