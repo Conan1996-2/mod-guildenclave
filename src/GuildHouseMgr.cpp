@@ -404,6 +404,27 @@ bool GuildHouseMgr::IsInsideGuildHouseBoundary(uint32_t guildId, float x, float 
     return x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY;
 }
 
+bool GuildHousePhaseMgr::CheckBoundary(Player* player)
+{
+    if (!IsMember(player))
+        return true;
+
+    const GHLocation* location = GetGuildLocation(player->GetGuildId());
+    if(!location)
+        return false;
+
+    float x = player->GetPositionX();
+    float y = player->GetPositionY();
+
+    if (x < location->MinX || x > location->MaxX || y < location->MinY || y > location->MaxY)
+    {
+        player->TeleportTo(location->MapId, location->X, location->Y, location->Z, location->O);
+        return false;
+    }
+
+    return true;
+}
+
 // =====================================================
 // Load
 // =====================================================
