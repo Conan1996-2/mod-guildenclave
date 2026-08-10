@@ -66,6 +66,7 @@ public:
     // Locations
     // =====================================================
     const GHLocation* GetLocation(uint32_t locationId) const;
+    GHLocation* GetLocation(uint32_t locationId);
     std::vector<const GHLocation*> GetLocations() const;
 
     // =====================================================
