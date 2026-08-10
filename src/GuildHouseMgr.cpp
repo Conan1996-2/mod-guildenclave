@@ -112,8 +112,8 @@ bool GuildHouseMgr::EnterPhase(Player* player, uint32_t guildId)
 
     if (AddMember(guildId, player->GetGUID().GetCounter()))
     {
-        player->TeleportTo(phase->MapId, phase->X, phase->Y, phase->Z, phase->O);
-        player->SetPhaseMask(phase->PhaseMask, true);
+        player->TeleportTo(location->MapId, location->X, location->Y, location->Z, location->O);
+        player->SetPhaseMask(house->PhaseMask, true);
         return true;
     }
 
