@@ -173,6 +173,9 @@ struct GHLocation
     float MaxY = 0.0f;
 
     uint64_t Price = 0;
+
+    uint32_t InUseBitMask = 0;
+
     bool Enabled = false;
 };
 
