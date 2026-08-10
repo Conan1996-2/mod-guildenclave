@@ -344,7 +344,7 @@ bool GuildHouseMgr::TeleportToGuildHouse(Player* player)
     if (!player)
         return false;
 
-    uint32_t guildId =player->GetGuildId();
+    uint32_t guildId = player->GetGuildId();
     if (!guildId)
         return false;
 
@@ -358,9 +358,12 @@ bool GuildHouseMgr::TeleportToGuildHouse(Player* player)
 
     if (!HasPhase(guildId))
     {
-        if (!CreatePhase(guildId, house->LocationId))
+        int32_t newPhase = CreatePhase(guildId, house->LocationId);
+        if (!newPhase)
             return false;
-
+        
+        house->PhaseMask = newPhase;
+        
         // SPAWN OBJECTS HERE, NEW PHASE CREATED
     }
 
