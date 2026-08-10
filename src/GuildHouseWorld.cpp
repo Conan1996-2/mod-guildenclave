@@ -2,7 +2,7 @@
 
 #include "GuildHouseConfig.h"
 #include "GuildHouseCatalogMgr.h"
-#include "GuildHousePhaseMgr.h"
+//#include "GuildHousePhaseMgr.h"
 #include "GuildHouseMgr.h"
 #include "GuildHouseSpawner.h"
 
@@ -14,7 +14,7 @@ void GuildHouseWorldScript::OnAfterConfigLoad(bool)
 void GuildHouseWorldScript::OnStartup()
 {
     sGuildHouseCatalogMgr.Load();
-    sGuildHousePhaseMgr.Load();
+//    sGuildHousePhaseMgr.Load();
     sGuildHouseMgr.Load();
     sGuildHouseSpawner.LoadPlacedAssets();
 }
