@@ -416,7 +416,7 @@ bool GuildHouseMgr::IsInsideGuildHouseBoundary(uint32_t guildId, float x, float 
     return x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY;
 }
 
-bool GuildHousePhaseMgr::CheckBoundary(Player* player)
+bool GuildHouseMgr::CheckBoundary(Player* player)
 {
     if (!IsMember(player))
         return true;
