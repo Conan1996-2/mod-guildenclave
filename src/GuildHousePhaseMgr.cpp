@@ -1,3 +1,4 @@
+/*
 #include "GuildHousePhaseMgr.h"
 
 #include "DatabaseEnv.h"
@@ -284,3 +285,4 @@ uint32_t GuildHousePhaseMgr::GeneratePhaseMask(uint32_t locationId)
     LOG_INFO("server.loading", "No available phase masks for location {}", locationId);
     return 0;
 }
+*/
