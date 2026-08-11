@@ -809,5 +809,28 @@ bool GuildHouseMgr::CreatePermanentSalesman(Player* player, uint32_t entry)
     if(!phaseMask)
         return false;
 
+    GHGuildHouse* house = GetGuildHouse(guildId);
+    if (!house)
+        return false;
+
+    CharacterDatabase.Execute("INSERT INTO guildhouse_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,wander,createdBy) VALUES ({},{},{},{},{},0,0,0,0,{},{})",
+        _nextAssetId, guildId, 0, 0, GH_ASSET_PLACED, 0, player->GetGUID().GetCounter());
+
+    uint32_t assetId = _nextAssetId++;
+
+    GHGuildAsset asset;
+    asset.AssetId = assetId;
+    asset.GuildId = guildId;
+    asset.CatalogId = 0;
+    asset.PurchasePrice = 0;
+    asset.Status = GH_ASSET_PLACED;
+    asset.X = player->GetPositionX();
+    asset.Y = player->GetPositionY();
+    asset.Z = player->GetPositionZ();
+    asset.O = player->GetOrientation();
+    asset.w = 0;
+
+    house->Assets.emplace(assetId, std::move(asset));
+    
     return (sGuildHouseSpawner.SpawnCreature(guildId, 0, phaseMask, player->GetMapId(), entry, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation(), 0));
 }
