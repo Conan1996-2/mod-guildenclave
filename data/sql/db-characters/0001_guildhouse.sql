@@ -45,20 +45,6 @@ CREATE TABLE `guildhouse_asset`
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS guildhouse_phase;
-CREATE TABLE guildhouse_phase
-(
-    guildId INT UNSIGNED NOT NULL,
-    phaseMask INT UNSIGNED NOT NULL,
-
-    activeMembers INT UNSIGNED NOT NULL DEFAULT 0,
-
-    PRIMARY KEY (guildId),
-    UNIQUE KEY idx_phaseMask (phaseMask)
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
-
 DROP TABLE IF EXISTS guildhouse_spawn;
 CREATE TABLE guildhouse_spawn
 (
@@ -77,34 +63,3 @@ CREATE TABLE guildhouse_spawn
     w INT
 );
 
-DROP TABLE IF EXISTS guildhouse_phase_object;
-CREATE TABLE guildhouse_phase_object
-(
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    guildId INT UNSIGNED NOT NULL,
-    phaseMask INT UNSIGNED NOT NULL,
-    assetId INT UNSIGNED NOT NULL,
-    spawnGuid INT UNSIGNED NOT NULL,
-
-    spawnType TINYINT UNSIGNED NOT NULL,
-    -- 0 creature
-    -- 1 gameobject
-
-    mapId INT UNSIGNED NOT NULL,
-
-    positionX FLOAT NOT NULL,
-    positionY FLOAT NOT NULL,
-    positionZ FLOAT NOT NULL,
-    orientation FLOAT NOT NULL,
-
-    PRIMARY KEY(id),
-
-    KEY idx_guild(guildId),
-    KEY idx_phase(phaseMask),
-    KEY idx_asset(assetId),
-    KEY idx_spawnGuid(spawnGuid)
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
-
-DROP TABLE IF EXISTS guildhouse_salesman;
