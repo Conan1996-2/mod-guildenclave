@@ -251,6 +251,8 @@ bool GuildHouseMgr::CreateGuildHouse(Player* player, uint32_t guildId, uint32_t 
 
     _houses.emplace(guildId, house);
 
+    PurchaseCatalogItem(player, 2);
+    
     return true;
 }
 
