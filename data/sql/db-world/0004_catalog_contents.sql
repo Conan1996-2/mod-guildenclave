@@ -1,6 +1,6 @@
 TRUNCATE TABLE `guildhouse_category`;
 INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`, `enabled`) VALUES
-    (0, 0, "Guild", 0, 1),
+    (999999999, 999999999, "Guild", 0, 1),
     (1000, 0, "NPC", 1, 1),
     (1100, 1000, "Class Trainers", 1, 1),
     (1200, 1000, "Manufacturing Trainers", 2, 1),
@@ -27,8 +27,8 @@ INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`
 
 TRUNCATE TABLE `guildhouse_catalog`;
 INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `spawnFlags`, `behaviorFlags`, `enabled`) VALUES
-    (0, 0, "Broker", 0, 1, 4, 1),
-    (1, 0, "Salesman", 0, 1, 4, 1),
+    (0, 999999999, "Broker", 0, 1, 4, 1),
+    (1, 999999999, "Salesman", 0, 1, 4, 1),
     
     (1101, 1100, "Death Knight", 500000, 0, 4, 1),
     (1102, 1100, "Druid", 500000, 1, 4, 1),
