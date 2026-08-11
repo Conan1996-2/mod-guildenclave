@@ -23,25 +23,6 @@ GuildHouseSpawner& GuildHouseSpawner::Instance()
 }
 
 // =====================================================
-// Startup loader
-// =====================================================
-void GuildHouseSpawner::LoadPlacedAssets()
-{
-    LOG_INFO("server.loading", "Loading Guild House phase spawns");
-
-    for (auto const& [guildId, house] : sGuildHouseMgr.GetHouses())
-    {
-        for (auto const& [assetId, asset] : house.Assets)
-        {
-            if (asset.Status != GH_ASSET_PLACED)
-                continue;
-
-            SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.w);
-        }
-    }
-}
-
-// =====================================================
 // Existing spawn
 // =====================================================
 bool GuildHouseSpawner::HasExistingSpawn(uint32_t guildId, uint32_t assetId)
@@ -116,6 +97,26 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
     }
 
     return true;
+}
+
+void GuildHouseSpawner::LoadPlacedAssets(uint32_t guildId)
+{
+    LOG_INFO("server.loading", "Loading Guild House assets for guild {}", guildId);
+
+    const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    if (!house)
+    {
+        LOG_INFO("server.loading", "No Guild House found for guild {}", guildId);
+        return;
+    }
+
+    for (auto const& [assetId, asset] : house->Assets)
+    {
+        if (asset.Status != GH_ASSET_PLACED)
+            continue;
+
+        SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.w);
+    }
 }
 
 // =====================================================
