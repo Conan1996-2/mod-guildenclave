@@ -207,7 +207,6 @@ bool GuildHouseCommandScript::HandleListAssets(ChatHandler* handler, char const*
     std::sort(assetIds.begin(), assetIds.end());
 
     for (uint32_t assetId : assetIds)
-//    for (auto const& [assetId, asset] : house->Assets)
     {
         GHGuildAsset const& asset = house->Assets.at(assetId);
         const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(asset.CatalogId);
@@ -221,7 +220,7 @@ bool GuildHouseCommandScript::HandleListAssets(ChatHandler* handler, char const*
             case GH_ASSET_DISABLED:   statusText = "Disabled";  break;
         }
 
-        handler->PSendSysMessage("Asset {} | {} | {}", assetId, catalog ? catalog->Name.c_str() : "Unknown", statusText);
+        handler->PSendSysMessage("Asset {} | {} | {}", assetId, catalog ? catalog->Name.c_str() : "Salesman", statusText);
     }
     
     return true;
