@@ -14,9 +14,8 @@ void GuildHouseWorldScript::OnAfterConfigLoad(bool)
 void GuildHouseWorldScript::OnStartup()
 {
     sGuildHouseCatalogMgr.Load();
-//    sGuildHousePhaseMgr.Load();
     sGuildHouseMgr.Load();
-    sGuildHouseSpawner.LoadPlacedAssets();
+
 }
 
 void AddSC_GuildHouseWorld()
