@@ -2,9 +2,7 @@
 
 #include "GuildHouseConfig.h"
 #include "GuildHouseCatalogMgr.h"
-//#include "GuildHousePhaseMgr.h"
 #include "GuildHouseMgr.h"
-#include "GuildHouseSpawner.h"
 
 void GuildHouseWorldScript::OnAfterConfigLoad(bool)
 {
@@ -15,7 +13,6 @@ void GuildHouseWorldScript::OnStartup()
 {
     sGuildHouseCatalogMgr.Load();
     sGuildHouseMgr.Load();
-
 }
 
 void AddSC_GuildHouseWorld()
