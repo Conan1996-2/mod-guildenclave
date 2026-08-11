@@ -107,9 +107,7 @@ bool GuildHouseCommandScript::HandleAddSalesman(ChatHandler* handler)
         return true;
     }
 
-    uint32 entry = player->GetTeamId() == TEAM_ALLIANCE ? 900002 : 900003;
     if (!sGuildHouseMgr.PurchaseCatalogItem(player, 2))
-//    if (!sGuildHouseMgr.CreatePermanentSalesman(player, entry))
         handler->PSendSysMessage("Failed creating Guild House salesman.");
     else
         handler->PSendSysMessage("Guild House salesman created.");
