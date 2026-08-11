@@ -123,7 +123,7 @@ void GuildHouseSpawner::LoadPlacedAssets(uint32_t guildId)
             if (!location)
                 return;
             
-            uint32 entry = player->GetTeamId() == TEAM_ALLIANCE ? 900002 : 900003;
+            uint32 entry = house->Team == TEAM_ALLIANCE ? 900002 : 900003;
             SpawnCreature(guildId, 0, house->PhaseMask, location->MapId, entry, asset.X, asset.Y, asset.Z, asset.O, 0);
         }
     }
