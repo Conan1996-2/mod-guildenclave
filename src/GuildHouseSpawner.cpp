@@ -115,7 +115,17 @@ void GuildHouseSpawner::LoadPlacedAssets(uint32_t guildId)
         if (asset.Status != GH_ASSET_PLACED)
             continue;
 
-        SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.w);
+        if (asset.CatalogId > 0)
+            SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.w);
+        else
+        {
+            GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
+            if (!location)
+                return;
+            
+            uint32 entry = player->GetTeamId() == TEAM_ALLIANCE ? 900002 : 900003;
+            SpawnCreature(guildId, 0, house->PhaseMask, location->MapId, entry, asset.X, asset.Y, asset.Z, asset.O, 0);
+        }
     }
 }
 
