@@ -91,13 +91,6 @@ public:
     // =====================================================
     bool PurchaseCatalogItem(Player* player, uint32_t catalogId);
 
-    // =====================================================
-    // Salesman
-    // =====================================================
-    bool HasSalesman(uint32_t guildId) const;
-    bool CreatePermanentSalesman(Player* player, uint32_t entry);
-    //void RecordSalesmanSpawn(uint32_t guildId, uint32_t spawnId, uint32_t mapId, uint32_t phaseMask, float x, float y, float z, float o);
-
 private:
 
     GuildHouseMgr() = default;
