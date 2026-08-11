@@ -1,6 +1,6 @@
 TRUNCATE TABLE `guildhouse_category`;
 INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`, `enabled`) VALUES
-    (0, 0, "Guild, 0, 1"),
+    (0, 0, "Guild", 0, 1),
     (1000, 0, "NPC", 1, 1),
     (1100, 1000, "Class Trainers", 1, 1),
     (1200, 1000, "Manufacturing Trainers", 2, 1),
