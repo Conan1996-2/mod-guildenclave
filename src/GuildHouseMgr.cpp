@@ -367,8 +367,7 @@ bool GuildHouseMgr::TeleportToGuildHouse(Player* player)
             return false;
         
         house->PhaseMask = newPhase;
-        
-        // SPAWN OBJECTS HERE, NEW PHASE CREATED
+        sGuildHouseSpawner.LoadPlacedAssets(guildId);
     }
 
     return EnterPhase(player, guildId);
