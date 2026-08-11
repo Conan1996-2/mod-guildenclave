@@ -24,7 +24,7 @@ public:
         {
             if (player->GetGuildId() == 0)
             {
-                sGuildHouseMgr.LeavePhase (player);
+//                sGuildHouseMgr.LeavePhase (player);
                 player->TeleportTo(player->m_homebindMapId, player->m_homebindX, player->m_homebindY, player->m_homebindZ, player->GetOrientation());
             }
             else
