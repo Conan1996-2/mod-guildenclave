@@ -1,4 +1,4 @@
-#include "GuildHouseCatalogMgr.h"
+#include "GuildEnclaveCatalogMgr.h"
 
 #include "DatabaseEnv.h"
 #include "QueryResult.h"
@@ -6,9 +6,9 @@
 
 #include <algorithm>
 
-GuildHouseCatalogMgr& GuildHouseCatalogMgr::Instance()
+GuildEnclaveCatalogMgr& GuildEnclaveCatalogMgr::Instance()
 {
-    static GuildHouseCatalogMgr instance;
+    static GuildEnclaveCatalogMgr instance;
     return instance;
 }
 
@@ -23,7 +23,7 @@ GuildHouseCatalogMgr& GuildHouseCatalogMgr::Instance()
 // Components are stored:
 // - inside catalog.Components
 // =====================================================
-void GuildHouseCatalogMgr::Load()
+void GuildEnclaveCatalogMgr::Load()
 {
     _categories.clear();
     _catalogs.clear();
@@ -31,7 +31,7 @@ void GuildHouseCatalogMgr::Load()
     //
     // Categories
     //
-    if (QueryResult result = WorldDatabase.Query("SELECT categoryId, parentId, name, sortOrder, enabled FROM guildhouse_category"))
+    if (QueryResult result = WorldDatabase.Query("SELECT categoryId, parentId, name, sortOrder, enabled FROM guildenclave_category"))
     {
         do
         {
@@ -52,7 +52,7 @@ void GuildHouseCatalogMgr::Load()
     //
     // Catalog Items
     //
-    if (QueryResult result = WorldDatabase.Query("SELECT catalogId, categoryId, name, price, spawnFlags, behaviorFlags, enabled FROM guildhouse_catalog"))
+    if (QueryResult result = WorldDatabase.Query("SELECT catalogId, categoryId, name, price, spawnFlags, behaviorFlags, enabled FROM guildenclave_catalog"))
     {
         do
         {
@@ -91,8 +91,6 @@ void GuildHouseCatalogMgr::Load()
             GHCatalogAsset component;
             component.ComponentId = fields[0].Get<uint32_t>();
             component.CatalogId = catalogId;
-//            component.SpawnFlags = catalogItr->second.SpawnFlags;
-//            component.BehaviorFlags = catalogItr->second.BehaviorFlags;
             component.SpawnFlags = static_cast<GHSpawnFlags>(fields[2].Get<uint32_t>());
             component.BehaviorFlags = static_cast<GHBehaviorFlags>(fields[3].Get<uint32_t>());
             component.Entry = fields[4].Get<uint32_t>();
@@ -121,10 +119,10 @@ void GuildHouseCatalogMgr::Load()
         } while (result->NextRow());
     }
 
-    LOG_INFO("server.loading",">> GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
+    LOG_INFO("server.loading",">> GuildEnclaveCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
 }
 
-const GHCatalog* GuildHouseCatalogMgr::GetCatalog(uint32_t catalogId) const
+const GHCatalog* GuildEnclaveCatalogMgr::GetCatalog(uint32_t catalogId) const
 {
     auto itr = _catalogs.find(catalogId);
     if (itr == _catalogs.end())
@@ -133,7 +131,7 @@ const GHCatalog* GuildHouseCatalogMgr::GetCatalog(uint32_t catalogId) const
     return &itr->second;
 }
 
-const GHCategory* GuildHouseCatalogMgr::GetCategory(uint32_t categoryId) const
+const GHCategory* GuildEnclaveCatalogMgr::GetCategory(uint32_t categoryId) const
 {
     auto itr = _categories.find(categoryId);
     if (itr == _categories.end())
@@ -145,7 +143,7 @@ const GHCategory* GuildHouseCatalogMgr::GetCategory(uint32_t categoryId) const
 // =====================================================
 // Root category list
 // =====================================================
-std::vector<const GHCategory*> GuildHouseCatalogMgr::GetRootCategories() const
+std::vector<const GHCategory*> GuildEnclaveCatalogMgr::GetRootCategories() const
 {
     std::vector<const GHCategory*> result;
 
@@ -168,7 +166,7 @@ std::vector<const GHCategory*> GuildHouseCatalogMgr::GetRootCategories() const
 // =====================================================
 // Child category list
 // =====================================================
-std::vector<const GHCategory*> GuildHouseCatalogMgr::GetChildCategories(uint32_t parentId) const
+std::vector<const GHCategory*> GuildEnclaveCatalogMgr::GetChildCategories(uint32_t parentId) const
 {
     std::vector<const GHCategory*> result;
 
@@ -191,7 +189,7 @@ std::vector<const GHCategory*> GuildHouseCatalogMgr::GetChildCategories(uint32_t
 // =====================================================
 // Catalog list by category
 // =====================================================
-std::vector<const GHCatalog*> GuildHouseCatalogMgr::GetCatalogs(uint32_t categoryId, TeamId team) const
+std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categoryId, TeamId team) const
 {
     std::vector<const GHCatalog*> result;
 
@@ -200,13 +198,10 @@ std::vector<const GHCatalog*> GuildHouseCatalogMgr::GetCatalogs(uint32_t categor
         if (!catalog.Enabled || catalog.CategoryId != categoryId)
             continue;
 
-        if (GuildHouseUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
-            (team == TEAM_ALLIANCE && GuildHouseUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
-            (team == TEAM_HORDE && GuildHouseUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
+        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
+            (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
+            (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
                 result.push_back(&catalog);
-
-//        if (catalog.CategoryId == categoryId && catalog.Enabled)
-//            result.push_back(&catalog);
     }
 
     std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b)
@@ -220,7 +215,7 @@ std::vector<const GHCatalog*> GuildHouseCatalogMgr::GetCatalogs(uint32_t categor
 // =====================================================
 // All catalogs
 // =====================================================
-std::vector<const GHCatalog*> GuildHouseCatalogMgr::GetAllCatalogs(TeamId team) const
+std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team) const
 {
     std::vector<const GHCatalog*> result;
 
@@ -229,9 +224,9 @@ std::vector<const GHCatalog*> GuildHouseCatalogMgr::GetAllCatalogs(TeamId team) 
         if (!catalog.Enabled)
             continue;        
  
-        if (GuildHouseUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
-            (team == TEAM_ALLIANCE && GuildHouseUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
-            (team == TEAM_HORDE && GuildHouseUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
+        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
+            (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
+            (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
                 result.push_back(&catalog);
     }
 
