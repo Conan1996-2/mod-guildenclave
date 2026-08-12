@@ -1,22 +1,22 @@
-#include "GuildHouseNPCMovement.h"
+#include "GuildEnclaveNPCMovement.h"
 
 #include "Creature.h"
 #include "MotionMaster.h"
-#include "GuildHouseMgr.h"
+#include "GuildEnclaveMgr.h"
 
 /*
-GuildHouseNPCMovement::GuildHouseNPCMovement() : PlayerScript("GuildHouseNPCMovement")
+GuildEnclaveNPCMovement::GuildEnclaveNPCMovement() : PlayerScript("GuildEnclaveNPCMovement")
 {
 }
 
-void GuildHouseNPCMovement::OnCreatureInteraction(Player* player, Creature* creature)
+void GuildEnclaveNPCMovement::OnCreatureInteraction(Player* player, Creature* creature)
 {
     if (!creature)
         return;
 
     uint32 spawnId = creature->GetSpawnId();
 
-//    if (!sGuildHouseMgr.IsGuildHouseCreature(spawnId))
+//    if (!sGuildEnclaveMgr.IsGuildEnclaveCreature(spawnId))
 //        return;
 
     creature->StopMoving();
@@ -38,7 +38,7 @@ bool ResumeCreatureMovementEvent ::Execute(uint64 /*time*/, uint32 /*diff*/)
     return true;
 }
 
-void AddSC_GuildHouseNPCMovementScripts()
+void AddSC_GuildEnclaveNPCMovementScripts()
 {
-//   new GuildHouseNPCMovement();
+//   new GuildEnclaveNPCMovement();
 }
