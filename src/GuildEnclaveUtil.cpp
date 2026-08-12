@@ -1,17 +1,17 @@
-#include "GuildHouseUtil.h"
-#include "GuildHouseMgr.h"
-#include "GuildHouseTypes.h"
+#include "GuildEnclaveUtil.h"
+#include "GuildEnclaveMgr.h"
+#include "GuildEnclaveTypes.h"
 
 #include "Guild.h"
 #include "Player.h"
 
-namespace GuildHouseUtil
+namespace GuildEnclaveUtil
 {
     
     // =====================================================
     // Is Player Inside Guild House
     // =====================================================
-    bool IsInGuildHouse(Player* player)
+    bool IsInGuildEnclave(Player* player)
     {
         if (!player)
             return false;
@@ -22,11 +22,11 @@ namespace GuildHouseUtil
     
         uint32 guildId = guild->GetId();
     
-        const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+        const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
         if (!house)
             return false;
     
-        const GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
+        const GHLocation* location = sGuildEnclaveMgr.GetLocation(house->LocationId);
         if (!location)
             return false;
     
@@ -50,16 +50,16 @@ namespace GuildHouseUtil
         //
         // Correct guild phase
         //
-        return sGuildHouseMgr.IsMember(player);
+        return sGuildEnclaveMgr.IsMember(player);
     }
     
     // =====================================================
     // Guild Phase Validation
     // =====================================================
     
-    bool IsGuildHousePhase(uint32_t guildId, uint32_t phaseMask)
+    bool IsGuildEnclavePhase(uint32_t guildId, uint32_t phaseMask)
     {
-        uint32_t guildPhase = sGuildHouseMgr.GetPhaseMask(guildId);
+        uint32_t guildPhase = sGuildEnclaveMgr.GetPhaseMask(guildId);
         if (!guildPhase)
             return false;
     
