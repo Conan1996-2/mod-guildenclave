@@ -1,9 +1,9 @@
-#include "GuildHouseBroker.h"
+#include "GuildEnclaveBroker.h"
 
-#include "GuildHouseNPCMovement.h"
-#include "GuildHouseMgr.h"
-#include "GuildHouseConfig.h"
-#include "GuildHouseDefines.h"
+#include "GuildEnclaveNPCMovement.h"
+#include "GuildEnclaveMgr.h"
+#include "GuildEnclaveConfig.h"
+#include "GuildEnclaveDefines.h"
 
 #include "Guild.h"
 #include "GossipDef.h"
@@ -13,7 +13,7 @@
 namespace
 {
 
-    enum GuildHouseActions
+    enum GuildEnclaveActions
     {
         ACTION_NONE = 0,
         ACTION_TELEPORT = 1,
@@ -25,7 +25,7 @@ namespace
 
 }
 
-bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
+bool GuildEnclaveBroker::OnGossipHello(Player* player, Creature* creature)
 {
     creature->GetMotionMaster()->MoveIdle();
     creature->m_Events.AddEvent(new ResumeCreatureMovementEvent(creature), creature->m_Events.CalculateTime(30000));
@@ -42,11 +42,11 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
 
     uint32 guildId = guild->GetId();
 
-    if (!sGuildHouseMgr.HasGuildHouse(guildId))
+    if (!sGuildEnclaveMgr.HasGuildEnclave(guildId))
     {
-        if (GuildHouseUtil::IsGuildRank(player))
+        if (GuildEnclaveUtil::IsGuildRank(player))
         {
-            auto locations = sGuildHouseMgr.GetLocations();
+            auto locations = sGuildEnclaveMgr.GetLocations();
 
             if (locations.empty())
             {
@@ -85,7 +85,7 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
     {
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Teleport to Guild House", GOSSIP_SENDER_MAIN, ACTION_TELEPORT);
 
-        if (GuildHouseUtil::IsGuildRank(player))
+        if (GuildEnclaveUtil::IsGuildRank(player))
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Sell Guild House", GOSSIP_SENDER_MAIN, ACTION_SELL);
     }
 
@@ -93,7 +93,7 @@ bool GuildHouseBroker::OnGossipHello(Player* player, Creature* creature)
     return true;
 }
 
-bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, uint32, uint32 action)
+bool GuildEnclaveBroker::OnGossipSelect(Player* player, Creature* /*creature*/, uint32, uint32 action)
 {
     ClearGossipMenuFor(player);
 
@@ -109,7 +109,7 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
     if (action >= ACTION_BUY_START && action < ACTION_CATEGORY_START)
     {
         uint32 locationId = action - ACTION_BUY_START;
-        const GHLocation* location = sGuildHouseMgr.GetLocation(locationId);
+        const GHLocation* location = sGuildEnclaveMgr.GetLocation(locationId);
         if (!location)
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Invalid Guild House location.");
@@ -117,28 +117,28 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
             return true;
         }
 
-        if (sGuildHouseMgr.HasGuildHouse(guildId))
+        if (sGuildEnclaveMgr.HasGuildEnclave(guildId))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Your guild already owns a Guild House.");
             CloseGossipMenuFor(player);
             return true;
         }
 
-        if (!GuildHouseUtil::IsGuildRank(player))
+        if (!GuildEnclaveUtil::IsGuildRank(player))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Only the Guild Master may purchase a Guild House.");
             CloseGossipMenuFor(player);
             return true;
         }
 
-        if (!sGuildHouseMgr.HasEnoughMoneyInGuild(guildId, location->Price)) // player->HasEnoughMoney(uint(location->Price)))
+        if (!sGuildEnclaveMgr.HasEnoughMoneyInGuild(guildId, location->Price)) // player->HasEnoughMoney(uint(location->Price)))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Your guild does not have enough gold.");
             CloseGossipMenuFor(player);
             return true;
         }
 
-        if (!sGuildHouseMgr.CreateGuildHouse(player, guildId, player->GetGUID().GetCounter(), locationId))
+        if (!sGuildEnclaveMgr.CreateGuildEnclave(player, guildId, player->GetGUID().GetCounter(), locationId))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Failed to create Guild House.");
             CloseGossipMenuFor(player);
@@ -154,34 +154,34 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
     {
         case ACTION_TELEPORT:
         {
-            if (!sGuildHouseMgr.TeleportToGuildHouse(player))
+            if (!sGuildEnclaveMgr.TeleportToGuildEnclave(player))
                 ChatHandler(player->GetSession()).PSendSysMessage("Unable to teleport to Guild House.");
             break;
         }
 
         case ACTION_SELL:
         {
-            if (!GuildHouseUtil::IsGuildRank(player))
+            if (!GuildEnclaveUtil::IsGuildRank(player))
             {
                 ChatHandler(player->GetSession()).PSendSysMessage("Only the Guild Master may sell the Guild House.");
                 break;
             }
 
-            const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+            const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
             if (!house)
             {
                 ChatHandler(player->GetSession()).PSendSysMessage("Your guild does not own a Guild House.");
                 break;
             }
 
-            const GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
+            const GHLocation* location = sGuildEnclaveMgr.GetLocation(house->LocationId);
             if (!location)
             {
                 ChatHandler(player->GetSession()).PSendSysMessage("Guild House location is invalid.");
                 break;
             }
 
-            if (!sGuildHouseMgr.SellGuildHouse(guildId))
+            if (!sGuildEnclaveMgr.SellGuildEnclave(guildId))
             {
                 ChatHandler(player->GetSession()).PSendSysMessage("Failed to sell Guild House.");
                 break;
@@ -201,7 +201,7 @@ bool GuildHouseBroker::OnGossipSelect(Player* player, Creature* /*creature*/, ui
     return true;
 }
 
-void AddSC_GuildHouseBroker()
+void AddSC_GuildEnclaveBroker()
 {
-    new GuildHouseBroker();
+    new GuildEnclaveBroker();
 }
