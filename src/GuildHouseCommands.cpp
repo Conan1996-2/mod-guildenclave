@@ -97,6 +97,7 @@ bool GuildHouseCommandScript::HandleAddBroker(ChatHandler* handler)
 // =====================================================
 bool GuildHouseCommandScript::HandleAddSalesman(ChatHandler* handler)
 {
+    /*
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
         return false;
@@ -113,6 +114,7 @@ bool GuildHouseCommandScript::HandleAddSalesman(ChatHandler* handler)
         handler->PSendSysMessage("Guild House salesman created.");
 
     return true;
+    */
 }
 
 // =====================================================
