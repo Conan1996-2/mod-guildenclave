@@ -5,11 +5,11 @@
 [worldserver]
 
 ########################################
-# Guild house config
+# Guild enclave config
 ########################################
 
 #    GuildEnclave.Enable
-#        Description: Enable the Guild House module.
+#        Description: Enable the Guild Enclave module.
 #            If set to 0, access will be disabled.
 #
 #        Default:    0 - Disabled (Mod will not work)
@@ -24,13 +24,13 @@ GuildEnclave.Enable = 0
 #
 #        Default:    0 - Disabled (All items have a cost)
 #                    1 - Enabled (All items will be free)
-#                    2 - Enabled (All items will be free and given to guild on house purchase)
+#                    2 - Enabled (All items will be free and given to guild on enclave purchase)
 #
 
 GuildEnclave.Free = 0
 
 #    GuildEnclave.Refund
-#        Description: Refund percentage of cost when returning an item or selling the House.
+#        Description: Refund percentage of cost when returning an item or selling the Enclave.
 #            Min 0, Max 1.
 #
 #        Default:    .8 - 80 percent
