@@ -32,8 +32,8 @@ public:
     // Guild Enclave Membership
     // =====================================================
     bool IsMember(Player* player) const;
-    bool AddMember(uint32_t guildId, uint64_t guid);
-    bool RemoveMember(uint32_t guildId, uint64_t guid);
+    bool AddMember(Player* player);
+    bool RemoveMember(Player* player);
 
     // =====================================================
     // Guild Enclave Ownership
