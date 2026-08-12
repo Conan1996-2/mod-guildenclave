@@ -1,13 +1,13 @@
-#ifndef MOD_GUILDHOUSE_SPAWNER_H
-#define MOD_GUILDHOUSE_SPAWNER_H
+#ifndef MOD_GUILDENCLAVE_SPAWNER_H
+#define MOD_GUILDENCLAVE_SPAWNER_H
 
 #include <cstdint>
 
-class GuildHouseSpawner
+class GuildEnclaveSpawner
 {
 public:
 
-    static GuildHouseSpawner& Instance();
+    static GuildEnclaveSpawner& Instance();
 
     // =====================================================
     // Startup
@@ -34,13 +34,13 @@ public:
 
 private:
 
-    GuildHouseSpawner() = default;
+    GuildEnclaveSpawner() = default;
 
     bool SpawnGameObject(uint32_t guildId, uint32_t assetId, uint32_t phaseMask, uint32_t mapId, uint32_t entry, float x, float y, float z, float o);
     bool RemoveCreatureSpawn(uint32_t guid);
     bool RemoveGameObjectSpawn(uint32_t guid);
 };
 
-#define sGuildHouseSpawner GuildHouseSpawner::Instance()
+#define sGuildEnclaveSpawner GuildEnclaveSpawner::Instance()
 
 #endif
