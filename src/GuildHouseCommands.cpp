@@ -27,7 +27,7 @@ ChatCommandTable GuildHouseCommandScript::GetCommands() const
     static ChatCommandTable npcTable =
     {
         { "broker",   HandleAddBroker,   SEC_GAMEMASTER, Console::No },
-        { "salesman", HandleAddSalesman, SEC_PLAYER,     Console::No }
+//        { "salesman", HandleAddSalesman, SEC_PLAYER,     Console::No }
     };
 
     static ChatCommandTable houseTable =
@@ -97,7 +97,6 @@ bool GuildHouseCommandScript::HandleAddBroker(ChatHandler* handler)
 // =====================================================
 bool GuildHouseCommandScript::HandleAddSalesman(ChatHandler* handler)
 {
-    /*
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
         return false;
@@ -107,12 +106,10 @@ bool GuildHouseCommandScript::HandleAddSalesman(ChatHandler* handler)
         handler->PSendSysMessage("Only the Guild Master may place the Guild House salesman.");
         return true;
     }
-
     if (!sGuildHouseMgr.PurchaseCatalogItem(player, 2))
         handler->PSendSysMessage("Failed creating Guild House salesman.");
     else
         handler->PSendSysMessage("Guild House salesman created.");
-    */
 
     return true;
 }
