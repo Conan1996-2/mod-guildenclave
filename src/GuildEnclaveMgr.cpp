@@ -134,7 +134,7 @@ bool GuildEnclaveMgr::LeavePhase(Player* player)
 }
 
 // =====================================================
-// Guild House member 
+// Guild Enclave member 
 // =====================================================
 bool GuildEnclaveMgr::IsMember(Player* player) const
 {
@@ -181,7 +181,7 @@ bool GuildEnclaveMgr::RemoveMember(uint32_t guildId, uint64_t guid)
 }
 
 // =====================================================
-// Guild House Ownership
+// Guild Enclave Ownership
 // =====================================================
 bool GuildEnclaveMgr::HasGuildEnclave(uint32_t guildId) const
 {
@@ -221,7 +221,7 @@ const GHLocation* GuildEnclaveMgr::GetGuildLocation(uint32_t guildId) const
 }
 
 // =====================================================
-// Create and Sell Guild House
+// Create and Sell Guild Enclave
 // =====================================================
 bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId)
 {
