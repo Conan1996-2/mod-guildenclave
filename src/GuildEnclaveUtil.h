@@ -1,11 +1,11 @@
-#ifndef MOD_GUILDHOUSE_UTIL_H
-#define MOD_GUILDHOUSE_UTIL_H
+#ifndef MOD_GUILDENCLAVE_UTIL_H
+#define MOD_GUILDENCLAVE_UTIL_H
 
 #include <cstdint>
 
 class Player;
 
-namespace GuildHouseUtil
+namespace GuildEnclaveUtil
 {
     // =====================================================
     // Bit flag helper
@@ -16,17 +16,17 @@ namespace GuildHouseUtil
     // Guild permissions
     // =====================================================
     bool IsGuildMaster(Player* player);
-    bool CanManageGuildHouse(Player* player);
+    bool CanManageGuildEnclave(Player* player);
 
     // =====================================================
     // Guild House checks
     // =====================================================
-    bool IsInGuildHouse(Player* player);
+    bool IsInGuildEnclave(Player* player);
 
     // =====================================================
     // Phase validation
     // =====================================================
-    bool IsGuildHousePhase(uint32_t guildId, uint32_t phaseMask);
+    bool IsGuildEnclavePhase(uint32_t guildId, uint32_t phaseMask);
 }
 
 #endif
