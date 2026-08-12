@@ -1,12 +1,12 @@
-#include "GuildHouseDefines.h"
+#include "GuildEnclaveDefines.h"
 
-#include "GuildHouseMgr.h"
-#include "GuildHouseTypes.h"
+#include "GuildEnclaveMgr.h"
+#include "GuildEnclaveTypes.h"
 
 #include "Player.h"
 #include "Guild.h"
 
-namespace GuildHouseUtil
+namespace GuildEnclaveUtil
 {
 /*
     GR_GUILDMASTER  = 0,
@@ -17,7 +17,7 @@ namespace GuildHouseUtil
 */
 
     // =====================================================
-    // Does the Player have a guildhouse?
+    // Does the Player have a guildenclave?
     // If not, return if its a guild master,
     // else return if it matches the the required guild rank
     // =====================================================
@@ -35,7 +35,7 @@ namespace GuildHouseUtil
             return false;
 
         uint32_t guildId = guild->GetId();
-        const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+        const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
         if (!house)
             return guild->GetLeaderGUID() == player->GetGUID();
         
@@ -54,7 +54,7 @@ namespace GuildHouseUtil
     // - Location boundary
     // - Phase mask
     // =====================================================
-    bool IsInGuildHouse(Player* player)
+    bool IsInGuildEnclave(Player* player)
     {
         if (!player)
             return false;
@@ -65,11 +65,11 @@ namespace GuildHouseUtil
     
         uint32_t guildId = guild->GetId();
     
-        const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+        const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
         if (!house)
             return false;
     
-        const GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
+        const GHLocation* location = sGuildEnclaveMgr.GetLocation(house->LocationId);
         if (!location)
             return false;
     
@@ -93,7 +93,7 @@ namespace GuildHouseUtil
         //
         // Must have guild phase active
         //
-        uint32_t phaseMask = sGuildHouseMgr.GetPhaseMask(guildId);
+        uint32_t phaseMask = sGuildEnclaveMgr.GetPhaseMask(guildId);
         if (!phaseMask)
             return false;
     
