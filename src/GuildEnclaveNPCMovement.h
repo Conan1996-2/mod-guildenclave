@@ -18,15 +18,15 @@ private:
 };
 
 /*
-class GuildHouseNPCMovement : public PlayerScript
+class GuildEnclaveNPCMovement : public PlayerScript
 {
 public:
-    GuildHouseNPCMovement();
+    GuildEnclaveNPCMovement();
 
     void OnCreatureInteraction(Player* player, Creature* creature) override;
 };
 */
 
-void AddSC_GuildHouseNPCMovementScripts();
+void AddSC_GuildEnclaveNPCMovementScripts();
 
 #endif // GUILD_HOUSE_NPC_MOVEMENT_H
