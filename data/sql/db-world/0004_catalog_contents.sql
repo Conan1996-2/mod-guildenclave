@@ -1,5 +1,5 @@
-TRUNCATE TABLE `guildhouse_category`;
-INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`, `enabled`) VALUES
+TRUNCATE TABLE `guildenclave_category`;
+INSERT INTO `guildenclave_category` (`categoryId`, `parentId`, `name`, `sortOrder`, `enabled`) VALUES
     (1, 1, "Guild", 0, 1),
     (1000, 0, "NPC", 1, 1),
     (1100, 1000, "Class Trainers", 1, 1),
@@ -25,8 +25,8 @@ INSERT INTO `guildhouse_category` (`categoryId`, `parentId`, `name`, `sortOrder`
     (4300, 4000, "Lamp Posts", 3, 1),
     (5000, 0, "Animals", 5, 1);
 
-TRUNCATE TABLE `guildhouse_catalog`;
-INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `spawnFlags`, `behaviorFlags`, `enabled`) VALUES
+TRUNCATE TABLE `guildenclave_catalog`;
+INSERT INTO `guildenclave_catalog` (`catalogId`, `categoryId`, `name`, `price`, `spawnFlags`, `behaviorFlags`, `enabled`) VALUES
     (1, 1, "Broker", 0, 1, 4, 1),
     (2, 1, "Salesman", 0, 1, 4, 1),
     
@@ -147,8 +147,8 @@ INSERT INTO `guildhouse_catalog` (`catalogId`, `categoryId`, `name`, `price`, `s
 
     (4301, 4300, "Dalaran Lamp Post", 500000, 1, 4, 1);
 
-TRUNCATE TABLE `guildhouse_catalog_asset`;
-INSERT INTO `guildhouse_catalog_asset` (`componentId`,`catalogId`,`spawnFlags`,`behaviorFlags`,`entryId`,`displayId`,`scale`,`scriptType`,`scriptData`,`xOffset`,`yOffset`,`zOffset`,`oOffset`,`targetMapId`,`targetX`,`targetY`,`targetZ`,`targetO`,`wander`,`childCatalogId`,`sortOrder`) VALUES
+TRUNCATE TABLE `guildenclave_catalog_asset`;
+INSERT INTO `guildenclave_catalog_asset` (`componentId`,`catalogId`,`spawnFlags`,`behaviorFlags`,`entryId`,`displayId`,`scale`,`scriptType`,`scriptData`,`xOffset`,`yOffset`,`zOffset`,`oOffset`,`targetMapId`,`targetX`,`targetY`,`targetZ`,`targetO`,`wander`,`childCatalogId`,`sortOrder`) VALUES
     (1, 1, 1, 1, 900002, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     (2, 1, 1, 2, 900003, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     (3, 2, 1, 1, 900002, 0, 1, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
