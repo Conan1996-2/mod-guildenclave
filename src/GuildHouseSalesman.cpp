@@ -246,12 +246,7 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
 // =====================================================
 void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, uint32 categoryId)
 {
-    LOG_INFO("server.loading", "Opening category {}", categoryId);
-
     auto children = sGuildHouseCatalogMgr.GetChildCategories( categoryId);
-
-    LOG_INFO("server.loading", "Found {} child categories", children.size());
-
     const GHCategory* current = sGuildHouseCatalogMgr.GetCategory(categoryId);
     
     if (current)
@@ -266,8 +261,6 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
     {
         if (!child)
             continue;
-
-        LOG_INFO("server.loading", "Child {} parent {} name {}", child->Id, child->ParentId, child->Name);
 
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, child->Name, GOSSIP_SENDER_MAIN, ACTION_CATEGORY_START + child->Id);
     }
