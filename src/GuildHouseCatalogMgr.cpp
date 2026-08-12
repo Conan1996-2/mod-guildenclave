@@ -121,8 +121,7 @@ void GuildHouseCatalogMgr::Load()
         } while (result->NextRow());
     }
 
-    LOG_INFO("module","  >>>  GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
-    LOG_INFO("server.loading","   >>>   GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
+    LOG_INFO("server.loading",">> GuildHouseCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
 }
 
 const GHCatalog* GuildHouseCatalogMgr::GetCatalog(uint32_t catalogId) const
@@ -171,8 +170,6 @@ std::vector<const GHCategory*> GuildHouseCatalogMgr::GetRootCategories() const
 // =====================================================
 std::vector<const GHCategory*> GuildHouseCatalogMgr::GetChildCategories(uint32_t parentId) const
 {
-    LOG_INFO("server.loading", "GetChildCategories({})", parentId);
-    
     std::vector<const GHCategory*> result;
 
     for (auto const& [id, category] : _categories)
