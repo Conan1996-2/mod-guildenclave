@@ -1,11 +1,11 @@
 #include "Player.h"
 #include "PlayerScript.h"
-#include "GuildHouseMgr.h"
+#include "GuildEnclaveMgr.h"
 
-class GuildHousePlayerScript : public PlayerScript
+class GuildEnclavePlayerScript : public PlayerScript
 {
 public:
-    GuildHousePlayerScript() : PlayerScript("GuildHousePlayerScript") { }
+    GuildEnclavePlayerScript() : PlayerScript("GuildEnclavePlayerScript") { }
 
     void OnPlayerUpdate(Player* player, uint32 diff) override
     {
@@ -20,16 +20,16 @@ public:
     
         timer = 3000; // check once per second
         
-        if (sGuildHouseMgr.IsMember(player))
+        if (sGuildEnclaveMgr.IsMember(player))
         {
             if (player->GetGuildId() == 0)
             {
-//                sGuildHouseMgr.LeavePhase (player);
+//                sGuildEnclaveMgr.LeavePhase (player);
                 player->TeleportTo(player->m_homebindMapId, player->m_homebindX, player->m_homebindY, player->m_homebindZ, player->GetOrientation());
             }
             else
             {
-                sGuildHouseMgr.CheckBoundary(player);
+                sGuildEnclaveMgr.CheckBoundary(player);
                 player->SetRestFlag(REST_FLAG_IN_CITY);
             }
         }
@@ -37,31 +37,31 @@ public:
 
     void OnPlayerMapChanged(Player* player) override
     {
-        if (!sGuildHouseMgr.IsMember(player))
+        if (!sGuildEnclaveMgr.IsMember(player))
             return;
 
-        const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(player->GetGuildId());
+        const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(player->GetGuildId());
         if (!house)
             return;
 
-        GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
+        GHLocation* location = sGuildEnclaveMgr.GetLocation(house->LocationId);
         if (!location)
             return;
 
         if (player->GetMapId() == location->MapId)
             return;
         
-        sGuildHouseMgr.LeavePhase(player);
+        sGuildEnclaveMgr.LeavePhase(player);
     }
 
     void OnPlayerLogout(Player* player) override
     {
-        if (sGuildHouseMgr.IsMember(player))
-            sGuildHouseMgr.LeavePhase(player);
+        if (sGuildEnclaveMgr.IsMember(player))
+            sGuildEnclaveMgr.LeavePhase(player);
     }
 };
 
-void AddSC_GuildHouseScripts()
+void AddSC_GuildEnclaveScripts()
 {
-    new GuildHousePlayerScript();
+    new GuildEnclavePlayerScript();
 }
