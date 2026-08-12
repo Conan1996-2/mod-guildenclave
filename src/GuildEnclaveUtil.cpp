@@ -9,7 +9,7 @@ namespace GuildEnclaveUtil
 {
     
     // =====================================================
-    // Is Player Inside Guild House
+    // Is Player Inside Guild Enclave
     // =====================================================
     bool IsInGuildEnclave(Player* player)
     {
