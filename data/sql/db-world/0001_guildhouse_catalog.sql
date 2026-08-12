@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `guildhouse_category`;
-CREATE TABLE `guildhouse_category`
+DROP TABLE IF EXISTS `guildenclave_category`;
+CREATE TABLE `guildenclave_category`
 (
     `categoryId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `parentId` INT UNSIGNED NOT NULL DEFAULT 0,
@@ -13,8 +13,8 @@ CREATE TABLE `guildhouse_category`
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `guildhouse_catalog`;
-CREATE TABLE `guildhouse_catalog`
+DROP TABLE IF EXISTS `guildenclave_catalog`;
+CREATE TABLE `guildenclave_catalog`
 (
     `catalogId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `categoryId` INT UNSIGNED NOT NULL,
@@ -36,8 +36,8 @@ CREATE TABLE `guildhouse_catalog`
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `guildhouse_catalog_asset`;
-CREATE TABLE `guildhouse_catalog_asset`
+DROP TABLE IF EXISTS `guildenclave_catalog_asset`;
+CREATE TABLE `guildenclave_catalog_asset`
 (
     `componentId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
