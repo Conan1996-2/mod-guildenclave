@@ -15,6 +15,9 @@ This Addon will use a guild area in the world. Default predefined areas are GM I
 
 - Purchase your own area to be used as a GuildEnclave (via the Broker)  
 - Purchase Items that can be placed anywhere in your GuildEnclave (via the Salesman)  
+- Separate phases for each guild in that specific area. This way each design is different.  
+- Dynamic loading of Enclave when a member enters the guild, and released when the last member leaves.  
+- Every guild purchase also adds a "Salesman" as your first asset, this can not be sold.  
 
 ---------------------------------------
 ### Things the Broker can do:
@@ -23,14 +26,21 @@ This Addon will use a guild area in the world. Default predefined areas are GM I
 - Teleport a player to the GuildEnclave they own
 
 ---------------------------------------
+###  How to use:  
+
+- See the Broker to purchase an Enclave if you have a Guild
+- Teleport to the guild via command or the Broker
+- place your Guild Salesman anywhere you like within the purchased guild via the command `.ge asset place 1`
+- Purchase items via the Salesman and place, move, or store them for later use.
+
+---------------------------------------
 ### Added/In Progress
 
 - Added Locations to use for guilds with boundries, teleports player back to port location if trying to go out of bounds
 - Added Broker - Purchase/Sell Guild Hall, Teleport to Guild area (only GM or higher can place in game) **(working)**
 - Added Salesperson - Purchase Items that can be placed in the guild area (Security of who in guild can access set by GM) **(working)**
 - Added commands to Purchase/Sell/Place/Move/Store items For the guild area design (Security of who in guild can access set by GM) **(working)**
-- Added phases **(working)**
-    - Need to create temporary phase when available, per location and free up phase when last member leaves **(to do)**
+- Added temporary phases **(working)**
 - Work on:
     - NPC
         - Class Trainers **(Completed not tested)**
@@ -104,11 +114,6 @@ _ARGUMENT_  indicates argument names
     - **`broker`** -- Spawns a broker at the players position. There can be more then one.  
             **Example Usage**:  
                 - `.ge npc broker`  
-
-  - **`npc`** -- (Proper Guild Rank Access to use command)  
-    - **`salesman`** -- Spawns a salesman at the current location inside the guild area. There can only be one.  
-            **Example Usage**:  
-                - `.ge npc salesman`  
 
   - **`shop`** -- (Proper Guild Rank Access command)  
     - **`buy <_CATALOGID_>`** -- Purchase a specific item  
