@@ -154,7 +154,7 @@ struct GHSpawnRecord
 };
 
 // =====================================================
-// Locations and constraints for each Guild House
+// Locations and constraints for each Guild Enclave
 // =====================================================
 struct GHLocation
 {
@@ -180,11 +180,11 @@ struct GHLocation
 };
 
 // =====================================================
-// Guild House Ownership
+// Guild Enclave Ownership
 //
-// One house per guild.
+// One Enclave per guild.
 //
-// Phase owns the house.
+// Phase owns the Enclave.
 // =====================================================
 struct GHGuildEnclave
 {
