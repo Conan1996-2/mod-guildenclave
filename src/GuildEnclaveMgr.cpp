@@ -141,35 +141,53 @@ bool GuildEnclaveMgr::IsMember(Player* player) const
     if (!player)
         return false;
 
-    const GHGuildEnclave* house = GetGuildEnclave(player->GetGuildId());
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    const GHGuildEnclave* house = GetGuildEnclave(guildId);
     if (!house || house->PhaseMask == 0)
         return false;
     
     return house->Members.find(player->GetGUID().GetCounter()) != house->Members.end();
 }
 
-bool GuildEnclaveMgr::AddMember(uint32_t guildId, uint64_t guid)
+bool GuildEnclaveMgr::AddMember(Player* player)
 {
+    if (!player)
+        return false;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
     GHGuildEnclave* house = GetGuildEnclave(guildId);
     if (!house)
         return false;
 
-    house->Members.insert(guid);
+    house->Members.insert(player->GetGUID().GetCounter());
 
     LOG_INFO("server.loading", "Addmember to guild phase {}. ", house->PhaseMask);
 
     return true;
 }
 
-bool GuildEnclaveMgr::RemoveMember(uint32_t guildId, uint64_t guid)
+bool GuildEnclaveMgr::RemoveMember(Player* player)
 {
+    if (!player)
+        return false;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
     GHGuildEnclave* house = GetGuildEnclave(guildId);
     if (!house)
         return false;
 
     LOG_INFO("server.loading", "Removemember from guild phase");
 
-    house->Members.erase(guid);
+    house->Members.erase(player->GetGUID().GetCounter());
     if (house->Members.size() == 0)
     {
         sGuildEnclaveSpawner.RemoveAllAssets(guildId);
