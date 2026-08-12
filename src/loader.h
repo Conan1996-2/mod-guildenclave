@@ -1,6 +1,6 @@
-#ifndef MOD_GUILDHOUSE_LOADER_H
-#define MOD_GUILDHOUSE_LOADER_H
+#ifndef MOD_GUILDENCLAVE_LOADER_H
+#define MOD_GUILDENCLAVE_LOADER_H
 
-void AddGuildHouseScripts();
+void AddGuildEnclaveScripts();
 
 #endif
