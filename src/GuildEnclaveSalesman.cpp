@@ -1,9 +1,9 @@
-#include "GuildHouseSalesman.h"
+#include "GuildEnclaveSalesman.h"
 
-#include "GuildHouseMgr.h"
-#include "GuildHouseCatalogMgr.h"
-#include "GuildHouseDefines.h"
-#include "GuildHouseNPCMovement.h"
+#include "GuildEnclaveMgr.h"
+#include "GuildEnclaveCatalogMgr.h"
+#include "GuildEnclaveDefines.h"
+#include "GuildEnclaveNPCMovement.h"
 
 #include "Player.h"
 #include "Creature.h"
@@ -17,7 +17,7 @@
 namespace
 {
     
-    enum GuildHouseSalesmanActions
+    enum GuildEnclaveSalesmanActions
     {
         ACTION_CATEGORY_START = 100000,
         ACTION_CATALOG_START  = 200000,
@@ -40,7 +40,7 @@ namespace
 // - Player must be inside boundary
 //
 // =====================================================
-bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creature)
+bool GuildEnclaveSalesman::ValidateSalesmanAccess(Player* player, Creature* creature)
 {
     if (!player || !creature)
         return false;
@@ -53,19 +53,19 @@ bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creatu
     }
 
     uint32 guildId = guild->GetId();
-    if (!sGuildHouseMgr.HasGuildHouse(guildId))
+    if (!sGuildEnclaveMgr.HasGuildEnclave(guildId))
     {
         ChatHandler(player->GetSession()).PSendSysMessage("Your guild does not own a Guild House.");
         return false;
     }
 
-    if (!GuildHouseUtil::IsGuildRank(player))
+    if (!GuildEnclaveUtil::IsGuildRank(player))
     {
         ChatHandler(player->GetSession()).PSendSysMessage("You do not have the authority to access the Salesman.");
         return false;
     }
     
-    uint32 phaseMask = sGuildHouseMgr.GetPhaseMask(guildId);
+    uint32 phaseMask = sGuildEnclaveMgr.GetPhaseMask(guildId);
     if (!phaseMask)
     {
         ChatHandler(player->GetSession()).PSendSysMessage("Guild House phase unavailable.");
@@ -84,7 +84,7 @@ bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creatu
         return false;
     }
 
-    if (!sGuildHouseMgr.IsInsideGuildHouseBoundary(guildId, player->GetPositionX(), player->GetPositionY()))
+    if (!sGuildEnclaveMgr.IsInsideGuildEnclaveBoundary(guildId, player->GetPositionX(), player->GetPositionY()))
     {
         ChatHandler(player->GetSession()).PSendSysMessage("You are outside the Guild House area.");
         return false;
@@ -96,12 +96,12 @@ bool GuildHouseSalesman::ValidateSalesmanAccess(Player* player, Creature* creatu
 // =====================================================
 // Confirmation of sale
 // =====================================================
-void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creature, uint32 catalogId)
+void GuildEnclaveSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creature, uint32 catalogId)
 {
 
     ChatHandler(player->GetSession()).PSendSysMessage("In Confirmation.");
 
-    const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId);
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
     if (!catalog)
     {
         CloseGossipMenuFor(player);
@@ -135,7 +135,7 @@ void GuildHouseSalesman::SendPurchaseConfirmMenu(Player* player, Creature* creat
 // =====================================================
 // Gossip Hello
 // =====================================================
-bool GuildHouseSalesman::OnGossipHello(Player* player, Creature* creature)
+bool GuildEnclaveSalesman::OnGossipHello(Player* player, Creature* creature)
 {
     creature->GetMotionMaster()->MoveIdle();
     creature->m_Events.AddEvent(new ResumeCreatureMovementEvent(creature), creature->m_Events.CalculateTime(30000));
@@ -156,9 +156,9 @@ bool GuildHouseSalesman::OnGossipHello(Player* player, Creature* creature)
 // =====================================================
 // Root Catalog Menu
 // =====================================================
-void GuildHouseSalesman::SendCatalogMenu(Player* player, Creature* creature)
+void GuildEnclaveSalesman::SendCatalogMenu(Player* player, Creature* creature)
 {
-    auto categories = sGuildHouseCatalogMgr.GetRootCategories();
+    auto categories = sGuildEnclaveCatalogMgr.GetRootCategories();
 
     for (const GHCategory* category : categories)
     {
@@ -174,7 +174,7 @@ void GuildHouseSalesman::SendCatalogMenu(Player* player, Creature* creature)
 // =====================================================
 // Gossip Selection
 // =====================================================
-bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint32, uint32 action)
+bool GuildEnclaveSalesman::OnGossipSelect(Player* player, Creature* creature, uint32, uint32 action)
 {
     ClearGossipMenuFor(player);
 
@@ -188,7 +188,7 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
     {
         uint32 catalogId = action - ACTION_CONFIRM;
     
-        if (!sGuildHouseMgr.PurchaseCatalogItem(player, catalogId))
+        if (!sGuildEnclaveMgr.PurchaseCatalogItem(player, catalogId))
             ChatHandler(player->GetSession()).PSendSysMessage("Unable to purchase item.");
     
         CloseGossipMenuFor(player);
@@ -226,7 +226,7 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
 /*    if (action >= ACTION_CATALOG_START)
     {
         uint32 Id = action - ACTION_CATALOG_START;
-        if (!sGuildHouseMgr.PurchaseCatalogItem(player, Id))
+        if (!sGuildEnclaveMgr.PurchaseCatalogItem(player, Id))
         {
             ChatHandler(player->GetSession()).PSendSysMessage("Unable to purchase item.");
         }
@@ -244,10 +244,10 @@ bool GuildHouseSalesman::OnGossipSelect(Player* player, Creature* creature, uint
 // =====================================================
 // Category Menu
 // =====================================================
-void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, uint32 categoryId)
+void GuildEnclaveSalesman::SendCategoryMenu(Player* player, Creature* creature, uint32 categoryId)
 {
-    auto children = sGuildHouseCatalogMgr.GetChildCategories( categoryId);
-    const GHCategory* current = sGuildHouseCatalogMgr.GetCategory(categoryId);
+    auto children = sGuildEnclaveCatalogMgr.GetChildCategories( categoryId);
+    const GHCategory* current = sGuildEnclaveCatalogMgr.GetCategory(categoryId);
     
     if (current)
     {
@@ -265,7 +265,7 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, child->Name, GOSSIP_SENDER_MAIN, ACTION_CATEGORY_START + child->Id);
     }
 
-    auto catalogs = sGuildHouseCatalogMgr.GetCatalogs(categoryId, player->GetTeamId());
+    auto catalogs = sGuildEnclaveCatalogMgr.GetCatalogs(categoryId, player->GetTeamId());
     for (const GHCatalog* catalog : catalogs)
     {
         if (!catalog)
@@ -299,7 +299,7 @@ void GuildHouseSalesman::SendCategoryMenu(Player* player, Creature* creature, ui
 // =====================================================
 // Registration
 // =====================================================
-void AddSC_GuildHouseSalesman()
+void AddSC_GuildEnclaveSalesman()
 {
-    new GuildHouseSalesman();
+    new GuildEnclaveSalesman();
 }
