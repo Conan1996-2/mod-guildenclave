@@ -11,7 +11,8 @@ namespace GuildEnclaveUtil
     // =====================================================
     // Is Player Inside Guild Enclave
     // =====================================================
-    bool IsInGuildEnclave(Player* player)
+
+    bool IsInGuildEnclaveArea(Player* player)
     {
         if (!player)
             return false;
@@ -30,26 +31,22 @@ namespace GuildEnclaveUtil
         if (!location)
             return false;
     
-        //
-        // Correct map
-        //
         if (player->GetMapId() != location->MapId)
             return false;
     
-        //
-        // Correct coordinates
-        //
         float x = player->GetPositionX();
         float y = player->GetPositionY();
-    
         if (x < location->MinX || x > location->MaxX || y < location->MinY || y > location->MaxY)
-        {
             return false;
-        }
-    
-        //
-        // Correct guild phase
-        //
+        
+        return true;
+    }
+
+    bool IsInGuildEnclave(Player* player)
+    {
+        if (!IsInGuildEnclaveArea(player))
+            return false;
+
         return sGuildEnclaveMgr.IsMember(player);
     }
     
