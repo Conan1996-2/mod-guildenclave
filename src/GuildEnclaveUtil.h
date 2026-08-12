@@ -19,7 +19,7 @@ namespace GuildEnclaveUtil
     bool CanManageGuildEnclave(Player* player);
 
     // =====================================================
-    // Guild House checks
+    // Guild Enclave checks
     // =====================================================
     bool IsInGuildEnclave(Player* player);
 
