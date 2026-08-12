@@ -97,9 +97,13 @@ bool GuildEnclaveMgr::RemovePhase(uint32_t guildId)
     return true;
 }
 
-bool GuildEnclaveMgr::EnterPhase(Player* player, uint32_t guildId)
+bool GuildEnclaveMgr::EnterPhase(Player* player)
 {
     if (!player)
+        return false;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
         return false;
 
     const GHGuildEnclave* house = GetGuildEnclave(guildId);
@@ -110,7 +114,7 @@ bool GuildEnclaveMgr::EnterPhase(Player* player, uint32_t guildId)
     if (!location)
         return false;
 
-    if (AddMember(guildId, player->GetGUID().GetCounter()))
+    if (AddMember(player))
     {
         player->TeleportTo(location->MapId, location->X, location->Y, location->Z, location->O);
         player->SetPhaseMask(house->PhaseMask, true);
@@ -125,7 +129,7 @@ bool GuildEnclaveMgr::LeavePhase(Player* player)
     if (!player)
         return false;
 
-    if (!RemoveMember(player->GetGuildId(), player->GetGUID().GetCounter()))
+    if (!RemoveMember(player))
         return false;
 
     player->SetPhaseMask(1, true);
@@ -154,9 +158,6 @@ bool GuildEnclaveMgr::IsMember(Player* player) const
 
 bool GuildEnclaveMgr::AddMember(Player* player)
 {
-    if (!player)
-        return false;
-
     uint32_t guildId = player->GetGuildId();
     if (!guildId)
         return false;
@@ -165,6 +166,16 @@ bool GuildEnclaveMgr::AddMember(Player* player)
     if (!house)
         return false;
 
+    if (!HasPhase(guildId))
+    {
+        int32_t newPhase = CreatePhase(guildId, house->LocationId);
+        if (!newPhase)
+            return false;
+        
+        house->PhaseMask = newPhase;
+        sGuildEnclaveSpawner.LoadPlacedAssets(guildId);
+    }
+    
     house->Members.insert(player->GetGUID().GetCounter());
 
     LOG_INFO("server.loading", "Addmember to guild phase {}. ", house->PhaseMask);
@@ -174,9 +185,6 @@ bool GuildEnclaveMgr::AddMember(Player* player)
 
 bool GuildEnclaveMgr::RemoveMember(Player* player)
 {
-    if (!player)
-        return false;
-
     uint32_t guildId = player->GetGuildId();
     if (!guildId)
         return false;
@@ -370,7 +378,7 @@ bool GuildEnclaveMgr::TeleportToGuildEnclave(Player* player)
     const GHLocation* location = GetGuildLocation(guildId);
     if (!location)
         return false;
-
+/*
     if (!HasPhase(guildId))
     {
         int32_t newPhase = CreatePhase(guildId, house->LocationId);
@@ -380,7 +388,7 @@ bool GuildEnclaveMgr::TeleportToGuildEnclave(Player* player)
         house->PhaseMask = newPhase;
         sGuildEnclaveSpawner.LoadPlacedAssets(guildId);
     }
-
+*/
     return EnterPhase(player, guildId);
 }
 
