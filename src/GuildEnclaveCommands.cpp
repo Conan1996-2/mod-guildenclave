@@ -1,10 +1,10 @@
-#include "GuildHouseCommands.h"
+#include "GuildEnclaveCommands.h"
 
-#include "GuildHouseMgr.h"
-#include "GuildHouseCatalogMgr.h"
-#include "GuildHouseDefines.h"
-#include "GuildHouseTypes.h"
-#include "GuildHouseSpawner.h"
+#include "GuildEnclaveMgr.h"
+#include "GuildEnclaveCatalogMgr.h"
+#include "GuildEnclaveDefines.h"
+#include "GuildEnclaveTypes.h"
+#include "GuildEnclaveSpawner.h"
 
 #include "Chat.h"
 #include "Player.h"
@@ -15,26 +15,25 @@
 
 #include <cstdlib>
 
-GuildHouseCommandScript::GuildHouseCommandScript() : CommandScript("GuildHouseCommandScript")
+GuildEnclaveCommandScript::GuildEnclaveCommandScript() : CommandScript("GuildEnclaveCommandScript")
 {
 }
 
 // =====================================================
 // Command Registration
 // =====================================================
-ChatCommandTable GuildHouseCommandScript::GetCommands() const
+ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
 {
     static ChatCommandTable npcTable =
     {
         { "broker",   HandleAddBroker,   SEC_GAMEMASTER, Console::No },
-//        { "salesman", HandleAddSalesman, SEC_PLAYER,     Console::No }
     };
 
     static ChatCommandTable houseTable =
     {
-        { "sell",     HandleSellGuildHouse,   SEC_PLAYER, Console::No },
-        { "tele",     HandleTeleportGuildHouse, SEC_PLAYER, Console::No },
-        { "teleport", HandleTeleportGuildHouse, SEC_PLAYER, Console::No }
+        { "sell",     HandleSellGuildEnclave,   SEC_PLAYER, Console::No },
+        { "tele",     HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
+        { "teleport", HandleTeleportGuildEnclave, SEC_PLAYER, Console::No }
     };
 
     static ChatCommandTable assetTable =
@@ -53,7 +52,7 @@ ChatCommandTable GuildHouseCommandScript::GetCommands() const
         { "buy",        HandlePurchaseCatalog, SEC_PLAYER, Console::No }
     };
 
-    static ChatCommandTable guildHouseTable =
+    static ChatCommandTable guildEnclaveTable =
     {
         { "npc",   npcTable },
         { "house", houseTable },
@@ -63,8 +62,8 @@ ChatCommandTable GuildHouseCommandScript::GetCommands() const
 
     static ChatCommandTable root =
     {
-        { "gh",          guildHouseTable },
-        { "guildhouse",  guildHouseTable }
+        { "ge",          guildEnclaveTable },
+        { "guildenclave",  guildEnclaveTable }
     };
 
     return root;
@@ -75,14 +74,14 @@ ChatCommandTable GuildHouseCommandScript::GetCommands() const
 //
 // Global broker NPC.
 // =====================================================
-bool GuildHouseCommandScript::HandleAddBroker(ChatHandler* handler)
+bool GuildEnclaveCommandScript::HandleAddBroker(ChatHandler* handler)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
         return false;
 
     uint32 entry = player->GetTeamId() == TEAM_ALLIANCE ? 900000 : 900001;
-    if(sGuildHouseSpawner.SpawnCreature (0, 0,  player->GetPhaseMaskForSpawn(), player->GetMapId(), entry, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation(), 0))
+    if(sGuildEnclaveSpawner.SpawnCreature (0, 0,  player->GetPhaseMaskForSpawn(), player->GetMapId(), entry, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation(), 0))
         handler->PSendSysMessage("Guild House Broker permanently spawned.");
     else
         handler->PSendSysMessage("Unable to spawn Guild House Broker");
@@ -91,33 +90,9 @@ bool GuildHouseCommandScript::HandleAddBroker(ChatHandler* handler)
 }
 
 // =====================================================
-// SALESMAN
-//
-// Guild instance salesman.
-// =====================================================
-bool GuildHouseCommandScript::HandleAddSalesman(ChatHandler* handler)
-{
-    Player* player = handler->GetSession()->GetPlayer();
-    if (!player)
-        return false;
-
-    if (!GuildHouseUtil::CanManageGuildHouse(player))
-    {
-        handler->PSendSysMessage("Only the Guild Master may place the Guild House salesman.");
-        return true;
-    }
-    if (!sGuildHouseMgr.PurchaseCatalogItem(player, 2))
-        handler->PSendSysMessage("Failed creating Guild House salesman.");
-    else
-        handler->PSendSysMessage("Guild House salesman created.");
-
-    return true;
-}
-
-// =====================================================
 // Sell Guild House
 // =====================================================
-bool GuildHouseCommandScript::HandleSellGuildHouse(ChatHandler* handler, char const*)
+bool GuildEnclaveCommandScript::HandleSellGuildEnclave(ChatHandler* handler, char const*)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -130,13 +105,13 @@ bool GuildHouseCommandScript::HandleSellGuildHouse(ChatHandler* handler, char co
         return true;
     }
 
-    if (!GuildHouseUtil::IsGuildRank(player))
+    if (!GuildEnclaveUtil::IsGuildRank(player))
     {
         handler->PSendSysMessage("Only the Guild Master may sell the Guild House.");
         return true;
     }
 
-    if (!sGuildHouseMgr.SellGuildHouse(guildId))
+    if (!sGuildEnclaveMgr.SellGuildEnclave(guildId))
     {
         handler->PSendSysMessage("Failed selling Guild House.");
         return true;
@@ -150,13 +125,13 @@ bool GuildHouseCommandScript::HandleSellGuildHouse(ChatHandler* handler, char co
 // =====================================================
 // Teleport
 // =====================================================
-bool GuildHouseCommandScript::HandleTeleportGuildHouse(ChatHandler* handler, char const*)
+bool GuildEnclaveCommandScript::HandleTeleportGuildEnclave(ChatHandler* handler, char const*)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
         return false;
 
-    if (!sGuildHouseMgr.TeleportToGuildHouse(player))
+    if (!sGuildEnclaveMgr.TeleportToGuildEnclave(player))
     {
         handler->PSendSysMessage("Unable to teleport to Guild House.");
         return true;
@@ -168,7 +143,7 @@ bool GuildHouseCommandScript::HandleTeleportGuildHouse(ChatHandler* handler, cha
 // =====================================================
 // List Assets
 // =====================================================
-bool GuildHouseCommandScript::HandleListAssets(ChatHandler* handler, char const*)
+bool GuildEnclaveCommandScript::HandleListAssets(ChatHandler* handler, char const*)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -181,7 +156,7 @@ bool GuildHouseCommandScript::HandleListAssets(ChatHandler* handler, char const*
         return true;
     }
 
-    const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
     if (!house)
     {
         handler->PSendSysMessage("Your guild does not own a Guild House.");
@@ -207,7 +182,7 @@ bool GuildHouseCommandScript::HandleListAssets(ChatHandler* handler, char const*
     for (uint32_t assetId : assetIds)
     {
         GHGuildAsset const& asset = house->Assets.at(assetId);
-        const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(asset.CatalogId);
+        const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(asset.CatalogId);
         char const* statusText = "Unknown";
         
         switch (asset.Status)
@@ -227,7 +202,7 @@ bool GuildHouseCommandScript::HandleListAssets(ChatHandler* handler, char const*
 // =====================================================
 // Place Asset
 // =====================================================
-bool GuildHouseCommandScript::HandlePlaceAsset(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandlePlaceAsset(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -246,7 +221,7 @@ bool GuildHouseCommandScript::HandlePlaceAsset(ChatHandler* handler, char const*
         return true;
     }
 
-    if (!sGuildHouseMgr.PlaceAsset(player, assetId))
+    if (!sGuildEnclaveMgr.PlaceAsset(player, assetId))
     {
         handler->PSendSysMessage("Failed placing Guild House asset.");
         return true;
@@ -260,7 +235,7 @@ bool GuildHouseCommandScript::HandlePlaceAsset(ChatHandler* handler, char const*
 // =====================================================
 // Move Asset
 // =====================================================
-bool GuildHouseCommandScript::HandleMoveAsset(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleMoveAsset(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -279,7 +254,7 @@ bool GuildHouseCommandScript::HandleMoveAsset(ChatHandler* handler, char const* 
         return true;
     }
 
-    if (!sGuildHouseMgr.MoveAsset(player, assetId))
+    if (!sGuildEnclaveMgr.MoveAsset(player, assetId))
     {
         handler->PSendSysMessage("Failed moving Guild House asset.");
         return true;
@@ -295,7 +270,7 @@ bool GuildHouseCommandScript::HandleMoveAsset(ChatHandler* handler, char const* 
 //
 // Removes world spawn but keeps ownership.
 // =====================================================
-bool GuildHouseCommandScript::HandleStoreAsset(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleStoreAsset(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -314,7 +289,7 @@ bool GuildHouseCommandScript::HandleStoreAsset(ChatHandler* handler, char const*
         return true;
     }
 
-    if (!sGuildHouseMgr.StoreAsset(player, assetId))
+    if (!sGuildEnclaveMgr.StoreAsset(player, assetId))
     {
         handler->PSendSysMessage("Failed storing Guild House asset.");
         return true;
@@ -330,7 +305,7 @@ bool GuildHouseCommandScript::HandleStoreAsset(ChatHandler* handler, char const*
 //
 // Removes ownership permanently.
 // =====================================================
-bool GuildHouseCommandScript::HandleSellAsset(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleSellAsset(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -349,7 +324,7 @@ bool GuildHouseCommandScript::HandleSellAsset(ChatHandler* handler, char const* 
         return true;
     }
 
-    if (!sGuildHouseMgr.SellAsset(player, assetId))
+    if (!sGuildEnclaveMgr.SellAsset(player, assetId))
     {
         handler->PSendSysMessage("Failed selling Guild House asset.");
         return true;
@@ -363,9 +338,9 @@ bool GuildHouseCommandScript::HandleSellAsset(ChatHandler* handler, char const* 
 // =====================================================
 // List Root Categories
 // =====================================================
-bool GuildHouseCommandScript::HandleListCategories(ChatHandler* handler, char const*)
+bool GuildEnclaveCommandScript::HandleListCategories(ChatHandler* handler, char const*)
 {
-    std::vector<const GHCategory*> categories = sGuildHouseCatalogMgr.GetRootCategories();
+    std::vector<const GHCategory*> categories = sGuildEnclaveCatalogMgr.GetRootCategories();
     if (categories.empty())
     {
         handler->PSendSysMessage("No Guild House categories available.");
@@ -391,7 +366,7 @@ bool GuildHouseCommandScript::HandleListCategories(ChatHandler* handler, char co
 // Usage:
 // .gh shop list <categoryId>
 // =====================================================
-bool GuildHouseCommandScript::HandleListCatalog(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleListCatalog(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -410,7 +385,7 @@ bool GuildHouseCommandScript::HandleListCatalog(ChatHandler* handler, char const
         return true;
     }
 
-    std::vector<const GHCatalog*> catalogs = sGuildHouseCatalogMgr.GetCatalogs(categoryId, player->GetTeamId());
+    std::vector<const GHCatalog*> catalogs = sGuildEnclaveCatalogMgr.GetCatalogs(categoryId, player->GetTeamId());
 
     if (catalogs.empty())
     {
@@ -437,9 +412,9 @@ bool GuildHouseCommandScript::HandleListCatalog(ChatHandler* handler, char const
 // Usage:
 // .gh shop buy <catalogId>
 //
-// Purchase is handled by GuildHouseMgr.
+// Purchase is handled by GuildEnclaveMgr.
 // =====================================================
-bool GuildHouseCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -458,7 +433,7 @@ bool GuildHouseCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char c
         return true;
     }
 
-    if (!sGuildHouseMgr.PurchaseCatalogItem(player, catalogId))
+    if (!sGuildEnclaveMgr.PurchaseCatalogItem(player, catalogId))
     {
         handler->PSendSysMessage("Failed purchasing Guild House item.");
         return true;
@@ -472,7 +447,7 @@ bool GuildHouseCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char c
 // =====================================================
 // Script Registration
 // =====================================================
-void AddSC_GuildHouseCommands()
+void AddSC_GuildEnclaveCommands()
 {
-    new GuildHouseCommandScript();
+    new GuildEnclaveCommandScript();
 }
