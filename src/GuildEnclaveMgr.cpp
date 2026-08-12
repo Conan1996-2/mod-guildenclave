@@ -211,15 +211,6 @@ GHGuildEnclave* GuildEnclaveMgr::GetGuildEnclave(uint32_t guildId)
     return &itr->second;
 }
 
-const GHLocation* GuildEnclaveMgr::GetGuildLocation(uint32_t guildId) const
-{
-    const GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return nullptr;
-
-    return GetLocation(house->LocationId);
-}
-
 // =====================================================
 // Create and Sell Guild Enclave
 // =====================================================
@@ -440,6 +431,15 @@ bool GuildEnclaveMgr::CheckBoundary(Player* player)
     }
 
     return true;
+}
+
+const GHLocation* GuildEnclaveMgr::GetGuildLocation(uint32_t guildId) const
+{
+    const GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return nullptr;
+
+    return GetLocation(house->LocationId);
 }
 
 // =====================================================
