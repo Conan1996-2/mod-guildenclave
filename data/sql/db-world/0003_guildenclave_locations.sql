@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `guildhouse_locations`;
-CREATE TABLE `guildhouse_locations`
+DROP TABLE IF EXISTS `guildenclave_locations`;
+CREATE TABLE `guildenclave_locations`
 (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
