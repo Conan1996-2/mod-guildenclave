@@ -1,18 +1,18 @@
-#ifndef MOD_GUILDHOUSE_SALESMAN_H
-#define MOD_GUILDHOUSE_SALESMAN_H
+#ifndef MOD_GUILDENCLAVE_SALESMAN_H
+#define MOD_GUILDENCLAVE_SALESMAN_H
 
 #include "ScriptMgr.h"
 
 class Player;
 class Creature;
 
-// all Salesman will be owned by a guild and listed in table characters.guildhouse_spawns with guildId=guild and assetId=0
+// all Salesman will be owned by a guild and listed in table characters.guildenclave_spawns with guildId=guild and assetId=0
 
-class GuildHouseSalesman : public CreatureScript
+class GuildEnclaveSalesman : public CreatureScript
 {
 public:
 
-    GuildHouseSalesman() : CreatureScript("GuildHouseSalesman")
+    GuildEnclaveSalesman() : CreatureScript("GuildEnclaveSalesman")
     {
     }
 
