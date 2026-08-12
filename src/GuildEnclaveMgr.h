@@ -29,23 +29,22 @@ public:
     bool LeavePhase(Player* player);
 
     // =====================================================
-    // Guild House Ownership
+    // Guild Enclave Membership
     // =====================================================
     bool IsMember(Player* player) const;
     bool AddMember(uint32_t guildId, uint64_t guid);
     bool RemoveMember(uint32_t guildId, uint64_t guid);
 
     // =====================================================
-    // Guild House Ownership
+    // Guild Enclave Ownership
     // =====================================================
     bool HasGuildEnclave(uint32_t guildId) const;
     const std::unordered_map<uint32_t, GHGuildEnclave>& GetHouses() const;
     const GHGuildEnclave* GetGuildEnclave(uint32_t guildId) const;
     GHGuildEnclave* GetGuildEnclave(uint32_t guildId);
-    const GHLocation* GetGuildLocation(uint32_t guildId) const;
 
     // =====================================================
-    // Create and Sell Guild House
+    // Create and Sell Guild Enclave
     // =====================================================
     bool CreateGuildEnclave(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId);
     bool SellGuildEnclave(uint32_t guildId);
@@ -74,6 +73,7 @@ public:
     // =====================================================
     bool IsInsideGuildEnclaveBoundary(uint32_t guildId, float x, float y) const;
     bool CheckBoundary(Player* player);
+    const GHLocation* GetGuildLocation(uint32_t guildId) const;
 
     // =====================================================
     // Assets
