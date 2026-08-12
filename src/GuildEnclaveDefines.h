@@ -1,5 +1,5 @@
-#ifndef MOD_GUILDHOUSE_DEFINES_H
-#define MOD_GUILDHOUSE_DEFINES_H
+#ifndef MOD_GUILDENCLAVE_DEFINES_H
+#define MOD_GUILDENCLAVE_DEFINES_H
 
 #include <cstdint>
 
@@ -55,11 +55,11 @@ enum GHScriptType : uint32_t
 // =====================================================
 // Utility Helpers
 // =====================================================
-namespace GuildHouseUtil
+namespace GuildEnclaveUtil
 {
-    bool IsGuildHousePhase(uint32_t guildId, uint32_t phaseMask);
+    bool IsGuildEnclavePhase(uint32_t guildId, uint32_t phaseMask);
 
-    bool IsInGuildHouse(Player* player);
+    bool IsInGuildEnclave(Player* player);
 
     bool IsGuildRank(Player* player);
 
@@ -97,9 +97,9 @@ namespace GuildHouseUtil
     }
 */
 
-    inline bool CanManageGuildHouse(Player* player)
+    inline bool CanManageGuildEnclave(Player* player)
     {
-        return IsGuildRank(player) && IsInGuildHouse(player);
+        return IsGuildRank(player) && IsInGuildEnclave(player);
     }
 }
 
