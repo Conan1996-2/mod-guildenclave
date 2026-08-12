@@ -1,26 +1,26 @@
-# [ THE GUILDHOUSE MANUAL ]
+# [ THE GUILD ENCLAVE MANUAL ]
 >Compiled by: Conan96   
->Version 0.1 - 27 July 2026
+>Version 0.2 - 11 Aug 2026
 
 ---------------------------------------
 ### Introduction
-GuildHouse is a [AzerothCore](https://github.com/azerothcore/azerothcore-wotlk/) wotlk mod  
+GuildEnclave is a [AzerothCore](https://github.com/azerothcore/azerothcore-wotlk/) wotlk mod  
 
-This manual is created to officially state the purpose and explain the usage of GuildHouse system
+This manual is created to officially state the purpose and explain the usage of GuildEnclave system
 
 This Addon will use a guild area in the world. Default predefined areas are GM Island and a map not in use broken down into 3 areas.  
 
 ---------------------------------------
-### Features of the GuildHouse:  
+### Features of the GuildEnclave:  
 
-- Purchase your own area to be used as a GuildHouse (via the Broker)  
-- Purchase Items that can be placed anywhere in your GuildHouse (via the Salesman)  
+- Purchase your own area to be used as a GuildEnclave (via the Broker)  
+- Purchase Items that can be placed anywhere in your GuildEnclave (via the Salesman)  
 
 ---------------------------------------
 ### Things the Broker can do:
 
-- Purchase, Sell a GuildHouse
-- Teleport a player to the GuildHouse they own
+- Purchase, Sell a GuildEnclave
+- Teleport a player to the GuildEnclave they own
 
 ---------------------------------------
 ### Added/In Progress
@@ -57,9 +57,9 @@ This Addon will use a guild area in the world. Default predefined areas are GM I
     - Animals
   
 ---------------------------------------
-### GuildHouse Commands
+### GuildEnclave Commands
 Note that some commands may not be available to all accounts (depending on their access level and permissions set in the RBAC tables (TC) / in the `command` table (AC)). You may need to change your account permissions / security level to enable usage of some commands
-Most GuildHouse commands are divised by persmissions into groups: player commands and GM commands.
+Most GuildEnclave commands are divised by persmissions into groups: player commands and GM commands.
 ```
 KEY:
 < >  (angled brackets) indicates essential command argument  
@@ -67,7 +67,7 @@ KEY:
  |  (pipe character) indicates argument choices (i.e. this|that  = this OR that)  
 _ARGUMENT_  indicates argument names  
 ```
-**COMMAND**: **`.guildhouse | .gh`** -- (Player command) by itself will list all syntax available  
+**COMMAND**: **`.guildenclave | .ge`** -- (Player command) by itself will list all syntax available  
 
   - **`asset`** -- (Proper Guild Rank Access to use command)  
     - **`list`** -- Lists all owned assets in the world, and their asset ID and status of the asset.  
