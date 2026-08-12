@@ -72,54 +72,54 @@ _ARGUMENT_  indicates argument names
   - **`asset`** -- (Proper Guild Rank Access to use command)  
     - **`list`** -- Lists all owned assets in the world, and their asset ID and status of the asset.  
             **Example Usage**:  
-                - `.gh list`  
+                - `.ge list`  
     - **`move <_ASSETID_>`** -- Move a spawned asset in the world from where it was placed to the players current position.  
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.gh move 2`  
+                - `.ge move 2`  
     - **`place <_ASSETID_>`** -- Place a specific non spawned asset at the players current position.  
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.gh place 1`  
+                - `.ge place 1`  
     - **`sell <_ASSETID_>`** -- Sell a specific asset, removing it from guild inventory.  
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.gh sell 5`  
+                - `.ge sell 5`  
     - **`store <_ASSETID_>`** -- Removes a spawned asset from the world, saving it to be spawned at a future time.  
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.gh store 12`  
+                - `.ge store 12`  
 
-  - **`house`** -- (Proper Guild Rank Access to use command)  
-    - **`sell`** -- Sells the house and all its contents back to the broker, refund is a set percentage of cost.  
+  - **`enclave`** -- (Proper Guild Rank Access to use command)  
+    - **`sell`** -- Sells the enclave and all its contents back to the broker, refund is a set percentage of cost.  
             **Example Usage**:  
-                - `.gh house sell`  
+                - `.ge enclave sell`  
 
-  - **`house`** -- (Any player in a guild that owns a house)  
-    - **`tele | teleport`** -- Teleports the player to the guild house they own.  
+  - **`enclave`** -- (Any player in a guild that owns a enclave)  
+    - **`tele | teleport`** -- Teleports the player to the guild enclave they own.  
             **Example Usage**:  
-                - `.gh house tele`  
+                - `.ge enclave tele`  
 
   - **`npc`** -- (Game Master or higher)  
     - **`broker`** -- Spawns a broker at the players position. There can be more then one.  
             **Example Usage**:  
-                - `.gh npc broker`  
+                - `.ge npc broker`  
 
   - **`npc`** -- (Proper Guild Rank Access to use command)  
     - **`salesman`** -- Spawns a salesman at the current location inside the guild area. There can only be one.  
             **Example Usage**:  
-                - `.gh npc salesman`  
+                - `.ge npc salesman`  
 
   - **`shop`** -- (Proper Guild Rank Access command)  
     - **`buy <_CATALOGID_>`** -- Purchase a specific item  
         - _CATALOGID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.gh shop buy`  
+                - `.ge shop buy`  
     - **`categories`** -- List all categories  
             **Example Usage**:  
-                - `.gh shop categories`  
+                - `.ge shop categories`  
     - **`list <_CATEGORYID_>`** -- Lists all items in a category  
         - _CATEGORYID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.gh shop list 100`  
+                - `.ge shop list 100`  
 
