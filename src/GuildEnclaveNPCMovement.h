@@ -1,5 +1,5 @@
-#ifndef GUILD_HOUSE_NPC_MOVEMENT_H
-#define GUILD_HOUSE_NPC_MOVEMENT_H
+#ifndef GUILDENCLAVEE_NPC_MOVEMENT_H
+#define GUILDENCLAVE_NPC_MOVEMENT_H
 
 #include "ScriptMgr.h"
 
@@ -29,4 +29,4 @@ public:
 
 void AddSC_GuildEnclaveNPCMovementScripts();
 
-#endif // GUILD_HOUSE_NPC_MOVEMENT_H
+#endif
