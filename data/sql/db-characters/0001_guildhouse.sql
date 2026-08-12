@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `guildhouse`;
-CREATE TABLE `guildhouse`
+DROP TABLE IF EXISTS `guildenclave`;
+CREATE TABLE `guildenclave`
 (
     `guildId` INT UNSIGNED NOT NULL,
     `ownerGuid` INT UNSIGNED NOT NULL,
@@ -15,8 +15,8 @@ CREATE TABLE `guildhouse`
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `guildhouse_asset`;
-CREATE TABLE `guildhouse_asset`
+DROP TABLE IF EXISTS `guildenclave_asset`;
+CREATE TABLE `guildenclave_asset`
 (
     `assetId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `guildId` INT UNSIGNED NOT NULL,
@@ -45,8 +45,8 @@ CREATE TABLE `guildhouse_asset`
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS guildhouse_spawn;
-CREATE TABLE guildhouse_spawn
+DROP TABLE IF EXISTS guildenclave_spawn;
+CREATE TABLE guildenclave_spawn
 (
     spawnId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     guildId INT UNSIGNED NOT NULL,
