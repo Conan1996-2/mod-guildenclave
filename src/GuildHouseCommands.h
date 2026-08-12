@@ -1,15 +1,15 @@
-#ifndef MOD_GUILDHOUSE_COMMANDS_H
-#define MOD_GUILDHOUSE_COMMANDS_H
+#ifndef MOD_GUILDENCLAVE_COMMANDS_H
+#define MOD_GUILDENCLAVE_COMMANDS_H
 
 #include "ScriptMgr.h"
 
 using namespace Acore::ChatCommands;
 
-class GuildHouseCommandScript : public CommandScript
+class GuildEnclaveCommandScript : public CommandScript
 {
 public:
 
-    GuildHouseCommandScript();
+    GuildEnclaveCommandScript();
 
     ChatCommandTable GetCommands() const override;
 
@@ -22,8 +22,8 @@ public:
     // =====================================================
     // GUILD HOUSE MANAGEMENT
     // =====================================================
-    static bool HandleSellGuildHouse(ChatHandler* handler, char const* args);
-    static bool HandleTeleportGuildHouse(ChatHandler* handler, char const* args);
+    static bool HandleSellGuildEnclave(ChatHandler* handler, char const* args);
+    static bool HandleTeleportGuildEnclave(ChatHandler* handler, char const* args);
 
     // =====================================================
     // ASSET MANAGEMENT
@@ -45,7 +45,6 @@ public:
 // =====================================================
 // Script registration
 // =====================================================
-void AddSC_GuildHouseCommands();
-
+void AddSC_GuildEnclaveCommands();
 
 #endif
