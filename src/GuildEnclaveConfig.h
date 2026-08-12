@@ -1,13 +1,13 @@
-#ifndef MOD_GUILDHOUSE_CONFIG_H
-#define MOD_GUILDHOUSE_CONFIG_H
+#ifndef MOD_GUILDENCLAVE_CONFIG_H
+#define MOD_GUILDENCLAVE_CONFIG_H
 
 #include <cstdint>
 
-class GuildHouseConfig
+class GuildEnclaveConfig
 {
 public:
 
-    static GuildHouseConfig& Instance();
+    static GuildEnclaveConfig& Instance();
 
     void Load();
 
@@ -22,7 +22,7 @@ public:
 
 private:
 
-    GuildHouseConfig() = default;
+    GuildEnclaveConfig() = default;
 
     bool _enabled = false;
     bool _allWander = false;
@@ -34,6 +34,6 @@ private:
     double _refundPercent = 0;
 };
 
-#define sGuildHouseConfig GuildHouseConfig::Instance()
+#define sGuildEnclaveConfig GuildEnclaveConfig::Instance()
 
 #endif
