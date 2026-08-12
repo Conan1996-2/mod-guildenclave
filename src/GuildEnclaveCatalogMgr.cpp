@@ -77,7 +77,7 @@ void GuildEnclaveCatalogMgr::Load()
     //
     uint16_t componentCount = 0;
     if (QueryResult result = WorldDatabase.Query("SELECT componentId,catalogId,spawnFlags,behaviorFlags,entryId,displayId,scale,scriptType,scriptData,xOffset,yOffset,zOffset,oOffset,targetMapId,targetX,targetY,targetZ,targetO,childCatalogId,sortOrder "
-        "FROM guildhouse_catalog_asset ORDER BY sortOrder"))
+        "FROM guildenclave_catalog_asset ORDER BY sortOrder"))
     {
         do
         {
