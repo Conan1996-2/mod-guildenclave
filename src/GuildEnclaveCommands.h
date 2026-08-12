@@ -20,7 +20,7 @@ public:
     static bool HandleAddSalesman(ChatHandler* handler);
 
     // =====================================================
-    // GUILD HOUSE MANAGEMENT
+    // GUILD Enclave MANAGEMENT
     // =====================================================
     static bool HandleSellGuildEnclave(ChatHandler* handler, char const* args);
     static bool HandleTeleportGuildEnclave(ChatHandler* handler, char const* args);
