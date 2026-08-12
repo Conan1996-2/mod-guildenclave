@@ -1,14 +1,14 @@
-#ifndef MOD_GUILDHOUSE_WORLD_H
-#define MOD_GUILDHOUSE_WORLD_H
+#ifndef MOD_GUILDENCLAVE_WORLD_H
+#define MOD_GUILDENCLAVE_WORLD_H
 
 #include "ScriptMgr.h"
 
 
-class GuildHouseWorldScript : public WorldScript
+class GuildEnclaveWorldScript : public WorldScript
 {
 public:
 
-    GuildHouseWorldScript() : WorldScript("GuildHouseWorldScript")
+    GuildEnclaveWorldScript() : WorldScript("GuildEnclaveWorldScript")
     {
     }
 
@@ -17,6 +17,6 @@ public:
     void OnStartup() override;
 };
 
-void AddSC_GuildHouseWorld();
+void AddSC_GuildEnclaveWorld();
 
 #endif
