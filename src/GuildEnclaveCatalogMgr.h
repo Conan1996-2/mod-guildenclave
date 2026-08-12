@@ -1,16 +1,16 @@
-#ifndef MOD_GUILDHOUSE_CATALOG_MGR_H
-#define MOD_GUILDHOUSE_CATALOG_MGR_H
+#ifndef MOD_GUILDENCLAVE_CATALOG_MGR_H
+#define MOD_GUILDENCLAVE_CATALOG_MGR_H
 
 #include <unordered_map>
 #include <vector>
 
-#include "GuildHouseTypes.h"
+#include "GuildEnclaveTypes.h"
 
-class GuildHouseCatalogMgr
+class GuildEnclaveCatalogMgr
 {
 public:
 
-    static GuildHouseCatalogMgr& Instance();
+    static GuildEnclaveCatalogMgr& Instance();
 
     void Load();
 
@@ -31,7 +31,7 @@ public:
 
 private:
 
-    GuildHouseCatalogMgr() = default;
+    GuildEnclaveCatalogMgr() = default;
 
     // =====================================================
     // Catalog data
@@ -41,6 +41,6 @@ private:
     //std::unordered_map<uint32_t, GHCatalogAsset> _assets;
 };
 
-#define sGuildHouseCatalogMgr GuildHouseCatalogMgr::Instance()
+#define sGuildEnclaveCatalogMgr GuildEnclaveCatalogMgr::Instance()
 
 #endif
