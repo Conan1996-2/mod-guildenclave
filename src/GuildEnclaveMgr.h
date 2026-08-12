@@ -1,19 +1,19 @@
-#ifndef MOD_GUILDHOUSE_MGR_H
-#define MOD_GUILDHOUSE_MGR_H
+#ifndef MOD_GUILDENCLAVE_MGR_H
+#define MOD_GUILDENCLAVE_MGR_H
 
 #include <unordered_map>
 #include <vector>
 #include <cstdint>
 
-#include "GuildHouseTypes.h"
+#include "GuildEnclaveTypes.h"
 
 class Player;
 
-class GuildHouseMgr
+class GuildEnclaveMgr
 {
 public:
 
-    static GuildHouseMgr& Instance();
+    static GuildEnclaveMgr& Instance();
 
     void Load();
 
@@ -38,17 +38,17 @@ public:
     // =====================================================
     // Guild House Ownership
     // =====================================================
-    bool HasGuildHouse(uint32_t guildId) const;
-    const std::unordered_map<uint32_t, GHGuildHouse>& GetHouses() const;
-    const GHGuildHouse* GetGuildHouse(uint32_t guildId) const;
-    GHGuildHouse* GetGuildHouse(uint32_t guildId);
+    bool HasGuildEnclave(uint32_t guildId) const;
+    const std::unordered_map<uint32_t, GHGuildEnclave>& GetHouses() const;
+    const GHGuildEnclave* GetGuildEnclave(uint32_t guildId) const;
+    GHGuildEnclave* GetGuildEnclave(uint32_t guildId);
     const GHLocation* GetGuildLocation(uint32_t guildId) const;
 
     // =====================================================
     // Create and Sell Guild House
     // =====================================================
-    bool CreateGuildHouse(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId);
-    bool SellGuildHouse(uint32_t guildId);
+    bool CreateGuildEnclave(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId);
+    bool SellGuildEnclave(uint32_t guildId);
 
     // =====================================================
     // Money Management
@@ -60,7 +60,7 @@ public:
     // =====================================================
     // Teleport
     // =====================================================
-    bool TeleportToGuildHouse(Player* player);
+    bool TeleportToGuildEnclave(Player* player);
 
     // =====================================================
     // Locations
@@ -72,7 +72,7 @@ public:
     // =====================================================
     // Boundary
     // =====================================================
-    bool IsInsideGuildHouseBoundary(uint32_t guildId, float x, float y) const;
+    bool IsInsideGuildEnclaveBoundary(uint32_t guildId, float x, float y) const;
     bool CheckBoundary(Player* player);
 
     // =====================================================
@@ -93,15 +93,15 @@ public:
 
 private:
 
-    GuildHouseMgr() = default;
+    GuildEnclaveMgr() = default;
 
     uint32_t _nextAssetId = 1;
 
-    std::unordered_map<uint32_t, GHGuildHouse> _houses;
+    std::unordered_map<uint32_t, GHGuildEnclave> _houses;
     std::unordered_map<uint32_t, GHLocation> _locations;
 
 };
 
-#define sGuildHouseMgr GuildHouseMgr::Instance()
+#define sGuildEnclaveMgr GuildEnclaveMgr::Instance()
 
 #endif
