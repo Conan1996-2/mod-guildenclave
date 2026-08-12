@@ -1,10 +1,10 @@
-#include "GuildHouseSpawner.h"
+#include "GuildEnclaveSpawner.h"
 
-#include "GuildHouseConfig.h"
-#include "GuildHouseTypes.h"
-#include "GuildHouseMgr.h"
-//#include "GuildHousePhaseMgr.h"
-#include "GuildHouseCatalogMgr.h"
+#include "GuildEnclaveConfig.h"
+#include "GuildEnclaveTypes.h"
+#include "GuildEnclaveMgr.h"
+//#include "GuildEnclavePhaseMgr.h"
+#include "GuildEnclaveCatalogMgr.h"
 
 #include "MapMgr.h"
 #include "DatabaseEnv.h"
@@ -16,18 +16,18 @@
 
 #include <sstream>
 
-GuildHouseSpawner& GuildHouseSpawner::Instance()
+GuildEnclaveSpawner& GuildEnclaveSpawner::Instance()
 {
-    static GuildHouseSpawner instance;
+    static GuildEnclaveSpawner instance;
     return instance;
 }
 
 // =====================================================
 // Existing spawn
 // =====================================================
-bool GuildHouseSpawner::HasExistingSpawn(uint32_t guildId, uint32_t assetId)
+bool GuildEnclaveSpawner::HasExistingSpawn(uint32_t guildId, uint32_t assetId)
 {
-    GHGuildHouse const* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    GHGuildEnclave const* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
 
     if (!house)
         return false;
@@ -44,31 +44,31 @@ bool GuildHouseSpawner::HasExistingSpawn(uint32_t guildId, uint32_t assetId)
 // =====================================================
 // Spawn Asset
 // =====================================================
-bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t catalogId, float x, float y, float z, float o, int w)
+bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t catalogId, float x, float y, float z, float o, int w)
 {
     if(HasExistingSpawn(guildId, assetId))
         return false;
 
-    const GHCatalog* catalog = sGuildHouseCatalogMgr.GetCatalog(catalogId);
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
     if(!catalog)
         return false;
 
-    GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
     if (!house)
         return false;
 
-    GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
+    GHLocation* location = sGuildEnclaveMgr.GetLocation(house->LocationId);
     if (!location)
         return false;
     
     uint8_t team = house->Team;    
     for(auto const& component : catalog->Components)
     {
-        if (!GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
+        if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
         {
-            if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_ALLIANCE) && team != TEAM_ALLIANCE)
+            if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_ALLIANCE) && team != TEAM_ALLIANCE)
                 continue;
-            if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != TEAM_HORDE)
+            if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != TEAM_HORDE)
                 continue;
         }
 
@@ -80,19 +80,19 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
         float cz = z + component.ZOffset;
         float co = Position::NormalizeOrientation(o + component.OOffset);
 
-        if(GuildHouseUtil::HasFlag(component.SpawnFlags, GH_SPAWN_CREATURE))
+        if(GuildEnclaveUtil::HasFlag(component.SpawnFlags, GH_SPAWN_CREATURE))
             SpawnCreature(guildId, assetId, house->PhaseMask, location->MapId, component.Entry, cx, cy, cz, co, w);
 
-        if(GuildHouseUtil::HasFlag(component.SpawnFlags, GH_SPAWN_GAMEOBJECT))
+        if(GuildEnclaveUtil::HasFlag(component.SpawnFlags, GH_SPAWN_GAMEOBJECT))
             SpawnGameObject(guildId, assetId, house->PhaseMask, location->MapId, component.Entry, cx, cy, cz, co);
     }
 
     return true;
 }
 
-void GuildHouseSpawner::LoadPlacedAssets(uint32_t guildId)
+void GuildEnclaveSpawner::LoadPlacedAssets(uint32_t guildId)
 {
-    const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
     if (!house)
         return;
 
@@ -105,7 +105,7 @@ void GuildHouseSpawner::LoadPlacedAssets(uint32_t guildId)
             SpawnAsset(guildId, asset.AssetId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.w);
         else
         {
-            GHLocation* location = sGuildHouseMgr.GetLocation(house->LocationId);
+            GHLocation* location = sGuildEnclaveMgr.GetLocation(house->LocationId);
             if (!location)
                 return;
             
@@ -118,7 +118,7 @@ void GuildHouseSpawner::LoadPlacedAssets(uint32_t guildId)
 // =====================================================
 // Creature
 // =====================================================
-bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32_t phaseMask, uint32_t mapId, uint32_t entry, float x, float y, float z, float o, int w)
+bool GuildEnclaveSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32_t phaseMask, uint32_t mapId, uint32_t entry, float x, float y, float z, float o, int w)
 {
    Map* map = sMapMgr->CreateBaseMap(mapId);
     if (!map)
@@ -131,8 +131,8 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
         return false;
     }
 
-    if (sGuildHouseConfig.AllWander() && w== 0)
-        w = sGuildHouseConfig.WanderDistance();
+    if (sGuildEnclaveConfig.AllWander() && w== 0)
+        w = sGuildEnclaveConfig.WanderDistance();
 
     if (w > 0)
     {
@@ -154,10 +154,10 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
 
     sObjectMgr->AddCreatureToGrid(spawnId, sObjectMgr->GetCreatureData(spawnId));
 
-    CharacterDatabase.Execute("INSERT INTO guildhouse_spawn (guildId,assetId,spawnGuid,spawnType,mapId,phaseMask,x,y,z,o,w) "
+    CharacterDatabase.Execute("INSERT INTO guildenclave_spawn (guildId,assetId,spawnGuid,spawnType,mapId,phaseMask,x,y,z,o,w) "
         "VALUES ({},{},{},{},{},{},{},{},{},{},{})", guildId, assetId, spawnId, GH_SPAWN_CREATURE, mapId, phaseMask, x, y, z, o, w);
 
-    GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
     if (house)
     {
         GHGuildSpawn spawn;
@@ -184,7 +184,7 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
 // =====================================================
 // GameObject
 // =====================================================
-bool GuildHouseSpawner::SpawnGameObject(uint32_t guildId, uint32_t assetId, uint32_t phaseMask, uint32_t mapId, uint32_t entry, float x, float y, float z, float o)
+bool GuildEnclaveSpawner::SpawnGameObject(uint32_t guildId, uint32_t assetId, uint32_t phaseMask, uint32_t mapId, uint32_t entry, float x, float y, float z, float o)
 {
     Map* map = sMapMgr->CreateBaseMap(mapId);
     if (!map)
@@ -221,10 +221,10 @@ bool GuildHouseSpawner::SpawnGameObject(uint32_t guildId, uint32_t assetId, uint
 
     sObjectMgr->AddGameobjectToGrid(spawnId, sObjectMgr->GetGameObjectData(spawnId));
 
-    CharacterDatabase.Execute("INSERT INTO guildhouse_spawn (guildId,assetId,spawnGuid,spawnType,mapId,phaseMask,x,y,z,o) VALUES ({},{},{},{},{},{},{},{},{},{})",
+    CharacterDatabase.Execute("INSERT INTO guildenclave_spawn (guildId,assetId,spawnGuid,spawnType,mapId,phaseMask,x,y,z,o) VALUES ({},{},{},{},{},{},{},{},{},{})",
         guildId, assetId, spawnId, GH_SPAWN_GAMEOBJECT, mapId, phaseMask, x, y, z, o);
 
-    if (GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId))
+    if (GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId))
     {
         GHGuildSpawn spawn;
 
@@ -251,9 +251,9 @@ bool GuildHouseSpawner::SpawnGameObject(uint32_t guildId, uint32_t assetId, uint
 // =====================================================
 // Remove asset
 // =====================================================
-bool GuildHouseSpawner::RemoveAsset(uint32_t guildId, uint32_t assetId)
+bool GuildEnclaveSpawner::RemoveAsset(uint32_t guildId, uint32_t assetId)
 {
-    GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
     if (!house)
         return false;
 
@@ -283,7 +283,7 @@ bool GuildHouseSpawner::RemoveAsset(uint32_t guildId, uint32_t assetId)
 
         if (success)
         {
-            CharacterDatabase.Execute("DELETE FROM guildhouse_spawn WHERE guildId={} AND assetId={} AND spawnGuid={}", guildId, assetId, spawnGuid);
+            CharacterDatabase.Execute("DELETE FROM guildenclave_spawn WHERE guildId={} AND assetId={} AND spawnGuid={}", guildId, assetId, spawnGuid);
             itr = house->Spawns.erase(itr);
             removed = true;
         }
@@ -299,9 +299,9 @@ bool GuildHouseSpawner::RemoveAsset(uint32_t guildId, uint32_t assetId)
 // =====================================================
 // Remove all
 // =====================================================
-bool GuildHouseSpawner::RemoveAllAssets(uint32_t guildId)
+bool GuildEnclaveSpawner::RemoveAllAssets(uint32_t guildId)
 {
-    GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
+    GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
     if (!house)
         return false;
 
@@ -319,7 +319,7 @@ bool GuildHouseSpawner::RemoveAllAssets(uint32_t guildId)
 // =====================================================
 // World removal
 // =====================================================
-bool GuildHouseSpawner::RemoveCreatureSpawn(uint32_t guid)
+bool GuildEnclaveSpawner::RemoveCreatureSpawn(uint32_t guid)
 {
     CreatureData const* data = sObjectMgr->GetCreatureData(guid);
     if (!data)
@@ -347,7 +347,7 @@ bool GuildHouseSpawner::RemoveCreatureSpawn(uint32_t guid)
     return false;
 }
 
-bool GuildHouseSpawner::RemoveGameObjectSpawn(uint32_t guid)
+bool GuildEnclaveSpawner::RemoveGameObjectSpawn(uint32_t guid)
 {
     GameObjectData const* data = sObjectMgr->GetGameObjectData(guid);
     if (!data)
