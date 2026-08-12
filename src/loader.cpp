@@ -1,35 +1,35 @@
 #include "ScriptMgr.h"
 
 
-void AddSC_GuildHouseWorld();
+void AddSC_GuildEnclaveWorld();
 
-void AddSC_GuildHouseBroker();
-void AddSC_GuildHouseSalesman();
-void AddSC_GuildHouseCommands();
-void AddSC_GuildHouseNPCMovementScripts();
-void AddSC_GuildHouseScripts();
+void AddSC_GuildEnclaveBroker();
+void AddSC_GuildEnclaveSalesman();
+void AddSC_GuildEnclaveCommands();
+void AddSC_GuildEnclaveNPCMovementScripts();
+void AddSC_GuildEnclaveScripts();
 
-void AddGuildHouseScripts()
+void AddGuildEnclaveScripts()
 {
     //
     // World
     //
-    AddSC_GuildHouseWorld();
+    AddSC_GuildEnclaveWorld();
 
     //
     // Systems
     //
-    AddSC_GuildHouseScripts();
+    AddSC_GuildEnclaveScripts();
 
     //
     // Gameplay
     //
-    AddSC_GuildHouseCommands();
-    AddSC_GuildHouseNPCMovementScripts();
+    AddSC_GuildEnclaveCommands();
+    AddSC_GuildEnclaveNPCMovementScripts();
     
     //
     // NPCs
     //
-    AddSC_GuildHouseBroker();
-    AddSC_GuildHouseSalesman();
+    AddSC_GuildEnclaveBroker();
+    AddSC_GuildEnclaveSalesman();
 }
