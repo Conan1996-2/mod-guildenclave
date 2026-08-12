@@ -112,9 +112,9 @@ bool GuildHouseCommandScript::HandleAddSalesman(ChatHandler* handler)
         handler->PSendSysMessage("Failed creating Guild House salesman.");
     else
         handler->PSendSysMessage("Guild House salesman created.");
+    */
 
     return true;
-    */
 }
 
 // =====================================================
