@@ -56,13 +56,13 @@ uint32_t GuildEnclaveMgr::GeneratePhaseMask(uint32_t locationId)
     {
         if ((location->InUseBitMask & mask) == 0)
         {
-            LOG_INFO("server.loading", "available phase masks for location {}: {}", locationId, mask);
+            //LOG_INFO("server.loading", "available phase masks for location {}: {}", locationId, mask);
             location->InUseBitMask |= mask;
             return mask;
         }
     }
 
-    LOG_INFO("server.loading", "No available phase masks for location {}", locationId);
+    //LOG_INFO("server.loading", "No available phase masks for location {}", locationId);
     return 0;
 }
 
@@ -76,7 +76,7 @@ uint32_t GuildEnclaveMgr::CreatePhase(uint32_t guildId, uint32_t locationId)
     if (!phaseMask)
         return 0;
 
-    LOG_INFO("module", "Created Guild House phase {} for guild {}", phaseMask, guildId);
+    //LOG_INFO("module", "Created Guild House phase {} for guild {}", phaseMask, guildId);
 
     return phaseMask;
 }
@@ -447,8 +447,6 @@ bool GuildEnclaveMgr::CheckBoundary(Player* player)
 // =====================================================
 void GuildEnclaveMgr::Load()
 {
-    LOG_INFO("server.loading", "Loading GuildEnclaveMgr");    
-
     _houses.clear();
     _locations.clear();
 
@@ -634,8 +632,6 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId)
     GHGuildAsset* asset = GetAsset(guildId, assetId);
     if (!asset)
         return false;
-
-    LOG_INFO("server.loading", "GuildEnclaveMgr PlaceAsset spawning asset {}", assetId);
 
     float x = player->GetPositionX();
     float y = player->GetPositionY();
