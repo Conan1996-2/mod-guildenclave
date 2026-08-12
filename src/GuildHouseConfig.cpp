@@ -14,14 +14,9 @@ void GuildHouseConfig::Load()
     _enabled = sConfigMgr->GetOption<bool>("GuildHouse.Enable", false);
     _free = sConfigMgr->GetOption<bool>("GuildHouse.Free", false);    
     _allWander = sConfigMgr->GetOption<bool>("GuildHouse.NPCWander.Enabled", false);
-
-    LOG_INFO("server.loading", "GuildHouse.NPCWander.Enabled = {}", sConfigMgr->GetOption<bool>("GuildHouse.NPCWander.Enabled", false));
-    LOG_INFO("server.loading", "_allWander = {}", _allWander);
-        
     _wanderDistance = sConfigMgr->GetOption<int16_t>("GuildHouse.NPCWander.Distance", 0);
 
     _refundPercent = sConfigMgr->GetOption<float>("GuildHouse.Refund", .8);
-
     if (_refundPercent > 1)
         _refundPercent = 1;
 
