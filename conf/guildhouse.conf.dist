@@ -8,7 +8,7 @@
 # Guild house config
 ########################################
 
-#    GuildHouse.Enable
+#    GuildEnclave.Enable
 #        Description: Enable the Guild House module.
 #            If set to 0, access will be disabled.
 #
@@ -16,9 +16,9 @@
 #                    1 - Enabled (Full access to mod)
 #
 
-GuildHouse.Enable = 0
+GuildEnclave.Enable = 0
 
-#    GuildHouse.Free
+#    GuildEnclave.Free
 #        Description: Allow the purchase of individually selected items to have no cost.
 #            If set to 0, all items will have a cost.
 #
@@ -27,32 +27,32 @@ GuildHouse.Enable = 0
 #                    2 - Enabled (All items will be free and given to guild on house purchase)
 #
 
-GuildHouse.Free = 0
+GuildEnclave.Free = 0
 
-#    GuildHouse.Refund
+#    GuildEnclave.Refund
 #        Description: Refund percentage of cost when returning an item or selling the House.
 #            Min 0, Max 1.
 #
 #        Default:    .8 - 80 percent
 #
 
-GuildHouse.Refund = .8
+GuildEnclave.Refund = .8
 
-#    GuildHouse.NPCWander.Enabled
+#    GuildEnclave.NPCWander.Enabled
 #        Description: Enable all NPC's to wander around.
-#            If the distance is set as 0 in database, they will use the GuildHouse.NPCWander.Distance set below when enabled.
+#            If the distance is set as 0 in database, they will use the GuildEnclave.NPCWander.Distance set below when enabled.
 #            If set to 0, They will not move if set in the database as 0.
 #
 #        Default:    0 - Disabled (Some NPCs dont move)
 #                    1 - Enabled (ALL NPCs move)
 
-GuildHouse.NPCWander.Enabled = 1
+GuildEnclave.NPCWander.Enabled = 1
 
-#    GuildHouse.NPCWander.Distance
+#    GuildEnclave.NPCWander.Distance
 #        Description: The distance a NPC will move if they have a wander of 0 set in the database.
 #            A whole number with a Min = 0.
 #
 #        Default:    10
 #
 
-GuildHouse.NPCWander.Distance = 10
+GuildEnclave.NPCWander.Distance = 10
