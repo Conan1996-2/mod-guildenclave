@@ -46,8 +46,6 @@ bool GuildHouseSpawner::HasExistingSpawn(uint32_t guildId, uint32_t assetId)
 // =====================================================
 bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t catalogId, float x, float y, float z, float o, int w)
 {
-    LOG_INFO("server.loading", "In SpawnAsset {}, {}", guildId, assetId);
-    
     if(HasExistingSpawn(guildId, assetId))
         return false;
 
@@ -64,13 +62,8 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
         return false;
     
     uint8_t team = house->Team;    
-
-    LOG_INFO("server.loading", "Get team {}  ({} - {})", team, TEAM_ALLIANCE, TEAM_HORDE);
-    
     for(auto const& component : catalog->Components)
     {
-        LOG_INFO("server.loading", "Checking if team matches. behaviorflag = {}", component.BehaviorFlags);
-
         if (!GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
         {
             if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_ALLIANCE) && team != TEAM_ALLIANCE)
@@ -78,8 +71,6 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
             if (GuildHouseUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != TEAM_HORDE)
                 continue;
         }
-
-        LOG_INFO("server.loading", "Going to spawn now:");
 
         float sinO = std::sin(o);
         float cosO = std::cos(o);
@@ -101,14 +92,9 @@ bool GuildHouseSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_t 
 
 void GuildHouseSpawner::LoadPlacedAssets(uint32_t guildId)
 {
-    LOG_INFO("server.loading", "Loading Guild House assets for guild {}", guildId);
-
     const GHGuildHouse* house = sGuildHouseMgr.GetGuildHouse(guildId);
     if (!house)
-    {
-        LOG_INFO("server.loading", "No Guild House found for guild {}", guildId);
         return;
-    }
 
     for (auto const& [assetId, asset] : house->Assets)
     {
@@ -148,15 +134,11 @@ bool GuildHouseSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32
     if (sGuildHouseConfig.AllWander() && w== 0)
         w = sGuildHouseConfig.WanderDistance();
 
-    LOG_INFO("server.loading", ">> Checking Wander: {}, {}", sGuildHouseConfig.AllWander(), w);
-
     if (w > 0)
     {
         creature->SetWanderDistance(w);
         creature->SetDefaultMovementType(MovementGeneratorType::RANDOM_MOTION_TYPE);
     }
-
-    LOG_INFO("server.loading", ">> New w: {}, {}", sGuildHouseConfig.AllWander(), w);
 
     creature->SaveToDB(mapId, (1 << map->GetSpawnMode()), phaseMask);
     uint32 spawnId = creature->GetSpawnId();
