@@ -1,18 +1,18 @@
-#ifndef MOD_GUILDHOUSE_NPC_H
-#define MOD_GUILDHOUSE_NPC_H
+#ifndef MOD_GUILDENCLAVE_NPC_H
+#define MOD_GUILDENCLAVE_NPC_H
 
 #include "ScriptMgr.h"
 
 class Player;
 class Creature;
 
-// all Brokers will be unowned and listed in table characters.guildhouse_spawns with guildId=0 and assetId=0
+// all Brokers will be unowned and listed in table characters.guildenclave_spawns with guildId=0 and assetId=0
 
-class GuildHouseBroker : public CreatureScript
+class GuildEnclaveBroker : public CreatureScript
 {
 public:
 
-    GuildHouseBroker() : CreatureScript("GuildHouseBroker")
+    GuildEnclaveBroker() : CreatureScript("GuildEnclaveBroker")
     {
     }
 
