@@ -1,5 +1,5 @@
-#ifndef MOD_GUILDHOUSE_TYPES_H
-#define MOD_GUILDHOUSE_TYPES_H
+#ifndef MOD_GUILDENCLAVE_TYPES_H
+#define MOD_GUILDENCLAVE_TYPES_H
 
 #include <cstdint>
 #include <string>
@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <unordered_set>
 
-#include "GuildHouseDefines.h"
+#include "GuildEnclaveDefines.h"
 
 // =====================================================
 // Catalog Component
@@ -79,7 +79,7 @@ struct GHCatalog
 // =====================================================
 // Purchased Guild Asset
 //
-// Stored in guildhouse_asset
+// Stored in guildenclave_asset
 //
 // Phase based.
 // =====================================================
@@ -104,7 +104,7 @@ struct GHGuildAsset
 // =====================================================
 // Existing Spawns
 //
-// Stored in guildhouse_spawn
+// Stored in guildenclave_spawn
 //
 // Phase based.
 // =====================================================
@@ -129,7 +129,7 @@ struct GHGuildSpawn
 // =====================================================
 // Permanent Spawn Registry
 //
-// Stored in guildhouse_spawn
+// Stored in guildenclave_spawn
 //
 // Phase based.
 // =====================================================
@@ -186,7 +186,7 @@ struct GHLocation
 //
 // Phase owns the house.
 // =====================================================
-struct GHGuildHouse
+struct GHGuildEnclave
 {
     uint32_t GuildId = 0;
     uint8_t Team = 0;
@@ -209,7 +209,7 @@ struct GHGuildHouse
 // Utility Helpers
 // =====================================================
 
-namespace GuildHouseUtil
+namespace GuildEnclaveUtil
 {
     template<typename T> constexpr bool HasFlag(T value, T flag)
     {
