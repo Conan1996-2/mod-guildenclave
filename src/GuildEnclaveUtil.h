@@ -29,9 +29,13 @@ namespace GuildEnclaveUtil
     // =====================================================
     // Guild permissions
     // =====================================================
-    //bool IsGuildMaster(Player* player);
     bool IsGuildRank(Player* player);
     bool CanManageGuildEnclave(Player* player);
+
+    // =====================================================
+    // Money Calculations
+    // =====================================================
+    std::string GoldToString (uint64_t price);
 }
 
 #endif
