@@ -96,6 +96,30 @@ namespace GuildEnclaveUtil
         
         return sGuildEnclaveMgr.IsMember(player);
     }
+
+
+    // =====================================================
+    // Check if player has a valid Guild Enclave
+    // =====================================================
+    bool HasGuildEnclave(Player* player)
+    {
+        if (!player)
+            return false;
+    
+        uint32_t guildId = player->GetGuildId();
+        if (!guildId)
+            return false;
+    
+        GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
+        if (!house)
+            return false;
+    
+        const GHLocation* location = sGuildEnclaveMgr.GetGuildLocation(guildId);
+        if (!location)
+            return false;
+
+        return true;
+    }
     
     // =====================================================
     // Is the player proper guild rank
