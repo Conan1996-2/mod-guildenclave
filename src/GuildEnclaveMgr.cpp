@@ -750,7 +750,7 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
     return true;
 }
 
-bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId)
+bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t distance)
 {
     return true;
 }
