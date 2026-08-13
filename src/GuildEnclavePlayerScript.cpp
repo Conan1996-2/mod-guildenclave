@@ -1,11 +1,24 @@
 #include "Player.h"
 #include "PlayerScript.h"
+#include "GuildEnclaveUtil.h"
 #include "GuildEnclaveMgr.h"
 
 class GuildEnclavePlayerScript : public PlayerScript
 {
 public:
     GuildEnclavePlayerScript() : PlayerScript("GuildEnclavePlayerScript") { }
+
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sGuildEnclaveMgr.IsMember(player))
+            return;
+
+        if (!GuildEnclaveUtil::IsInGuildEnclaveArea(player))
+            return;
+
+        if(!EnterPhase(player))
+            player->TeleportTo(player->m_homebindMapId, player->m_homebindX, player->m_homebindY, player->m_homebindZ, player->GetOrientation());
+    }
 
     void OnPlayerUpdate(Player* player, uint32 diff) override
     {
