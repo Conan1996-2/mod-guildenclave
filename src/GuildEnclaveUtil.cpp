@@ -7,11 +7,30 @@
 
 namespace GuildEnclaveUtil
 {
-    
-    // =====================================================
-    // Is Player Inside Guild Enclave
-    // =====================================================
 
+    inline bool HasFlag(uint32_t value, uint32_t flag)
+    {
+        return (value & flag) != 0;
+    }
+
+    inline bool IsAlliance(uint32_t flags)
+    {
+        return HasFlag(flags, GH_FACTION_ALLIANCE);
+    }
+
+    inline bool IsHorde(uint32_t flags)
+    {
+        return HasFlag(flags, GH_FACTION_HORDE);
+    }
+
+    inline bool IsNeutral(uint32_t flags)
+    {
+        return HasFlag(flags, GH_FACTION_NEUTRAL);
+    }
+
+    // =====================================================
+    // Is Player Inside Guild Enclave AREA, does not have to be a member
+    // =====================================================
     bool IsInGuildEnclaveArea(Player* player)
     {
         if (!player)
@@ -42,25 +61,69 @@ namespace GuildEnclaveUtil
         return true;
     }
 
+    // =====================================================
+    // Guild Phase Validation
+    // =====================================================
+    bool IsInGuildEnclavePhase(Player* player)
+    {
+        if (!player)
+            return false;
+    
+        Guild* guild = player->GetGuild();
+        if (!guild)
+            return false;
+    
+        uint32 guildId = guild->GetId();
+        uint32_t guildPhase = sGuildEnclaveMgr.GetPhaseMask(guildId);
+        if (!guildPhase)
+            return false;
+    
+        return (player->GetPhaseMask() & guildPhase) != 0;
+    }
+
+    // =====================================================
+    // Is Player Inside Guild Enclave AREA, PHASE and a member
+    // =====================================================
     bool IsInGuildEnclave(Player* player)
     {
         if (!IsInGuildEnclaveArea(player))
             return false;
 
+        if (!IsGuildEnclavePhase(player))
+            return false;
+        
         return sGuildEnclaveMgr.IsMember(player);
     }
     
     // =====================================================
-    // Guild Phase Validation
+    // Is the player proper guild rank
     // =====================================================
-    
-    bool IsGuildEnclavePhase(uint32_t guildId, uint32_t phaseMask)
+    bool IsGuildRank(Player* player)
     {
-        uint32_t guildPhase = sGuildEnclaveMgr.GetPhaseMask(guildId);
-        if (!guildPhase)
+        if (!player)
             return false;
     
-        return (phaseMask & guildPhase) != 0;
+        Guild* guild = player->GetGuild();
+        if (!guild)
+            return false;
+
+        Guild::Member* member = guild->GetMember(player->GetGUID());
+        if (!member)
+            return false;
+
+        uint32_t guildId = guild->GetId();
+        const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
+        if (!house)
+            return guild->GetLeaderGUID() == player->GetGUID();
+        
+        return member->GetRankId() <= house->RequiredGuildRank;
     }
-    
+
+    // =====================================================
+    // Is the player Allowed to place objects
+    // =====================================================
+    inline bool CanManageGuildEnclave(Player* player)
+    {
+        return IsGuildRank(player) && IsInGuildEnclave(player);
+    }
 }
