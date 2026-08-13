@@ -82,39 +82,44 @@ _ARGUMENT_  indicates argument names
   - **`asset`** -- (Proper Guild Rank Access to use command)  
     - **`list`** -- Lists all owned assets in the world, and their asset ID and status of the asset.  
             **Example Usage**:  
-                - `.ge list`  
+                - `.ge asset list`  
     - **`move <_ASSETID_>`** -- Move a spawned asset in the world from where it was placed to the players current position.  
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.ge move 2`  
+                - `.ge asset move 2`  
     - **`place <_ASSETID_>`** -- Place a specific non spawned asset at the players current position.  
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.ge place 1`  
+                - `.ge asset place 1`  
     - **`sell <_ASSETID_>`** -- Sell a specific asset, removing it from guild inventory.  
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.ge sell 5`  
+                - `.ge asset sell 5`  
     - **`store <_ASSETID_>`** -- Removes a spawned asset from the world, saving it to be spawned at a future time.  
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
-                - `.ge store 12`  
-
+                - `.ge asset store 12`
+    - **`wander <_ASSETID_> <_DISTANCE_>`** -- Change how far the asset will wander from its spawn point. Only usable on NPCs.  
+        - _ASSETID_ = specific owned asset in your list  
+        - _DISTANCE_ = How far from spawn point the NPC will wander randomly  
+            **Example Usage**:  
+                - `.ge asset wander 1 50`
+  
   - **`enclave`** -- (Proper Guild Rank Access to use command)  
     - **`sell`** -- Sells the enclave and all its contents back to the broker, refund is a set percentage of cost.  
             **Example Usage**:  
                 - `.ge enclave sell`  
-
+  
   - **`enclave`** -- (Any player in a guild that owns a enclave)  
     - **`tele | teleport`** -- Teleports the player to the guild enclave they own.  
             **Example Usage**:  
                 - `.ge enclave tele`  
-
+  
   - **`npc`** -- (Game Master or higher)  
     - **`broker`** -- Spawns a broker at the players position. There can be more then one.  
             **Example Usage**:  
                 - `.ge npc broker`  
-
+  
   - **`shop`** -- (Proper Guild Rank Access command)  
     - **`buy <_CATALOGID_>`** -- Purchase a specific item  
         - _CATALOGID_ = specific owned asset in your list  
