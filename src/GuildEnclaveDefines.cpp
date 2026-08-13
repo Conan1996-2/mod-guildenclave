@@ -17,6 +17,7 @@ namespace GuildEnclaveUtil
     GR_INITIATE     = 4
 */
 
+/*
     // =====================================================
     // Does the Player have a guildenclave?
     // If not, return if its a guild master,
