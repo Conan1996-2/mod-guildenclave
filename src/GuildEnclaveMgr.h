@@ -25,7 +25,7 @@ public:
     uint32_t GeneratePhaseMask(uint32_t locationId);
     uint32_t CreatePhase(uint32_t guildId, uint32_t locationId);
     bool RemovePhase(uint32_t guildId);
-    bool EnterPhase(Player* player, uint32_t guildId);
+    bool EnterPhase(Player* player);
     bool LeavePhase(Player* player);
 
     // =====================================================
