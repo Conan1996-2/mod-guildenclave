@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Guild.h"
 
+/*
 namespace GuildEnclaveUtil
 {
 /*
@@ -42,7 +43,6 @@ namespace GuildEnclaveUtil
         return member->GetRankId() <= house->RequiredGuildRank;
     }
 
-/*
     // =====================================================
     // Is Player Inside Guild House
     //
@@ -100,5 +100,5 @@ namespace GuildEnclaveUtil
     
         return (player->GetPhaseMask() & phaseMask) != 0;
     }
-*/
 }
+*/
