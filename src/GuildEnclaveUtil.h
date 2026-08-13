@@ -23,6 +23,7 @@ namespace GuildEnclaveUtil
     // =====================================================
     // Guild Enclave checks
     // =====================================================
+    bool IsInsideGuildEnclaveBoundary(Player* player);
     bool IsInGuildEnclaveArea(Player* player);
     bool IsInGuildEnclavePhase(Player* player);
     bool IsInGuildEnclave(Player* player);
