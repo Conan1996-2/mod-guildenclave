@@ -11,23 +11,6 @@
 #include "ScriptedGossip.h"
 #include "Chat.h"
 
-/*
-namespace
-{
-
-    enum GuildEnclaveActions
-    {
-        ACTION_NONE = 0,
-        ACTION_TELEPORT = 1,
-        ACTION_SELL = 2,
-        ACTION_BUY_START = 1000,
-        ACTION_CATEGORY_START = 2000,
-        ACTION_CATALOG_START = 3000
-    };
-
-}
-*/
-
 bool GuildEnclaveBroker::OnGossipHello(Player* player, Creature* creature)
 {
     creature->GetMotionMaster()->MoveIdle();
