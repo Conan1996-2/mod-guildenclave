@@ -136,7 +136,7 @@ namespace GuildEnclaveUtil
         uint64_t silver = (price % GOLD) / SILVER;
         uint64_t copper = price % SILVER;
         
-        std::string priceText = location->Name + " - ";
+        std::string priceText = "";
         if (gold)
             priceText += std::to_string(gold) + "G ";            
         if (silver)
@@ -144,7 +144,7 @@ namespace GuildEnclaveUtil
         if (copper)
             priceText += std::to_string(copper) + "C";
         if (!gold && !silver && !copper)
-            priceText += "Free";
+            priceText = "Free";
 
         return priceText;
     }
