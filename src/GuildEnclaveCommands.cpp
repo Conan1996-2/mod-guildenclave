@@ -1,10 +1,10 @@
 #include "GuildEnclaveCommands.h"
 
+#include "GuildEnclaveDefines.h"
+#include "GuildEnclaveTypes.h"
 #include "GuildEnclaveUtil.h"
 #include "GuildEnclaveMgr.h"
 #include "GuildEnclaveCatalogMgr.h"
-#include "GuildEnclaveDefines.h"
-#include "GuildEnclaveTypes.h"
 #include "GuildEnclaveSpawner.h"
 
 #include "Chat.h"
