@@ -402,9 +402,9 @@ bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
         return false;
 
     GHGuildEnclave& house = itr->second;
-    uint64_t refund = house->PurchasePrice;
+    uint64_t refund = house.PurchasePrice;
 
-    for (auto const& [assetId, asset] : house->Assets)
+    for (auto const& [assetId, asset] : house.Assets)
         refund += asset.PurchasePrice;
 
     if (!AddMoneyToGuild(guildId, refund * sGuildEnclaveConfig.GetRefundPercent()))
