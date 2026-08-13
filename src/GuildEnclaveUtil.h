@@ -26,6 +26,7 @@ namespace GuildEnclaveUtil
     bool IsInGuildEnclaveArea(Player* player);
     bool IsInGuildEnclavePhase(Player* player);
     bool IsInGuildEnclave(Player* player);
+    bool HasGuildEnclave(Player* player);
 
     // =====================================================
     // Guild permissions
