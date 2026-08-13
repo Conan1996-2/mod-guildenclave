@@ -750,6 +750,11 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
     return true;
 }
 
+bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId)
+{
+    return true;
+}
+
 // =====================================================
 // Catalog Purchase
 // =====================================================
