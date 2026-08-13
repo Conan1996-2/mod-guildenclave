@@ -126,4 +126,26 @@ namespace GuildEnclaveUtil
     {
         return IsGuildRank(player) && IsInGuildEnclave(player);
     }
+
+    // =====================================================
+    // Money Calculations
+    // =====================================================
+    std::string GoldToString (uint64_t price)
+    {
+        uint64_t gold = price / GOLD;
+        uint64_t silver = (price % GOLD) / SILVER;
+        uint64_t copper = price % SILVER;
+        
+        std::string priceText = location->Name + " - ";
+        if (gold)
+            priceText += std::to_string(gold) + "G ";            
+        if (silver)
+            priceText += std::to_string(silver) + "S ";                
+        if (copper)
+            priceText += std::to_string(copper) + "C";
+        if (!gold && !silver && !copper)
+            priceText += "Free";
+
+        return priceText;
+    }
 }
