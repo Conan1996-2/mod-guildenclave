@@ -2,6 +2,7 @@
 #define MOD_GUILDENCLAVE_UTIL_H
 
 #include <cstdint>
+#include <string>
 
 class Player;
 
