@@ -85,6 +85,7 @@ public:
     bool MoveAsset(Player* player, uint32_t assetId);
     bool StoreAsset(Player* player, uint32_t assetId);
     bool SellAsset(Player* player, uint32_t assetId);
+    bool WanderAsset(Player* player, uint32_t assetId);
 
     // =====================================================
     // Catalog
