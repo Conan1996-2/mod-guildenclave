@@ -74,55 +74,5 @@ enum GuildEnclaveActions
     ACTION_BACK           = 300000,
     ACTION_CONFIRM        = 400000
 };
-/*
 
-// =====================================================
-// Utility Helpers
-// =====================================================
-namespace GuildEnclaveUtil
-{
-    bool IsGuildEnclavePhase(uint32_t guildId, uint32_t phaseMask);
-
-    bool IsInGuildEnclave(Player* player);
-
-    bool IsGuildRank(Player* player);
-
-    inline bool HasFlag(uint32_t value, uint32_t flag)
-    {
-        return (value & flag) != 0;
-    }
-
-    inline bool IsAlliance(uint32_t flags)
-    {
-        return HasFlag(flags, GH_FACTION_ALLIANCE);
-    }
-
-    inline bool IsHorde(uint32_t flags)
-    {
-        return HasFlag(flags, GH_FACTION_HORDE);
-    }
-
-    inline bool IsNeutral(uint32_t flags)
-    {
-        return HasFlag(flags, GH_FACTION_NEUTRAL);
-    }
-
-    inline bool IsGuildMaster(Player* player)
-    {
-        if (!player)
-            return false;
-
-        Guild* guild = player->GetGuild();
-        if (!guild)
-            return false;
-
-        return guild->GetLeaderGUID() == player->GetGUID();
-    }
-
-    inline bool CanManageGuildEnclave(Player* player)
-    {
-        return IsGuildRank(player) && IsInGuildEnclave(player);
-    }
-}
-*/
 #endif
