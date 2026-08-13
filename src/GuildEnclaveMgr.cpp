@@ -373,7 +373,7 @@ bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint3
 
     if (!RemoveMoneyFromGuild(guildId, location->Price))
     {
-        ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase. You need - {} in the Guild Bank", GuildEnclaveUtuil::GoldToString(location->Price));
+        ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase. You need - {} in the Guild Bank", GuildEnclaveUtil::GoldToString(location->Price));
         return false;
     }
     
