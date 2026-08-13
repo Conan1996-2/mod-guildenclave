@@ -43,21 +43,7 @@ bool GuildEnclaveBroker::OnGossipHello(Player* player, Creature* creature)
                 AddGossipItemFor(player, GOSSIP_ICON_DOT, "Purchase a Guild House:", GOSSIP_SENDER_MAIN, ACTION_NONE);
                 for (const GHLocation* location : locations)
                 {
-                    uint64 price = location->Price;
-                    uint64 gold = price / GOLD;
-                    uint64 silver = (price % GOLD) / SILVER;
-                    uint64 copper = price % SILVER;
-                    
-                    std::string priceText = location->Name + " - ";
-                    if (gold)
-                        priceText += std::to_string(gold) + "G ";            
-                    if (silver)
-                        priceText += std::to_string(silver) + "S ";                
-                    if (copper)
-                        priceText += std::to_string(copper) + "C";
-                    if (!gold && !silver && !copper)
-                        priceText += "Free";
-                    
+                    std::string priceText = location->Name + " - " + GoldToString(location->Price;
                     AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, priceText, GOSSIP_SENDER_MAIN, ACTION_BUY_START + location->Id);
                 }
             }
