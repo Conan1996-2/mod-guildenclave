@@ -52,6 +52,8 @@ enum GHScriptType : uint32_t
     GH_SCRIPT_CUSTOM
 };
 
+/*
+
 // =====================================================
 // Utility Helpers
 // =====================================================
@@ -59,7 +61,7 @@ namespace GuildEnclaveUtil
 {
     bool IsGuildEnclavePhase(uint32_t guildId, uint32_t phaseMask);
 
-    //bool IsInGuildEnclave(Player* player);
+    bool IsInGuildEnclave(Player* player);
 
     bool IsGuildRank(Player* player);
 
@@ -83,7 +85,6 @@ namespace GuildEnclaveUtil
         return HasFlag(flags, GH_FACTION_NEUTRAL);
     }
 
-/*
     inline bool IsGuildMaster(Player* player)
     {
         if (!player)
@@ -95,12 +96,11 @@ namespace GuildEnclaveUtil
 
         return guild->GetLeaderGUID() == player->GetGUID();
     }
-*/
 
     inline bool CanManageGuildEnclave(Player* player)
     {
         return IsGuildRank(player) && IsInGuildEnclave(player);
     }
 }
-
+*/
 #endif
