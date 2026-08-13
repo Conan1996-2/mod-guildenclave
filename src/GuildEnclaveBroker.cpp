@@ -2,7 +2,7 @@
 
 #include "GuildEnclaveConfig.h"
 #include "GuildEnclaveDefines.h"
-#include GuildEnclaveUtil.h"
+#include "GuildEnclaveUtil.h"
 #include "GuildEnclaveNPCMovement.h"
 #include "GuildEnclaveMgr.h"
 
