@@ -89,7 +89,7 @@ namespace GuildEnclaveUtil
         if (!IsInGuildEnclaveArea(player))
             return false;
 
-        if (!IsGuildEnclavePhase(player))
+        if (!IsInGuildEnclavePhase(player))
             return false;
         
         return sGuildEnclaveMgr.IsMember(player);
