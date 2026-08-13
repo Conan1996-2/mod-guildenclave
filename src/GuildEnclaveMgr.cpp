@@ -25,449 +25,6 @@ GuildEnclaveMgr& GuildEnclaveMgr::Instance()
 }
 
 // =====================================================
-// Phase Management
-// =====================================================
-uint32_t GuildEnclaveMgr::GetPhaseMask(uint32_t guildId) const
-{
-    const GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return 0;
-    
-    return house->PhaseMask;
-}
-
-bool GuildEnclaveMgr::HasPhase(uint32_t guildId) const
-{
-    const GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-    
-    return house->PhaseMask > 0;
-}
-
-uint32_t GuildEnclaveMgr::GeneratePhaseMask(uint32_t locationId)
-{
-    GHLocation* location = GetLocation(locationId);
-    if (!location)
-        return 0;
-
-    for (uint32_t mask = 2; mask <= (1u << 30); mask <<= 1)
-    {
-        if ((location->InUseBitMask & mask) == 0)
-        {
-            //LOG_INFO("server.loading", "available phase masks for location {}: {}", locationId, mask);
-            location->InUseBitMask |= mask;
-            return mask;
-        }
-    }
-
-    //LOG_INFO("server.loading", "No available phase masks for location {}", locationId);
-    return 0;
-}
-
-uint32_t GuildEnclaveMgr::CreatePhase(uint32_t guildId, uint32_t locationId)
-{
-    uint32_t phaseMask = GetPhaseMask(guildId);
-    if (phaseMask > 0)
-        return phaseMask;
-
-    phaseMask = GeneratePhaseMask(locationId);
-    if (!phaseMask)
-        return 0;
-
-    //LOG_INFO("module", "Created Guild House phase {} for guild {}", phaseMask, guildId);
-
-    return phaseMask;
-}
-
-bool GuildEnclaveMgr::RemovePhase(uint32_t guildId)
-{
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house || house->PhaseMask == 0)
-        return false;
-
-    GHLocation* location = GetLocation(house->LocationId);
-    if (!location)
-        return false;
-
-    location->InUseBitMask &= ~house->PhaseMask;
-    house->PhaseMask = 0;
-
-    return true;
-}
-
-bool GuildEnclaveMgr::EnterPhase(Player* player)
-{
-    if (!player)
-        return false;
-
-    uint32_t guildId = player->GetGuildId();
-    if (!guildId)
-        return false;
-
-    const GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-
-    GHLocation* location = GetLocation(house->LocationId);
-    if (!location)
-        return false;
-
-    if (AddMember(player))
-    {
-        player->TeleportTo(location->MapId, location->X, location->Y, location->Z, location->O);
-        player->SetPhaseMask(house->PhaseMask, true);
-        return true;
-    }
-
-    return false;
-}
-
-bool GuildEnclaveMgr::LeavePhase(Player* player)
-{
-    if (!player)
-        return false;
-
-    if (!RemoveMember(player))
-        return false;
-
-    player->SetPhaseMask(1, true);
-    player->SetRestFlag(REST_FLAG_IN_CITY);
-    return true;
-}
-
-// =====================================================
-// Guild Enclave member 
-// =====================================================
-bool GuildEnclaveMgr::IsMember(Player* player) const
-{
-    if (!player)
-        return false;
-
-    uint32_t guildId = player->GetGuildId();
-    if (!guildId)
-        return false;
-
-    const GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house || house->PhaseMask == 0)
-        return false;
-    
-    return house->Members.find(player->GetGUID().GetCounter()) != house->Members.end();
-}
-
-bool GuildEnclaveMgr::AddMember(Player* player)
-{
-    uint32_t guildId = player->GetGuildId();
-    if (!guildId)
-        return false;
-
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-
-    if (!HasPhase(guildId))
-    {
-        int32_t newPhase = CreatePhase(guildId, house->LocationId);
-        if (!newPhase)
-            return false;
-        
-        house->PhaseMask = newPhase;
-        sGuildEnclaveSpawner.LoadPlacedAssets(guildId);
-    }
-    
-    house->Members.insert(player->GetGUID().GetCounter());
-
-    LOG_INFO("server.loading", "Addmember to guild phase {}. ", house->PhaseMask);
-
-    return true;
-}
-
-bool GuildEnclaveMgr::RemoveMember(Player* player)
-{
-    uint32_t guildId = player->GetGuildId();
-    if (!guildId)
-        return false;
-
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-
-    LOG_INFO("server.loading", "Removemember from guild phase");
-
-    house->Members.erase(player->GetGUID().GetCounter());
-    if (house->Members.size() == 0)
-    {
-        sGuildEnclaveSpawner.RemoveAllAssets(guildId);
-        RemovePhase (guildId);
-        LOG_INFO("server.loading", "Free up guild phase");
-    }
-
-    return true;
-}
-
-// =====================================================
-// Guild Enclave Ownership
-// =====================================================
-bool GuildEnclaveMgr::HasGuildEnclave(uint32_t guildId) const
-{
-    return _houses.find(guildId) != _houses.end();
-}
-
-const std::unordered_map<uint32_t, GHGuildEnclave>& GuildEnclaveMgr::GetHouses() const
-{
-    return _houses;
-}
-
-const GHGuildEnclave* GuildEnclaveMgr::GetGuildEnclave(uint32_t guildId) const
-{
-    auto itr = _houses.find(guildId);
-    if (itr == _houses.end())
-        return nullptr;
-
-    return &itr->second;
-}
-
-GHGuildEnclave* GuildEnclaveMgr::GetGuildEnclave(uint32_t guildId)
-{
-    auto itr = _houses.find(guildId);
-    if (itr == _houses.end())
-        return nullptr;
-
-    return &itr->second;
-}
-
-// =====================================================
-// Create and Sell Guild Enclave
-// =====================================================
-bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId)
-{
-    if (HasGuildEnclave(guildId))
-        return false;
-
-    const GHLocation* location = GetLocation(locationId);
-    if (!location)
-        return false;
-
-    if (!RemoveMoneyFromGuild(guildId, location->Price))
-    {
-        ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
-        return false;
-    }
-    
-    CharacterDatabase.Execute("INSERT INTO guildenclave (guildId,ownerGuid,faction,requiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, {}, 0, {}, {}, (NOW()))",
-        guildId, ownerGuid, static_cast<uint8>(player->GetTeamId()), locationId, location->Price);
-    
-    GHGuildEnclave house;
-    house.GuildId = guildId;
-    house.Team = static_cast<uint8>(player->GetTeamId());
-    house.OwnerGuid = ownerGuid;
-    house.LocationId = locationId;
-    house.PhaseMask = 0;
-    house.PurchasePrice = location->Price;
-
-    _houses.emplace(guildId, house);
-
-    PurchaseCatalogItem(player, 2);
-    
-    return true;
-}
-
-bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
-{
-    auto itr = _houses.find(guildId);
-    if (itr == _houses.end())
-        return false;
-
-    GHGuildEnclave& house = itr->second;
-
-    uint64_t refund = house.PurchasePrice;
-
-    for (auto const& [assetId, asset] : house.Assets)
-        refund += asset.PurchasePrice;
-
-    if (!AddMoneyToGuild(guildId, refund * sGuildEnclaveConfig.GetRefundPercent()))
-        return false;
-
-    sGuildEnclaveSpawner.RemoveAllAssets(guildId);
-
-    CharacterDatabase.Execute("DELETE FROM guildenclave WHERE guildId={}", guildId);
-    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={}", guildId);
-    CharacterDatabase.Execute("DELETE FROM guildenclave_spawn WHERE guildId={}", guildId);
-
-    RemovePhase(guildId);
-
-    _houses.erase(itr);
-
-    return true;
-}
-
-// =====================================================
-// Money Management
-// =====================================================
-bool GuildEnclaveMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
-{
-    return true;
-    
-    if (sGuildEnclaveConfig.IsFree())
-        return true;
-
-    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
-        return guild->GetTotalBankMoney() >= amount;
-    else
-        return false;      
-}
-
-bool GuildEnclaveMgr::RemoveMoneyFromGuild(uint32_t guildId, uint64_t amount)
-{
-    return true;
-    
-    if (sGuildEnclaveConfig.IsFree())
-        return true;
-    
-    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
-    {
-        if (guild->GetTotalBankMoney() >= amount)
-        {
-            CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-            if (guild->ModifyBankMoney(trans, amount, false)) // false = remove money
-            {
-                CharacterDatabase.CommitTransaction(trans);
-                return true;
-            }
-        }
-    }
-    return false;      
-}
-
-bool GuildEnclaveMgr::AddMoneyToGuild(uint32_t guildId, uint64_t amount)
-{
-    return true;
-    
-    if (sGuildEnclaveConfig.IsFree())
-        return true;
-    
-    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
-    {
-        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-        if (guild->ModifyBankMoney(trans, amount, true)) // true = add money
-        {
-            CharacterDatabase.CommitTransaction(trans);
-            return true;
-        }
-    }
-    return false;  
-}
-
-// =====================================================
-// Teleport
-// =====================================================
-bool GuildEnclaveMgr::TeleportToGuildEnclave(Player* player)
-{
-    if (!player)
-        return false;
-
-    uint32_t guildId = player->GetGuildId();
-    if (!guildId)
-        return false;
-
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-
-    const GHLocation* location = GetGuildLocation(guildId);
-    if (!location)
-        return false;
-/*
-    if (!HasPhase(guildId))
-    {
-        int32_t newPhase = CreatePhase(guildId, house->LocationId);
-        if (!newPhase)
-            return false;
-        
-        house->PhaseMask = newPhase;
-        sGuildEnclaveSpawner.LoadPlacedAssets(guildId);
-    }
-*/
-    return EnterPhase(player);
-}
-
-// =====================================================
-// Locations
-// =====================================================
-const GHLocation* GuildEnclaveMgr::GetLocation(uint32_t locationId) const
-{
-    auto itr = _locations.find(locationId);
-    if (itr == _locations.end())
-        return nullptr;
-
-    return &itr->second;
-}
-
-GHLocation* GuildEnclaveMgr::GetLocation(uint32_t locationId)
-{
-    auto itr = _locations.find(locationId);
-    if (itr == _locations.end())
-        return nullptr;
-
-    return &itr->second;
-}
-
-std::vector<const GHLocation*> GuildEnclaveMgr::GetLocations() const
-{
-    std::vector<const GHLocation*> result;
-
-    for(auto const& [id, location] : _locations)
-    {
-        if(location.Enabled)
-            result.push_back(&location);
-    }
-
-    return result;
-}
-
-// =====================================================
-// Boundary
-// =====================================================
-bool GuildEnclaveMgr::IsInsideGuildEnclaveBoundary(uint32_t guildId, float x, float y) const
-{
-    const GHLocation* location = GetGuildLocation(guildId);
-    if(!location)
-        return false;
-
-    return x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY;
-}
-
-bool GuildEnclaveMgr::CheckBoundary(Player* player)
-{
-    if (!IsMember(player))
-        return true;
-
-    const GHLocation* location = GetGuildLocation(player->GetGuildId());
-    if(!location)
-        return false;
-
-    float x = player->GetPositionX();
-    float y = player->GetPositionY();
-
-    if (x < location->MinX || x > location->MaxX || y < location->MinY || y > location->MaxY)
-    {
-        player->TeleportTo(location->MapId, location->X, location->Y, location->Z, location->O);
-        return false;
-    }
-
-    return true;
-}
-
-const GHLocation* GuildEnclaveMgr::GetGuildLocation(uint32_t guildId) const
-{
-    const GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return nullptr;
-
-    return GetLocation(house->LocationId);
-}
-
-// =====================================================
 // Load
 // =====================================================
 void GuildEnclaveMgr::Load()
@@ -592,6 +149,410 @@ void GuildEnclaveMgr::Load()
     LOG_INFO("server.loading", ">> GuildEnclaveMgr loaded {} houses and {} locations", _houses.size(), _locations.size());
 }
 
+// =====================================================
+// Phase Management
+// =====================================================
+uint32_t GuildEnclaveMgr::GetPhaseMask(uint32_t guildId) const
+{
+    const GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return 0;
+    
+    return house->PhaseMask;
+}
+
+bool GuildEnclaveMgr::HasPhase(uint32_t guildId) const
+{
+    const GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+    
+    return house->PhaseMask > 0;
+}
+
+uint32_t GuildEnclaveMgr::GeneratePhaseMask(uint32_t locationId)
+{
+    GHLocation* location = GetLocation(locationId);
+    if (!location)
+        return 0;
+
+    for (uint32_t mask = 2; mask <= (1u << 30); mask <<= 1)
+    {
+        if ((location->InUseBitMask & mask) == 0)
+        {
+            location->InUseBitMask |= mask;
+            return mask;
+        }
+    }
+
+    return 0;
+}
+
+uint32_t GuildEnclaveMgr::CreatePhase(uint32_t guildId, uint32_t locationId)
+{
+    uint32_t phaseMask = GetPhaseMask(guildId);
+    if (phaseMask > 0)
+        return phaseMask;
+
+    phaseMask = GeneratePhaseMask(locationId);
+    if (!phaseMask)
+        return 0;
+
+    return phaseMask;
+}
+
+bool GuildEnclaveMgr::RemovePhase(uint32_t guildId)
+{
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house || house->PhaseMask == 0)
+        return false;
+
+    GHLocation* location = GetLocation(house->LocationId);
+    if (!location)
+        return false;
+
+    location->InUseBitMask &= ~house->PhaseMask;
+    house->PhaseMask = 0;
+
+    return true;
+}
+
+bool GuildEnclaveMgr::EnterPhase(Player* player)
+{
+    if (!player)
+        return false;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    const GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+
+    GHLocation* location = GetLocation(house->LocationId);
+    if (!location)
+        return false;
+
+    if (AddMember(player))
+    {
+        player->TeleportTo(location->MapId, location->X, location->Y, location->Z, location->O);
+        player->SetPhaseMask(house->PhaseMask, true);
+        return true;
+    }
+
+    return false;
+}
+
+bool GuildEnclaveMgr::LeavePhase(Player* player)
+{
+    if (!player)
+        return false;
+
+    if (!RemoveMember(player))
+        return false;
+
+    player->SetPhaseMask(1, true);
+    player->SetRestFlag(REST_FLAG_IN_CITY);
+    return true;
+}
+
+// =====================================================
+// Guild Enclave member 
+// =====================================================
+bool GuildEnclaveMgr::IsMember(Player* player) const
+{
+    if (!player)
+        return false;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    const GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house || house->PhaseMask == 0)
+        return false;
+    
+    return house->Members.find(player->GetGUID().GetCounter()) != house->Members.end();
+}
+
+bool GuildEnclaveMgr::AddMember(Player* player)
+{
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+
+    if (!HasPhase(guildId))
+    {
+        int32_t newPhase = CreatePhase(guildId, house->LocationId);
+        if (!newPhase)
+            return false;
+        
+        house->PhaseMask = newPhase;
+        sGuildEnclaveSpawner.LoadPlacedAssets(guildId);
+        
+        LOG_INFO("server.loading", "Loaded guild phase {}. ", house->PhaseMask);
+    }
+    
+    house->Members.insert(player->GetGUID().GetCounter());
+
+    LOG_INFO("server.loading", "Addmember to guild phase {}. ", house->PhaseMask);
+
+    return true;
+}
+
+bool GuildEnclaveMgr::RemoveMember(Player* player)
+{
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+
+    LOG_INFO("server.loading", "Removemember from guild phase");
+
+    house->Members.erase(player->GetGUID().GetCounter());
+    if (house->Members.size() == 0)
+    {
+        sGuildEnclaveSpawner.RemoveAllAssets(guildId);
+        RemovePhase (guildId);
+        LOG_INFO("server.loading", "Free up guild phase");
+    }
+
+    return true;
+}
+
+// =====================================================
+// Guild Enclave Ownership
+// =====================================================
+const std::unordered_map<uint32_t, GHGuildEnclave>& GuildEnclaveMgr::GetHouses() const
+{
+    return _houses;
+}
+
+const GHGuildEnclave* GuildEnclaveMgr::GetGuildEnclave(uint32_t guildId) const
+{
+    auto itr = _houses.find(guildId);
+    if (itr == _houses.end())
+        return nullptr;
+
+    return &itr->second;
+}
+
+GHGuildEnclave* GuildEnclaveMgr::GetGuildEnclave(uint32_t guildId)
+{
+    auto itr = _houses.find(guildId);
+    if (itr == _houses.end())
+        return nullptr;
+
+    return &itr->second;
+}
+
+bool GuildEnclaveMgr::HasGuildEnclave(uint32_t guildId) const
+{
+    return _houses.find(guildId) != _houses.end();
+}
+
+// =====================================================
+// Create and Sell Guild Enclave
+// =====================================================
+bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId)
+{
+    if (HasGuildEnclave(guildId))
+        return false;
+
+    const GHLocation* location = GetLocation(locationId);
+    if (!location)
+        return false;
+
+    if (!RemoveMoneyFromGuild(guildId, location->Price))
+    {
+        ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase. You need - {} in the Guild Bank", GuildEnclaveUtuil::GoldToString(location->Price));
+        return false;
+    }
+    
+    CharacterDatabase.Execute("INSERT INTO guildenclave (guildId,ownerGuid,faction,requiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, {}, 0, {}, {}, (NOW()))",
+        guildId, ownerGuid, static_cast<uint8>(player->GetTeamId()), locationId, location->Price);
+    
+    GHGuildEnclave house;
+    house.GuildId = guildId;
+    house.Team = static_cast<uint8>(player->GetTeamId());
+    house.OwnerGuid = ownerGuid;
+    house.LocationId = locationId;
+    house.PhaseMask = 0;
+    house.PurchasePrice = location->Price;
+
+    _houses.emplace(guildId, house);
+
+    PurchaseCatalogItem(player, 2);
+    
+    return true;
+}
+
+bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
+{
+    GHGuildEnclave& house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+
+    uint64_t refund = house.PurchasePrice;
+
+    for (auto const& [assetId, asset] : house.Assets)
+        refund += asset.PurchasePrice;
+
+    if (!AddMoneyToGuild(guildId, refund * sGuildEnclaveConfig.GetRefundPercent()))
+        return false;
+
+    ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(refund * sGuildEnclaveConfig.GetRefundPercent()));
+    
+    sGuildEnclaveSpawner.RemoveAllAssets(guildId);
+
+    CharacterDatabase.Execute("DELETE FROM guildenclave WHERE guildId={}", guildId);
+    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={}", guildId);
+    CharacterDatabase.Execute("DELETE FROM guildenclave_spawn WHERE guildId={}", guildId);
+
+    RemovePhase(guildId);
+
+    _houses.erase(itr);
+
+    return true;
+}
+
+// =====================================================
+// Money Management
+// =====================================================
+bool GuildEnclaveMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
+{
+    return true;
+    
+    if (sGuildEnclaveConfig.IsFree())
+        return true;
+
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+        return guild->GetTotalBankMoney() >= amount;
+    else
+        return false;      
+}
+
+bool GuildEnclaveMgr::RemoveMoneyFromGuild(uint32_t guildId, uint64_t amount)
+{
+    return true;
+    
+    if (sGuildEnclaveConfig.IsFree())
+        return true;
+    
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    {
+        if (guild->GetTotalBankMoney() >= amount)
+        {
+            CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+            if (guild->ModifyBankMoney(trans, amount, false)) // false = remove money
+            {
+                CharacterDatabase.CommitTransaction(trans);
+                return true;
+            }
+        }
+    }
+    return false;      
+}
+
+bool GuildEnclaveMgr::AddMoneyToGuild(uint32_t guildId, uint64_t amount)
+{
+    return true;
+    
+    if (sGuildEnclaveConfig.IsFree())
+        return true;
+    
+    if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+    {
+        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+        if (guild->ModifyBankMoney(trans, amount, true)) // true = add money
+        {
+            CharacterDatabase.CommitTransaction(trans);
+            return true;
+        }
+    }
+    return false;  
+}
+
+// =====================================================
+// Teleport
+// =====================================================
+bool GuildEnclaveMgr::TeleportToGuildEnclave(Player* player)
+{
+    if (!GuildEnclaveUtil::HasGuildEnclave(player))
+        return false;
+
+    return EnterPhase(player);
+}
+
+// =====================================================
+// Locations
+// =====================================================
+const GHLocation* GuildEnclaveMgr::GetLocation(uint32_t locationId) const
+{
+    auto itr = _locations.find(locationId);
+    if (itr == _locations.end())
+        return nullptr;
+
+    return &itr->second;
+}
+
+GHLocation* GuildEnclaveMgr::GetLocation(uint32_t locationId)
+{
+    auto itr = _locations.find(locationId);
+    if (itr == _locations.end())
+        return nullptr;
+
+    return &itr->second;
+}
+
+const GHLocation* GuildEnclaveMgr::GetGuildLocation(uint32_t guildId) const
+{
+    const GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return nullptr;
+
+    return GetLocation(house->LocationId);
+}
+
+std::vector<const GHLocation*> GuildEnclaveMgr::GetLocations() const
+{
+    std::vector<const GHLocation*> result;
+
+    for(auto const& [id, location] : _locations)
+    {
+        if(location.Enabled)
+            result.push_back(&location);
+    }
+
+    return result;
+}
+
+// =====================================================
+// Boundary
+// =====================================================
+bool GuildEnclaveMgr::CheckBoundary(Player* player)
+{
+    if (!IsMember(player) && !GuildEnclaveUtil::IsInsideGuildEnclaveBoundry(player))
+    {
+        const GHLocation* location = GetGuildLocation(player->GetGuildId());
+        player->TeleportTo(location->MapId, location->X, location->Y, location->Z, location->O);
+        return false;
+    }
+
+    return true;
+}
+
+// =====================================================
+// Assets
+// =====================================================
 GHGuildAsset* GuildEnclaveMgr::GetAsset(uint32_t guildId, uint32_t assetId)
 {
     auto houseItr = _houses.find(guildId);
@@ -640,18 +601,11 @@ std::vector<const GHGuildAsset*> GuildEnclaveMgr::GetPurchasedAssets(uint32_t gu
 
 bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId)
 {
-    if (!player)
+    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
         return false;
 
     uint32_t guildId = player->GetGuildId();
     if (!guildId)
-        return false;
-
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-
-    if (!IsMember(player))
         return false;
 
     GHGuildAsset* asset = GetAsset(guildId, assetId);
@@ -682,14 +636,11 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId)
 
 bool GuildEnclaveMgr::StoreAsset(Player* player, uint32_t assetId)
 {
-    if (!player)
+    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
         return false;
 
     uint32_t guildId = player->GetGuildId();
     if (!guildId)
-        return false;
-
-    if (!IsMember(player))
         return false;
 
     GHGuildAsset* asset = GetAsset(guildId, assetId);
@@ -717,15 +668,12 @@ bool GuildEnclaveMgr::MoveAsset(Player* player, uint32_t assetId)
 
 bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
 {
-    if (!player)
+    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
         return false;
 
     uint32_t guildId = player->GetGuildId();
     if (!guildId)
         return false;
-
-    //if (!IsMember(player))
-    //    return false;
 
     GHGuildEnclave* house = GetGuildEnclave(guildId);
     if (!house)
@@ -741,6 +689,8 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
     if (!AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()))
         return false;
 
+    ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()));
+    
     CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
 
     auto itr = house->Assets.find(assetId);
