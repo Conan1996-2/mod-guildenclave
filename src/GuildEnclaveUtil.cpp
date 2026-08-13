@@ -5,6 +5,8 @@
 #include "Guild.h"
 #include "Player.h"
 
+#include <string>
+
 namespace GuildEnclaveUtil
 {
 
