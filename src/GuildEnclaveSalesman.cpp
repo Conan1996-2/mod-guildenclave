@@ -87,7 +87,7 @@ bool GuildEnclaveSalesman::ValidateSalesmanAccess(Player* player, Creature* crea
         return false;
     }
 
-    if (!sGuildEnclaveUtil::IsInsideGuildEnclaveBoundary(player))
+    if (!GuildEnclaveUtil::IsInsideGuildEnclaveBoundary(player))
     {
         ChatHandler(player->GetSession()).PSendSysMessage("You are outside the Guild House area.");
         return false;
