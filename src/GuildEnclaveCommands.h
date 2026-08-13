@@ -33,6 +33,7 @@ public:
     static bool HandleMoveAsset(ChatHandler* handler, char const* args);
     static bool HandleStoreAsset(ChatHandler* handler, char const* args);
     static bool HandleSellAsset(ChatHandler* handler, char const* args);
+    static bool HandleWanderAsset(ChatHandler* handler, char const* args);
 
     // =====================================================
     // CATALOG / SHOP
