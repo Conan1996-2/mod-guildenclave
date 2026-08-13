@@ -1,8 +1,9 @@
 #include "GuildEnclaveSalesman.h"
 
+#include "GuildEnclaveDefines.h"
+#include "GuildEnclaveUtil.h"
 #include "GuildEnclaveMgr.h"
 #include "GuildEnclaveCatalogMgr.h"
-#include "GuildEnclaveDefines.h"
 #include "GuildEnclaveNPCMovement.h"
 
 #include "Player.h"
