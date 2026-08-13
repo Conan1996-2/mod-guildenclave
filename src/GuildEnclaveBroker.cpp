@@ -1,9 +1,10 @@
 #include "GuildEnclaveBroker.h"
 
-#include "GuildEnclaveNPCMovement.h"
-#include "GuildEnclaveMgr.h"
 #include "GuildEnclaveConfig.h"
 #include "GuildEnclaveDefines.h"
+#include GuildEnclaveUtil.h"
+#include "GuildEnclaveNPCMovement.h"
+#include "GuildEnclaveMgr.h"
 
 #include "Guild.h"
 #include "GossipDef.h"
