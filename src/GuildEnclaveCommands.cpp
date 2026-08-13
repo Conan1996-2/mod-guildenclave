@@ -73,8 +73,6 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
 
 // =====================================================
 // BROKER
-//
-// Global broker NPC.
 // =====================================================
 bool GuildEnclaveCommandScript::HandleAddBroker(ChatHandler* handler)
 {
@@ -195,7 +193,7 @@ bool GuildEnclaveCommandScript::HandleListAssets(ChatHandler* handler, char cons
             case GH_ASSET_DISABLED:   statusText = "Disabled";  break;
         }
 
-        handler->PSendSysMessage("Asset {} | {} | {}", assetId, catalog ? catalog->Name.c_str() : "Salesman", statusText);
+        handler->PSendSysMessage("Asset {} | {} | {}", assetId, catalog ? catalog->Name.c_str() : "Unknown", statusText);
     }
     
     return true;
@@ -357,24 +355,24 @@ bool GuildEnclaveCommandScript::HandleWanderAsset(ChatHandler* handler, char con
         return true;
     }
 
-    char* end = nullptr;
-    uint32 assetId = std::strtoul(args, &end, 10);
-    if (!assetId || !end || *end != ' ')
+    uint32 assetId = atoi(args);
+    if (!assetId)
+    {
+        handler->PSendSysMessage("Invalid asset id.");
+        return true;
+    }
+
+    char const* distanceArgs = strchr(args, ' ');
+    if (!distanceArgs)
     {
         handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
         return true;
     }
 
-    while (*end == ' ')
-        ++end;
+    while (*distanceArgs == ' ')
+        ++distanceArgs;
 
-    if (!*end)
-    {
-        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
-        return true;
-    }
-
-    int32_t distance = std::strtof(end, &end);
+    uint32 distance = atoi(distanceArgs);
     if (distance < 0)
     {
         handler->PSendSysMessage("Invalid wander distance.");
