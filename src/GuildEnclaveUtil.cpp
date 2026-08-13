@@ -33,6 +33,17 @@ namespace GuildEnclaveUtil
     // =====================================================
     // Is Player Inside Guild Enclave AREA, does not have to be a member
     // =====================================================
+    bool IsInsideGuildEnclaveBoundary(Player* player)
+    {
+        const GHLocation* location = sGuildEnclaveMgr.GetGuildLocation(player->GetGuildId());
+        if(!location)
+            return false;
+    
+        float x = player->GetPositionX();
+        float y = player->GetPositionY();    
+        return (x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY)
+    }
+
     bool IsInGuildEnclaveArea(Player* player)
     {
         if (!player)
