@@ -409,7 +409,7 @@ bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
     if (!AddMoneyToGuild(guildId, refund * sGuildEnclaveConfig.GetRefundPercent()))
         return false;
 
-    ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(refund * sGuildEnclaveConfig.GetRefundPercent()));
+    //ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(refund * sGuildEnclaveConfig.GetRefundPercent()));
     
     sGuildEnclaveSpawner.RemoveAllAssets(guildId);
 
