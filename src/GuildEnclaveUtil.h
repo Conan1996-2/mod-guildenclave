@@ -13,21 +13,24 @@ namespace GuildEnclaveUtil
     bool HasFlag(uint32_t value, uint32_t flag);
 
     // =====================================================
-    // Guild permissions
+    // Faction flag helper
     // =====================================================
-    bool IsGuildMaster(Player* player);
-    bool CanManageGuildEnclave(Player* player);
+    bool IsAlliance(uint32_t flags);
+    bool IsHorde(uint32_t flags);
+    bool IsNeutral(uint32_t flags);
 
     // =====================================================
     // Guild Enclave checks
     // =====================================================
     bool IsInGuildEnclaveArea(Player* player);
+    bool IsGuildEnclavePhase(Player* player);
     bool IsInGuildEnclave(Player* player);
 
     // =====================================================
-    // Phase validation
+    // Guild permissions
     // =====================================================
-    bool IsGuildEnclavePhase(uint32_t guildId, uint32_t phaseMask);
+    bool IsGuildMaster(Player* player);
+    bool CanManageGuildEnclave(Player* player);
 }
 
 #endif
