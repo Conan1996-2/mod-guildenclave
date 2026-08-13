@@ -30,6 +30,7 @@ namespace GuildEnclaveUtil
     // Guild permissions
     // =====================================================
     bool IsGuildMaster(Player* player);
+    bool IsGuildRank(Player* player);
     bool CanManageGuildEnclave(Player* player);
 }
 
