@@ -338,6 +338,60 @@ bool GuildEnclaveCommandScript::HandleSellAsset(ChatHandler* handler, char const
 }
 
 // =====================================================
+// Wander Asset
+//
+// Usage:
+// .ge asset wander <assetId> <distance>
+//
+// Sets the maximum wander distance for the asset.
+// =====================================================
+bool GuildEnclaveCommandScript::HandleWanderAsset(ChatHandler* handler, char const* args)
+{
+    Player* player = handler->GetSession()->GetPlayer();
+    if (!player)
+        return false;
+
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
+        return true;
+    }
+
+    char* end = nullptr;
+    uint32 assetId = std::strtoul(args, &end, 10);
+    if (!assetId || !end || *end != ' ')
+    {
+        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
+        return true;
+    }
+
+    while (*end == ' ')
+        ++end;
+
+    if (!*end)
+    {
+        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
+        return true;
+    }
+
+    int32_t distance = std::strtof(end, &end);
+    if (distance < 0)
+    {
+        handler->PSendSysMessage("Invalid wander distance.");
+        return true;
+    }
+
+    if (!sGuildEnclaveMgr.WanderAsset(player, assetId, distance))
+    {
+        handler->PSendSysMessage("Failed setting wander distance for Guild House asset {}.", assetId);
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild House asset {} wander distance set to {} yards.", assetId, distance);
+    return true;
+}
+
+// =====================================================
 // List Root Categories
 // =====================================================
 bool GuildEnclaveCommandScript::HandleListCategories(ChatHandler* handler, char const*)
@@ -443,60 +497,6 @@ bool GuildEnclaveCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char
 
     handler->PSendSysMessage("Guild House item purchased.");
 
-    return true;
-}
-
-// =====================================================
-// Wander Asset
-//
-// Usage:
-// .ge asset wander <assetId> <distance>
-//
-// Sets the maximum wander distance for the asset.
-// =====================================================
-bool GuildEnclaveCommandScript::HandleWanderAsset(ChatHandler* handler, char const* args)
-{
-    Player* player = handler->GetSession()->GetPlayer();
-    if (!player)
-        return false;
-
-    if (!args || !*args)
-    {
-        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
-        return true;
-    }
-
-    char* end = nullptr;
-    uint32 assetId = std::strtoul(args, &end, 10);
-    if (!assetId || !end || *end != ' ')
-    {
-        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
-        return true;
-    }
-
-    while (*end == ' ')
-        ++end;
-
-    if (!*end)
-    {
-        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
-        return true;
-    }
-
-    int32_t distance = std::strtof(end, &end);
-    if (distance < 0)
-    {
-        handler->PSendSysMessage("Invalid wander distance.");
-        return true;
-    }
-
-    if (!sGuildEnclaveMgr.WanderAsset(player, assetId, distance))
-    {
-        handler->PSendSysMessage("Failed setting wander distance for Guild House asset {}.", assetId);
-        return true;
-    }
-
-    handler->PSendSysMessage("Guild House asset {} wander distance set to {} yards.", assetId, distance);
     return true;
 }
 
