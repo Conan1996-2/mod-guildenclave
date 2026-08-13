@@ -75,8 +75,7 @@ namespace GuildEnclaveUtil
         if (!guild)
             return false;
     
-        uint32 guildId = guild->GetId();
-        uint32_t guildPhase = sGuildEnclaveMgr.GetPhaseMask(guildId);
+        uint32_t guildPhase = sGuildEnclaveMgr.GetPhaseMask(guild->GetId());
         if (!guildPhase)
             return false;
     
