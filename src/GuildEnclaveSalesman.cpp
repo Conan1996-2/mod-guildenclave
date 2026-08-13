@@ -15,6 +15,7 @@
 
 #include "Chat.h"
 
+/*
 namespace
 {
     
@@ -27,6 +28,7 @@ namespace
     };
 
 }
+*/
 
 // =====================================================
 // Validate Access
