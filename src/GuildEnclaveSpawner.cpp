@@ -118,6 +118,11 @@ void GuildEnclaveSpawner::LoadPlacedAssets(uint32_t guildId)
 // =====================================================
 // Creature
 // =====================================================
+bool GuildEnclaveSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32_t entry, Player* player, int w)
+{
+    SpawnCreature(guildId, assetId, player->GetPhaseMaskForSpawn(), player->GetMapId(), entry, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation(), w);
+}
+
 bool GuildEnclaveSpawner::SpawnCreature(uint32_t guildId, uint32_t assetId, uint32_t phaseMask, uint32_t mapId, uint32_t entry, float x, float y, float z, float o, int w)
 {
    Map* map = sMapMgr->CreateBaseMap(mapId);
