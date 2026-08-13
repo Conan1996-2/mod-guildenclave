@@ -41,7 +41,7 @@ namespace GuildEnclaveUtil
     
         float x = player->GetPositionX();
         float y = player->GetPositionY();    
-        return (x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY)
+        return (x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY);
     }
 
     bool IsInGuildEnclaveArea(Player* player)
