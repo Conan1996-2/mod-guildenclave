@@ -389,7 +389,7 @@ bool GuildEnclaveMgr::TeleportToGuildEnclave(Player* player)
         sGuildEnclaveSpawner.LoadPlacedAssets(guildId);
     }
 */
-    return EnterPhase(player, guildId);
+    return EnterPhase(player);
 }
 
 // =====================================================
