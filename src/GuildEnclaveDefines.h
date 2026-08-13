@@ -59,7 +59,7 @@ namespace GuildEnclaveUtil
 {
     bool IsGuildEnclavePhase(uint32_t guildId, uint32_t phaseMask);
 
-    bool IsInGuildEnclave(Player* player);
+    //bool IsInGuildEnclave(Player* player);
 
     bool IsGuildRank(Player* player);
 
