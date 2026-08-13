@@ -397,10 +397,11 @@ bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint3
 
 bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
 {
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
+    auto itr = _houses.find(guildId);
+    if (itr == _houses.end())
         return false;
 
+    GHGuildEnclave& house = itr->second;
     uint64_t refund = house->PurchasePrice;
 
     for (auto const& [assetId, asset] : house->Assets)
