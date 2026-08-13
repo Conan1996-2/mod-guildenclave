@@ -14,14 +14,6 @@ GuildEnclaveCatalogMgr& GuildEnclaveCatalogMgr::Instance()
 
 // =====================================================
 // Load catalog database
-//
-// Loads:
-// - categories
-// - catalog entries
-// - catalog components
-//
-// Components are stored:
-// - inside catalog.Components
 // =====================================================
 void GuildEnclaveCatalogMgr::Load()
 {
@@ -150,15 +142,10 @@ std::vector<const GHCategory*> GuildEnclaveCatalogMgr::GetRootCategories() const
     for (auto const& [id, category] : _categories)
     {
         if (category.ParentId == 0 && category.Enabled)
-        {
             result.push_back(&category);
-        }
     }
 
-    std::sort(result.begin(), result.end(), [](const GHCategory* a, const GHCategory* b)
-        {
-            return a->SortOrder < b->SortOrder;
-        });
+    std::sort(result.begin(), result.end(), [](const GHCategory* a, const GHCategory* b) { return a->SortOrder < b->SortOrder; });
 
     return result;
 }
@@ -173,15 +160,10 @@ std::vector<const GHCategory*> GuildEnclaveCatalogMgr::GetChildCategories(uint32
     for (auto const& [id, category] : _categories)
     {
         if (category.ParentId == parentId && category.Enabled)
-        {
             result.push_back(&category);
-        }
     }
 
-    std::sort(result.begin(), result.end(), [](const GHCategory* a, const GHCategory* b)
-        {
-            return a->SortOrder < b->SortOrder;
-        });
+    std::sort(result.begin(), result.end(), [](const GHCategory* a, const GHCategory* b) { return a->SortOrder < b->SortOrder; });
 
     return result;
 }
@@ -204,10 +186,7 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categ
                 result.push_back(&catalog);
     }
 
-    std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b)
-        {
-            return a->Name < b->Name;
-        });
+    std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b) { return a->Name < b->Name; });
 
     return result;
 }
@@ -224,16 +203,11 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team
         if (!catalog.Enabled)
             continue;        
  
-        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
-            (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
-            (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
+        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) || (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
                 result.push_back(&catalog);
     }
 
-    std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b)
-        {
-            return a->Name < b->Name;
-        });
+    std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b) { return a->Name < b->Name; });
 
     return result;
 }
