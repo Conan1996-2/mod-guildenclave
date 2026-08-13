@@ -42,6 +42,7 @@ namespace GuildEnclaveUtil
         return member->GetRankId() <= house->RequiredGuildRank;
     }
 
+/*
     // =====================================================
     // Is Player Inside Guild House
     //
@@ -99,5 +100,5 @@ namespace GuildEnclaveUtil
     
         return (player->GetPhaseMask() & phaseMask) != 0;
     }
-
+*/
 }
