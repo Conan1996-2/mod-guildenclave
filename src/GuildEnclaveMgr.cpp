@@ -1,16 +1,15 @@
-#include "ScriptMgr.h"
-
 #include "GuildEnclaveMgr.h"
 
+#include "GuildEnclaveDefines.h"
 #include "GuildEnclaveConfig.h"
-//#include "GuildEnclavePhaseMgr.h"
+#include "GuildEnclaveUtil.h"
 #include "GuildEnclaveSpawner.h"
 #include "GuildEnclaveCatalogMgr.h"
-#include "GuildEnclaveDefines.h"
+
+#include "ScriptMgr.h"
 
 #include "DatabaseEnv.h"
 #include "QueryResult.h"
-
 #include "Player.h"
 #include "Chat.h"
 #include "Log.h"
