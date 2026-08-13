@@ -397,7 +397,7 @@ bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint3
 
 bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
 {
-    GHGuildEnclave& house = GetGuildEnclave(guildId);
+    GHGuildEnclave house = GetGuildEnclave(guildId);
     if (!house)
         return false;
 
