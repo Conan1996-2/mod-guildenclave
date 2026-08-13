@@ -11,6 +11,7 @@
 #include "ScriptedGossip.h"
 #include "Chat.h"
 
+/*
 namespace
 {
 
@@ -25,6 +26,7 @@ namespace
     };
 
 }
+*/
 
 bool GuildEnclaveBroker::OnGossipHello(Player* player, Creature* creature)
 {
