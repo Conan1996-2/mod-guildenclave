@@ -703,6 +703,28 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
 
 bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t distance)
 {
+    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
+        return false;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    GHGuildAsset* asset = GetAsset(guildId, assetId);
+    if (!asset)
+        return false;
+
+    CharacterDatabase.Execute("UPDATE guildenclave_asset SET wander={} WHERE assetId={} AND guildId={}", w, assetId, guildId);
+
+    asset->w = distance;
+
+    if (asset->status == GH_ASSET_PLACED)
+    {
+        if (!sGuildEnclaveSpawner.RemoveAsset(guildId, assetId))
+            return false
+        sGuildEnclaveSpawner.SpawnAsset(guildId, asset->AssetId, asset->CatalogId, asset->X, asset->Y, asset->Z, asset->O, asset->W);
+    }
+
     return true;
 }
 
