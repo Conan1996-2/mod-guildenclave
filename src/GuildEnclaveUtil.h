@@ -1,6 +1,8 @@
 #ifndef MOD_GUILDENCLAVE_UTIL_H
 #define MOD_GUILDENCLAVE_UTIL_H
 
+#include "GuildEnclaveDefines.h"
+
 #include <cstdint>
 #include <string>
 
