@@ -711,8 +711,11 @@ bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t dis
         return false;
 
     GHGuildAsset* asset = GetAsset(guildId, assetId);
-    if (!asset)
+    if (!asset && asset.SpawnType != GH_SPAWN_CREATURE)
+    {
+        ChatHandler(player->GetSession()).PSendSysMessage("Can only be used on NPC's and creatures. This can not be used on gameobjects");
         return false;
+    }
 
     asset->w = distance;
     CharacterDatabase.Execute("UPDATE guildenclave_asset SET wander={} WHERE assetId={} AND guildId={}", distance, assetId, guildId);
