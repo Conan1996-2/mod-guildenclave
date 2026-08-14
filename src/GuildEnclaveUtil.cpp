@@ -9,27 +9,6 @@
 
 namespace GuildEnclaveUtil
 {
-
-    inline bool HasFlag(uint32_t value, uint32_t flag)
-    {
-        return (value & flag) != 0;
-    }
-
-    inline bool IsAlliance(uint32_t flags)
-    {
-        return HasFlag(flags, GH_FACTION_ALLIANCE);
-    }
-
-    inline bool IsHorde(uint32_t flags)
-    {
-        return HasFlag(flags, GH_FACTION_HORDE);
-    }
-
-    inline bool IsNeutral(uint32_t flags)
-    {
-        return HasFlag(flags, GH_FACTION_NEUTRAL);
-    }
-
     // =====================================================
     // Is Player Inside Guild Enclave AREA, does not have to be a member
     // =====================================================
@@ -153,14 +132,6 @@ namespace GuildEnclaveUtil
             return guild->GetLeaderGUID() == player->GetGUID();
         
         return member->GetRankId() <= house->RequiredGuildRank;
-    }
-
-    // =====================================================
-    // Is the player Allowed to place objects
-    // =====================================================
-    inline bool CanManageGuildEnclave(Player* player)
-    {
-        return IsGuildRank(player) && IsInGuildEnclave(player);
     }
 
     // =====================================================
