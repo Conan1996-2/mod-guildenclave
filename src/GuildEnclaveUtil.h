@@ -11,14 +11,14 @@ namespace GuildEnclaveUtil
     // =====================================================
     // Bit flag helper
     // =====================================================
-    bool HasFlag(uint32_t value, uint32_t flag);
+    inline bool HasFlag(uint32_t value, uint32_t flag) { return (value & flag) != 0; }
 
     // =====================================================
     // Faction flag helper
     // =====================================================
-    bool IsAlliance(uint32_t flags);
-    bool IsHorde(uint32_t flags);
-    bool IsNeutral(uint32_t flags);
+    inline bool IsAlliance(uint32_t flags) { return HasFlag(flags, GH_FACTION_ALLIANCE); }
+    inline bool IsHorde(uint32_t flags) { return HasFlag(flags, GH_FACTION_HORDE); }
+    inline bool IsNeutral(uint32_t flags) { return HasFlag(flags, GH_FACTION_NEUTRAL); }
 
     // =====================================================
     // Guild Enclave checks
