@@ -719,7 +719,7 @@ bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t dis
     if (asset->Status == GH_ASSET_PLACED)
     {
         if (!sGuildEnclaveSpawner.RemoveAsset(guildId, assetId))
-            return false
+            return false;
         sGuildEnclaveSpawner.SpawnAsset(guildId, assetId, asset->CatalogId, asset->X, asset->Y, asset->Z, asset->O, asset->w);
     }
 
