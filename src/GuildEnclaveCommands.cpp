@@ -27,30 +27,30 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
 {
     static ChatCommandTable npcTable =
     {
-        { "broker",   HandleAddBroker,   SEC_GAMEMASTER, Console::No },
+        { "broker",     HandleAddBroker,   SEC_GAMEMASTER, Console::No },
+        { "wander",     HandleWanderAsset, SEC_PLAYER, Console::No }
     };
 
     static ChatCommandTable houseTable =
     {
-        { "sell",     HandleSellGuildEnclave,   SEC_PLAYER, Console::No },
-        { "tele",     HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
-        { "teleport", HandleTeleportGuildEnclave, SEC_PLAYER, Console::No }
+        { "sell",       HandleSellGuildEnclave,     SEC_PLAYER, Console::No },
+        { "tele",       HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
+        { "teleport",   HandleTeleportGuildEnclave, SEC_PLAYER, Console::No }
     };
 
     static ChatCommandTable assetTable =
     {
-        { "list",   HandleListAssets,  SEC_PLAYER, Console::No },
-        { "place",  HandlePlaceAsset,  SEC_PLAYER, Console::No },
-        { "move",   HandleMoveAsset,   SEC_PLAYER, Console::No },
-        { "store",  HandleStoreAsset,  SEC_PLAYER, Console::No },
-        { "sell",   HandleSellAsset,   SEC_PLAYER, Console::No },
-        { "wander", HandleWanderAsset, SEC_PLAYER, Console::No }
+        { "list",       HandleListAssets,  SEC_PLAYER, Console::No },
+        { "place",      HandlePlaceAsset,  SEC_PLAYER, Console::No },
+        { "move",       HandleMoveAsset,   SEC_PLAYER, Console::No },
+        { "store",      HandleStoreAsset,  SEC_PLAYER, Console::No },
+        { "sell",       HandleSellAsset,   SEC_PLAYER, Console::No }
     };
 
     static ChatCommandTable shopTable =
     {
-        { "categories", HandleListCategories, SEC_PLAYER, Console::No },
-        { "list",       HandleListCatalog,    SEC_PLAYER, Console::No },
+        { "categories", HandleListCategories,  SEC_PLAYER, Console::No },
+        { "list",       HandleListCatalog,     SEC_PLAYER, Console::No },
         { "buy",        HandlePurchaseCatalog, SEC_PLAYER, Console::No }
     };
 
@@ -351,7 +351,7 @@ bool GuildEnclaveCommandScript::HandleWanderAsset(ChatHandler* handler, char con
 
     if (!args || !*args)
     {
-        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
+        handler->PSendSysMessage("Usage: .ge npc wander <assetId> <distance>");
         return true;
     }
 
@@ -365,7 +365,7 @@ bool GuildEnclaveCommandScript::HandleWanderAsset(ChatHandler* handler, char con
     char const* distanceArgs = strchr(args, ' ');
     if (!distanceArgs)
     {
-        handler->PSendSysMessage("Usage: .ge asset wander <assetId> <distance>");
+        handler->PSendSysMessage("Usage: .ge npc wander <assetId> <distance>");
         return true;
     }
 
