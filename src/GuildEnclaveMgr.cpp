@@ -711,7 +711,7 @@ bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t dis
         return false;
 
     GHGuildAsset* asset = GetAsset(guildId, assetId);
-    if (!asset && asset.SpawnType != GH_SPAWN_CREATURE)
+    if (!asset && asset->SpawnType != GH_SPAWN_CREATURE)
     {
         ChatHandler(player->GetSession()).PSendSysMessage("Can only be used on NPC's and creatures. This can not be used on gameobjects");
         return false;
