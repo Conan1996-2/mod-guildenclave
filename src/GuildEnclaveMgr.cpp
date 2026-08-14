@@ -115,7 +115,7 @@ void GuildEnclaveMgr::Load()
             itr->second.Assets.emplace(asset.AssetId, std::move(asset));
         }while(result->NextRow());
     }
-
+/*
     if(QueryResult result = CharacterDatabase.Query("SELECT spawnId,guildId,assetId,phaseMask,spawnGuid,spawnType,mapId,x,y,z,o,w FROM guildenclave_spawn"))
     {
         do
@@ -145,6 +145,7 @@ void GuildEnclaveMgr::Load()
             itr->second.Spawns.push_back(spawn);
         }while(result->NextRow());
     }
+*/
 
     LOG_INFO("server.loading", ">> GuildEnclaveMgr loaded {} houses and {} locations", _houses.size(), _locations.size());
 }
@@ -711,11 +712,8 @@ bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t dis
         return false;
 
     GHGuildAsset* asset = GetAsset(guildId, assetId);
-    if (!asset && asset->SpawnType != GH_SPAWN_CREATURE)
-    {
-        ChatHandler(player->GetSession()).PSendSysMessage("Can only be used on NPC's and creatures. This can not be used on gameobjects");
+    if (!asset)
         return false;
-    }
 
     asset->w = distance;
     CharacterDatabase.Execute("UPDATE guildenclave_asset SET wander={} WHERE assetId={} AND guildId={}", distance, assetId, guildId);
