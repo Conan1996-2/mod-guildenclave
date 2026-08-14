@@ -99,17 +99,11 @@ _ARGUMENT_  indicates argument names
         - _ASSETID_ = specific owned asset in your list  
             **Example Usage**:  
                 - `.ge asset store 12`
-    - **`wander <_ASSETID_> <_DISTANCE_>`** -- Change how far the asset will wander from its spawn point. Only usable on NPCs.  
-        - _ASSETID_ = specific owned asset in your list  
-        - _DISTANCE_ = How far from spawn point the NPC will wander randomly  
-            **Example Usage**:  
-                - `.ge asset wander 1 50`
   
   - **`enclave`** -- (Proper Guild Rank Access to use command)  
     - **`sell`** -- Sells the enclave and all its contents back to the broker, refund is a set percentage of cost.  
             **Example Usage**:  
                 - `.ge enclave sell`  
-  
   - **`enclave`** -- (Any player in a guild that owns a enclave)  
     - **`tele | teleport`** -- Teleports the player to the guild enclave they own.  
             **Example Usage**:  
@@ -119,6 +113,11 @@ _ARGUMENT_  indicates argument names
     - **`broker`** -- Spawns a broker at the players position. There can be more then one.  
             **Example Usage**:  
                 - `.ge npc broker`  
+    - **`wander <_ASSETID_> <_DISTANCE_>`** -- Change how far the asset will wander from its spawn point. Only usable on NPCs.  
+        - _ASSETID_ = specific owned asset in your list  
+        - _DISTANCE_ = How far from spawn point the NPC will wander randomly  
+            **Example Usage**:  
+                - `.ge npc wander 1 50`
   
   - **`shop`** -- (Proper Guild Rank Access command)  
     - **`buy <_CATALOGID_>`** -- Purchase a specific item  
