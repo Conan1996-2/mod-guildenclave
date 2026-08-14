@@ -714,10 +714,8 @@ bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t dis
     if (!asset)
         return false;
 
-    CharacterDatabase.Execute("UPDATE guildenclave_asset SET wander={} WHERE assetId={} AND guildId={}", w, assetId, guildId);
-
-    asset->w = distance;
-
+    asset->W = distance;
+    CharacterDatabase.Execute("UPDATE guildenclave_asset SET wander={} WHERE assetId={} AND guildId={}", distance, assetId, guildId);
     if (asset->status == GH_ASSET_PLACED)
     {
         if (!sGuildEnclaveSpawner.RemoveAsset(guildId, assetId))
