@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "PlayerScript.h"
+
+#include "GuildEnclaveDefines.h"
 #include "GuildEnclaveUtil.h"
 #include "GuildEnclaveMgr.h"
 
