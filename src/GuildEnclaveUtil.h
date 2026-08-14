@@ -35,10 +35,7 @@ namespace GuildEnclaveUtil
     // Guild permissions
     // =====================================================
     bool IsGuildRank(Player* player);
-    inline bool CanManageGuildEnclave(Player* player)
-    {
-        return IsGuildRank(player) && IsInGuildEnclave(player);
-    }
+    inline bool CanManageGuildEnclave(Player* player) { return IsGuildRank(player) && IsInGuildEnclave(player); }
 
     // =====================================================
     // Money Calculations
