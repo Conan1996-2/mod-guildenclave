@@ -41,7 +41,7 @@ CREATE TABLE `guildenclave_prebuilt`
 (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `location` INT UNSIGNED NOT NULL,
-    `asset` INT UNSIGNED NOT NULL,
+    `catalogId` INT UNSIGNED NOT NULL,
     `X` FLOAT NOT NULL,
     `Y` FLOAT NOT NULL,
     `Z` FLOAT NOT NULL,
