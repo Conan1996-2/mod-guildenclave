@@ -26,6 +26,10 @@ INSERT INTO `guildenclave_category` (`categoryId`, `parentId`, `name`, `sortOrde
     (5000, 0, "Animals", 5, 1),
     (10000, 0, "Prebuilt", 6, 1);
 
+TRUNCATE TABLE `guildenclave_prebuilt`;
+INSERT INTO `guildenclave_prebuilt` (`id`, `location`, `asset`, `X`, `Y`, `Z`, `O`) VALUES
+    (1, 1, 1, 0, 0, 0, 0);
+
 TRUNCATE TABLE `guildenclave_catalog`;
 INSERT INTO `guildenclave_catalog` (`catalogId`, `categoryId`, `name`, `price`, `spawnFlags`, `behaviorFlags`, `enabled`) VALUES
     (1, 1, "Broker", 0, 1, 4, 1),
@@ -147,10 +151,6 @@ INSERT INTO `guildenclave_catalog` (`catalogId`, `categoryId`, `name`, `price`, 
     (4111, 4111, "Undercity Mailbox", 500000, 2, 4, 1),
 
     (4301, 4300, "Dalaran Lamp Post", 500000, 1, 4, 1);
-
-TRUNCATE TABLE `guildenclave_prebuilt`;
-INSERT INTO `guildenclave_prebuilt` (`id`, `location`, `asset`, `X`, `Y`, `Z`, `O`) VALUES
-    (1, 1, 1, 0, 0, 0, 0);
 
 TRUNCATE TABLE `guildenclave_catalog_asset`;
 INSERT INTO `guildenclave_catalog_asset` (`componentId`,`catalogId`,`spawnFlags`,`behaviorFlags`,`entryId`,`displayId`,`scale`,`xOffset`,`yOffset`,`zOffset`,`oOffset`,`wander`,`childCatalogId`,`sortOrder`) VALUES
