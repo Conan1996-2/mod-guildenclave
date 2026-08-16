@@ -23,8 +23,7 @@ INSERT INTO `guildenclave_category` (`categoryId`, `parentId`, `name`, `sortOrde
     (4100, 4000, "Mailbox", 1, 1),
     (4200, 4000, "Braziers", 2, 1),
     (4300, 4000, "Lamp Posts", 3, 1),
-    (5000, 0, "Animals", 5, 1),
-    (10000, 0, "Prebuilt", 6, 1);
+    (5000, 0, "Animals", 5, 1);
 
 TRUNCATE TABLE `guildenclave_prebuilt`;
 INSERT INTO `guildenclave_prebuilt` (`id`, `location`, `catalogId`, `X`, `Y`, `Z`, `O`) VALUES
