@@ -47,6 +47,8 @@ CREATE TABLE `guildenclave_prebuilt`
     `Z` FLOAT NOT NULL,
     `O` FLOAT NOT NULL,
 
+    PRIMARY KEY (`catalogId`),
+    
     KEY `idx_id` (`id`),
     KEY `idx_location` (`location`)
 ) ENGINE=InnoDB
