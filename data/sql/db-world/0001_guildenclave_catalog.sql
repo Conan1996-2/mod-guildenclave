@@ -36,6 +36,20 @@ CREATE TABLE `guildenclave_catalog`
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
+DROP TABLE IF EXISTS `guildenclave_prebuilt`;
+CREATE TABLE `guildenclave_prebuilt`
+(
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `location` INT UNSIGNED NOT NULL,
+    `asset` INT UNSIGNED NOT NULL,
+    `X` FLOAT NOT NULL,
+    `Y` FLOAT NOT NULL,
+    `Z` FLOAT NOT NULL,
+    `O` FLOAT NOT NULL
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
 DROP TABLE IF EXISTS `guildenclave_catalog_asset`;
 CREATE TABLE `guildenclave_catalog_asset`
 (
@@ -51,19 +65,10 @@ CREATE TABLE `guildenclave_catalog_asset`
 
     `scale` FLOAT NOT NULL DEFAULT 1.0,
 
-    `scriptType` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
-    `scriptData` VARCHAR(100) DEFAULT NULL,
-
     `xOffset` FLOAT NOT NULL DEFAULT 0,
     `yOffset` FLOAT NOT NULL DEFAULT 0,
     `zOffset` FLOAT NOT NULL DEFAULT 0,
     `oOffset` FLOAT NOT NULL DEFAULT 0,
-
-    `targetMapId` SMALLINT UNSIGNED DEFAULT NULL,
-    `targetX` FLOAT DEFAULT NULL,
-    `targetY` FLOAT DEFAULT NULL,
-    `targetZ` FLOAT DEFAULT NULL,
-    `targetO` FLOAT DEFAULT NULL,
 
     `wander` INT NOT NULL DEFAULT 0,
 
