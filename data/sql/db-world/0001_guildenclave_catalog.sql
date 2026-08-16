@@ -45,7 +45,10 @@ CREATE TABLE `guildenclave_prebuilt`
     `X` FLOAT NOT NULL,
     `Y` FLOAT NOT NULL,
     `Z` FLOAT NOT NULL,
-    `O` FLOAT NOT NULL
+    `O` FLOAT NOT NULL,
+
+    KEY `idx_id` (`id`),
+    KEY `idx_location` (`location`)
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
