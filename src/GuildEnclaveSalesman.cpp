@@ -271,7 +271,7 @@ void GuildEnclaveSalesman::SendCategoryMenu(Player* player, Creature* creature, 
         if (!catalog)
             continue;
 
-        std::string displayName = catalog->Name + " - " + GuildEnclaveUtil::GoldToString(catalog->price);
+        std::string displayName = catalog->Name + " - " + GuildEnclaveUtil::GoldToString(catalog->Price);
         
         AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, displayName, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
     }
