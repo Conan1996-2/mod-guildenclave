@@ -26,7 +26,7 @@ INSERT INTO `guildenclave_category` (`categoryId`, `parentId`, `name`, `sortOrde
     (5000, 0, "Animals", 5, 1);
 
 TRUNCATE TABLE `guildenclave_prebuilt`;
-INSERT INTO `guildenclave_prebuilt` (`id`, `location`, `catalogId`, `X`, `Y`, `Z`, `O`) VALUES
+INSERT INTO `guildenclave_prebuilt` (`id`, `locationId`, `catalogId`, `X`, `Y`, `Z`, `O`) VALUES
     (1, 1, 1, 0, 0, 0, 0);
 
 TRUNCATE TABLE `guildenclave_catalog`;
