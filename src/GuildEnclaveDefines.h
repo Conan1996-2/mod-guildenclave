@@ -68,11 +68,12 @@ enum GuildEnclaveActions
     ACTION_NONE           = 0,
     ACTION_TELEPORT       = 1,
     ACTION_SELL           = 2,
-    ACTION_BUY_START      = 1000,
-    ACTION_CATEGORY_START = 100000,
-    ACTION_CATALOG_START  = 200000,
-    ACTION_BACK           = 300000,
-    ACTION_CONFIRM        = 400000
+    ACTION_PREBUILT_START = 100000,
+    ACTION_BUY_START      = 200000,
+    ACTION_CATEGORY_START = 300000,
+    ACTION_CATALOG_START  = 400000,
+    ACTION_BACK           = 500000,
+    ACTION_CONFIRM        = 600000
 };
 
 #endif
