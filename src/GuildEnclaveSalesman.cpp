@@ -132,7 +132,7 @@ void GuildEnclaveSalesman::SendPreMadePurchaseConfirmMenu(Player* player)
         return;
     }
     
-    std::string cost = sGuildEnclaveUtil::GoldToString(sGuildEnclaveMgr.GetTotalAssetCost(location->Id));
+    std::string cost = GuildEnclaveUtil::GoldToString(sGuildEnclaveMgr.GetTotalAssetCost(location->Id));
 
     AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase Total Assets - " + cost, GOSSIP_SENDER_MAIN, ACTION_CONFIRM);
     AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK);
@@ -271,7 +271,7 @@ void GuildEnclaveSalesman::SendCategoryMenu(Player* player, Creature* creature, 
         if (!catalog)
             continue;
 
-        std::string displayName = catalog->Name + " - " + sGuildEnclaveUtil::GoldToString(catalog->price);
+        std::string displayName = catalog->Name + " - " + GuildEnclaveUtil::GoldToString(catalog->price);
         
         AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, displayName, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
     }
