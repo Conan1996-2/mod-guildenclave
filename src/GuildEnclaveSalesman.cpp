@@ -111,7 +111,7 @@ void GuildEnclaveSalesman::SendPurchaseConfirmMenu(Player* player, Creature* cre
         return;
     }
 
-    std::string cost = "Cost: " + GuildEnclaveUtil::GoldToString(catalog->price);
+    std::string cost = "Cost: " + GuildEnclaveUtil::GoldToString(catalog->Price);
 
     AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase " + catalog->Name + " - " + cost, GOSSIP_SENDER_MAIN, ACTION_CONFIRM + catalogId);
     AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK + catalog->CategoryId);
