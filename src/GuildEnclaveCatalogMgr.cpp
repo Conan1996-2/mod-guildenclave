@@ -20,6 +20,7 @@ void GuildEnclaveCatalogMgr::Load()
     _categories.clear();
     _catalogs.clear();
 
+    LOG_INFO("server.loading",">> Starting guildenclave_catagory");
     //
     // Categories
     //
@@ -41,6 +42,7 @@ void GuildEnclaveCatalogMgr::Load()
         } while (result->NextRow());
     }
 
+    LOG_INFO("server.loading",">> Starting guildenclave_catalog");
     //
     // Catalog Items
     //
@@ -64,6 +66,7 @@ void GuildEnclaveCatalogMgr::Load()
         } while (result->NextRow());
     }
 
+    LOG_INFO("server.loading",">> Starting guildenclave_catalog_asset");
     //
     // Catalog Components
     //
