@@ -125,7 +125,7 @@ void GuildEnclaveSalesman::SendPreMadePurchaseConfirmMenu(Player* player)
 {
     ChatHandler(player->GetSession()).PSendSysMessage("In Confirmation.");
 
-    GHLocation* location = sGuildEnclaveMgr.GetGuildLocation (player->GetGuildId());
+    const GHLocation* location = sGuildEnclaveMgr.GetGuildLocation (player->GetGuildId());
     if (!location)
     {
         CloseGossipMenuFor(player);
