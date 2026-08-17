@@ -11,8 +11,6 @@
 
 // =====================================================
 // Catalog Component
-//
-// Individual component belonging to a catalog item.
 // =====================================================
 struct GHCatalogAsset
 {
@@ -31,15 +29,7 @@ struct GHCatalogAsset
     float OOffset = 0.0f;
 
     uint16_t w = 0;
-/*
-    GHScriptType ScriptType = GH_SCRIPT_NONE;
-    std::string ScriptData;
-    uint32_t TargetMap = 0;
-    float TargetX = 0.0f;
-    float TargetY = 0.0f;
-    float TargetZ = 0.0f;
-    float TargetO = 0.0f;
-*/
+
     uint32_t ChildCatalogId = 0;
     uint16_t SortOrder = 0;
 };
