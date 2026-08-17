@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `guildenclave_prebuilt`;
 CREATE TABLE `guildenclave_prebuilt`
 (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `location` INT UNSIGNED NOT NULL,
+    `locationId` INT UNSIGNED NOT NULL,
     `catalogId` INT UNSIGNED NOT NULL,
     `X` FLOAT NOT NULL,
     `Y` FLOAT NOT NULL,
