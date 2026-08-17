@@ -111,28 +111,32 @@ void GuildEnclaveSalesman::SendPurchaseConfirmMenu(Player* player, Creature* cre
         return;
     }
 
-    uint64 price = catalog->Price;
-    uint64 gold   = price / GOLD;
-    uint64 silver = (price % GOLD) / SILVER;
-    uint64 copper = price % SILVER;
-
-    std::string cost = "Cost: ";
-
-    if (gold)
-        cost += std::to_string(gold) + "G ";
-
-    if (silver)
-        cost += std::to_string(silver) + "S ";
-
-    if (copper)
-        cost += std::to_string(copper) + "C";
-
-    if (!gold && !silver && !copper)
-        cost += "Free";
+    std::string cost = "Cost: " + sGuildEnclaveUtil::GoldToString(catalog->price);
 
     AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase " + catalog->Name + " - " + cost, GOSSIP_SENDER_MAIN, ACTION_CONFIRM + catalogId);
     AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK + catalog->CategoryId);
     SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+}
+
+// =====================================================
+// Confirmation of Premade sale
+// =====================================================
+void GuildEnclaveSalesman::SendPreMadePurchaseConfirmMenu(Player* player)
+{
+    ChatHandler(player->GetSession()).PSendSysMessage("In Confirmation.");
+
+    GHLocation* location = sGuildEnclaveMgr.GetGuildLocation (player->GetGuildId());
+    if (!location)
+    {
+        CloseGossipMenuFor(player);
+        return;
+    }
+    
+    std::string cost = sGuildEnclaveUtil::GoldToString(sGuildEnclaveMgr.GetTotalAssetCost(location->Id));
+
+    AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase Total Assets - " + cost, GOSSIP_SENDER_MAIN, ACTION_CONFIRM);
+    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK);
+    SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, 0);
 }
 
 // =====================================================
@@ -169,6 +173,8 @@ void GuildEnclaveSalesman::SendCatalogMenu(Player* player, Creature* creature)
             continue;
 
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, category->Name, GOSSIP_SENDER_MAIN, ACTION_CATEGORY_START + category->Id);
+
+        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Default Guild Enclave", GOSSIP_SENDER_MAIN, ACTION_PREBUILT_START);
     }
 
     SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
@@ -222,22 +228,13 @@ bool GuildEnclaveSalesman::OnGossipSelect(Player* player, Creature* creature, ui
         uint32 catalogId = action - ACTION_CATALOG_START;
     
         SendPurchaseConfirmMenu(player, creature, catalogId);
-//        CloseGossipMenuFor(player);
         return true;
     }
-    
-/*    if (action >= ACTION_CATALOG_START)
-    {
-        uint32 Id = action - ACTION_CATALOG_START;
-        if (!sGuildEnclaveMgr.PurchaseCatalogItem(player, Id))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Unable to purchase item.");
-        }
 
-        CloseGossipMenuFor(player);
-        return true;
+    if(action >= ACTION_PREBUILT_START)
+    {
+        SendPreMadePurchaseConfirmMenu (player);
     }
-*/
     
     CloseGossipMenuFor(player);
 
@@ -274,24 +271,7 @@ void GuildEnclaveSalesman::SendCategoryMenu(Player* player, Creature* creature, 
         if (!catalog)
             continue;
 
-        uint64 price = catalog->Price;
-        uint64 gold = price / GOLD;
-        uint64 silver = (price % GOLD) / SILVER;
-        uint64 copper = price % SILVER;
-    
-        std::string displayName = catalog->Name + " - ";
-    
-        if (gold)
-            displayName += std::to_string(gold) + "G ";
-    
-        if (silver)
-            displayName += std::to_string(silver) + "S ";
-    
-        if (copper)
-            displayName += std::to_string(copper) + "C";
-    
-        if (!gold && !silver && !copper)
-            displayName += "Free";
+        std::string displayName = catalog->Name + " - " + sGuildEnclaveUtil::GoldToString(catalog->price);
         
         AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, displayName, GOSSIP_SENDER_MAIN, ACTION_CATALOG_START + catalog->CatalogId);
     }
