@@ -92,10 +92,10 @@ void GuildEnclaveCatalogMgr::Load()
             component.Entry = fields[4].Get<uint32_t>();
             component.DisplayId = fields[5].Get<uint32_t>();
             component.Scale = fields[6].Get<float>();
-            component.XOffset = fields[9].Get<float>();
-            component.YOffset = fields[10].Get<float>();
-            component.ZOffset = fields[11].Get<float>();
-            component.OOffset = fields[12].Get<float>();
+            component.XOffset = fields[7].Get<float>();
+            component.YOffset = fields[8].Get<float>();
+            component.ZOffset = fields[9].Get<float>();
+            component.OOffset = fields[10].Get<float>();
 /*
             component.ScriptType = static_cast<GHScriptType>(fields[7].Get<uint32_t>());
             component.ScriptData = fields[8].IsNull() ? "" : fields[8].Get<std::string>();
@@ -105,8 +105,8 @@ void GuildEnclaveCatalogMgr::Load()
             component.TargetZ = fields[16].IsNull() ? 0.0f : fields[16].Get<float>();
             component.TargetO = fields[17].IsNull() ? 0.0f : fields[17].Get<float>();
 */
-            component.ChildCatalogId = fields[18].IsNull() ? 0 : fields[18].Get<uint32_t>();
-            component.SortOrder = fields[19].Get<uint16_t>();
+            component.ChildCatalogId = fields[11].IsNull() ? 0 : fields[11].Get<uint32_t>();
+            component.SortOrder = fields[12].Get<uint16_t>();
 
             //
             // Store component in parent catalog
