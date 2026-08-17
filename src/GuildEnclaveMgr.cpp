@@ -555,6 +555,29 @@ bool GuildEnclaveMgr::CheckBoundary(Player* player)
 // =====================================================
 // Assets
 // =====================================================
+uint64_t GuildEnclaveMgr::GetTotalAssetCost(uint32_t locationId) const
+{
+    uint64_t totalCost = 0;
+
+    QueryResult result = CharacterDatabase.Query("SELECT catalogId FROM guildenclave_prebuilt WHERE locationId={}", locationId);
+    if (!result)
+        return 0;
+
+    do
+    {
+        Field* fields = result->Fetch();
+        uint32_t catalogId = fields[0].Get<uint32_t>();
+
+        const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
+        if (!catalog)
+            continue;
+
+        totalCost += catalog->Price;
+    } while (result->NextRow());
+
+    return totalCost;
+}
+
 GHGuildAsset* GuildEnclaveMgr::GetAsset(uint32_t guildId, uint32_t assetId)
 {
     auto houseItr = _houses.find(guildId);
