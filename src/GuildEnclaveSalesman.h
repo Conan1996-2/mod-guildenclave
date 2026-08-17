@@ -21,6 +21,7 @@ public:
 
 private:
 
+    void SendPreMadePurchaseConfirmMenu(Player* player);
     void SendPurchaseConfirmMenu(Player* player, Creature* creature, uint32 catalogId);
     void SendCatalogMenu(Player* player, Creature* creature);
     void SendCategoryMenu(Player* player, Creature* creature, uint32 categoryId);
