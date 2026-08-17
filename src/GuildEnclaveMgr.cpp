@@ -555,7 +555,7 @@ bool GuildEnclaveMgr::CheckBoundary(Player* player)
 // =====================================================
 // Assets
 // =====================================================
-cost uint64_t GuildEnclaveMgr::GetTotalAssetCost(uint32_t locationId) const
+uint64_t GuildEnclaveMgr::GetTotalAssetCost(uint32_t locationId)
 {
     uint64_t totalCost = 0;
 
