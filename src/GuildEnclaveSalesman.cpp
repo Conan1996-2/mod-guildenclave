@@ -173,9 +173,10 @@ void GuildEnclaveSalesman::SendCatalogMenu(Player* player, Creature* creature)
             continue;
 
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, category->Name, GOSSIP_SENDER_MAIN, ACTION_CATEGORY_START + category->Id);
-
-        AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Default Guild Enclave", GOSSIP_SENDER_MAIN, ACTION_PREBUILT_START);
     }
+
+    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "---------------------------", GOSSIP_SENDER_MAIN, 0);
+    AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Default Guild Enclave", GOSSIP_SENDER_MAIN, ACTION_PREBUILT_START);
 
     SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 }
