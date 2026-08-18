@@ -50,7 +50,7 @@ CREATE TABLE `guildenclave_prebuilt`
     PRIMARY KEY (`catalogId`),
     
     KEY `idx_id` (`id`),
-    KEY `idx_location` (`location`)
+    KEY `idx_location` (`locationId`)
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
