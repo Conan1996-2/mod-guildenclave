@@ -559,7 +559,7 @@ uint64_t GuildEnclaveMgr::GetTotalAssetCost(uint32_t locationId)
 {
     uint64_t totalCost = 0;
 
-    QueryResult result = CharacterDatabase.Query("SELECT catalogId FROM guildenclave_prebuilt WHERE locationId={}", locationId);
+    QueryResult result = WorldDatabase.Query("SELECT catalogId FROM guildenclave_prebuilt WHERE locationId={}", locationId);
     if (!result)
         return 0;
 
