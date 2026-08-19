@@ -21,8 +21,9 @@ public:
 
 private:
 
-    void SendPreMadePurchaseConfirmMenu(Player* player);
     void SendPurchaseConfirmMenu(Player* player, Creature* creature, uint32 catalogId);
+    void SendPreMadePurchaseConfirmMenu(Player* player, Creature* creature);
+
     void SendCatalogMenu(Player* player, Creature* creature);
     void SendCategoryMenu(Player* player, Creature* creature, uint32 categoryId);
     bool ValidateSalesmanAccess(Player* player, Creature* creature);
