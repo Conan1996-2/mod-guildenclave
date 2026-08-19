@@ -15,21 +15,6 @@
 
 #include "Chat.h"
 
-/*
-namespace
-{
-    
-    enum GuildEnclaveSalesmanActions
-    {
-        ACTION_CATEGORY_START = 100000,
-        ACTION_CATALOG_START  = 200000,
-        ACTION_BACK           = 300000,
-        ACTION_CONFIRM        = 400000
-    };
-
-}
-*/
-
 // =====================================================
 // Validate Access
 //
@@ -235,6 +220,7 @@ bool GuildEnclaveSalesman::OnGossipSelect(Player* player, Creature* creature, ui
     if(action >= ACTION_PREBUILT_START)
     {
         SendPreMadePurchaseConfirmMenu (player);
+        return true;
     }
     
     CloseGossipMenuFor(player);
