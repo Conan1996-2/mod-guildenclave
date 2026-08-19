@@ -106,7 +106,7 @@ void GuildEnclaveSalesman::SendPurchaseConfirmMenu(Player* player, Creature* cre
 // =====================================================
 // Confirmation of Premade sale
 // =====================================================
-void GuildEnclaveSalesman::SendPreMadePurchaseConfirmMenu(Player* player)
+void GuildEnclaveSalesman::SendPreMadePurchaseConfirmMenu(Player* player, Creature* creature)
 {
     ChatHandler(player->GetSession()).PSendSysMessage("In Confirmation.");
 
@@ -121,7 +121,7 @@ void GuildEnclaveSalesman::SendPreMadePurchaseConfirmMenu(Player* player)
 
     AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase Total Assets - " + cost, GOSSIP_SENDER_MAIN, ACTION_CONFIRM);
     AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK);
-    SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, 0);
+    SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 }
 
 // =====================================================
@@ -219,7 +219,7 @@ bool GuildEnclaveSalesman::OnGossipSelect(Player* player, Creature* creature, ui
 
     if(action >= ACTION_PREBUILT_START)
     {
-        SendPreMadePurchaseConfirmMenu (player);
+        SendPreMadePurchaseConfirmMenu (player, creature);
         return true;
     }
     
