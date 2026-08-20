@@ -58,9 +58,9 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
     {
         { "load",        HandleLoadBuild,        SEC_GAMEMASTER, Console::No },
         { "save",        HandleSaveBuild,        SEC_GAMEMASTER, Console::No },
-        { "add",         HandleAddAssetBuild,    SEC_GAMEMASTER, Console::No },
-        { "remove",      HandleRemoveAssetBuild, SEC_GAMEMASTER, Console::No },
-        { "clear",       HandleClearBuild,       SEC_GAMEMASTER, Console::No }
+        { "clear",       HandleClearBuild,       SEC_GAMEMASTER, Console::No },
+        { "add",         HandleAddBuildAsset,    SEC_GAMEMASTER, Console::No },
+        { "remove",      HandleRemoveBuildAsset, SEC_GAMEMASTER, Console::No }
     };
 
     static ChatCommandTable guildEnclaveTable =
@@ -380,7 +380,7 @@ bool GuildEnclaveCommandScript::HandleSaveBuild(ChatHandler* handler, char const
     return true;
 }
 
-bool GuildEnclaveCommandScript::HandleAddAssetBuild(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleAddBuildAsset(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
@@ -403,7 +403,7 @@ bool GuildEnclaveCommandScript::HandleAddAssetBuild(ChatHandler* handler, char c
     return true;
 }
 
-bool GuildEnclaveCommandScript::HandleRemoveAssetBuild(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleRemoveBuildAsset(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
