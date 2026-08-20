@@ -345,7 +345,7 @@ bool GuildEnclaveCommandScript::HandleSellAsset(ChatHandler* handler, char const
 }
 
 // =====================================================
-// Handle Builds
+// BUILD MANAGEMENT
 // =====================================================
 bool GuildEnclaveCommandScript::HandleLoadBuild(ChatHandler* handler, char const* args)
 {
