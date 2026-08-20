@@ -218,6 +218,12 @@ bool GuildEnclaveCommandScript::HandlePlaceAsset(ChatHandler* handler, char cons
     if (!player)
         return false;
 
+    if (!GuildEnclaveUtil::IsInGuildEnclave(player))
+    {
+        handler->PSendSysMessage("Must be in the purchased Guild Enclave to use.");
+        return true;
+    }
+    
     if (!args || !*args)
     {
         handler->PSendSysMessage("Usage: .gh asset place <assetId>");
@@ -251,6 +257,12 @@ bool GuildEnclaveCommandScript::HandleMoveAsset(ChatHandler* handler, char const
     if (!player)
         return false;
 
+    if (!GuildEnclaveUtil::IsInGuildEnclave(player))
+    {
+        handler->PSendSysMessage("Must be in the purchased Guild Enclave to use.");
+        return true;
+    }
+    
     if (!args || !*args)
     {
         handler->PSendSysMessage("Usage: .gh asset move <assetId>");
@@ -354,7 +366,7 @@ bool GuildEnclaveCommandScript::HandleLoadBuild(ChatHandler* handler, char const
     if (!player)
         return false;
 
-    if (args || *args)
+    if (args && *args)
     {
         handler->PSendSysMessage("Usage: .gh build load");
         return true;
@@ -370,7 +382,7 @@ bool GuildEnclaveCommandScript::HandleSaveBuild(ChatHandler* handler, char const
     if (!player)
         return false;
 
-    if (args || *args)
+    if (args && *args)
     {
         handler->PSendSysMessage("Usage: .gh build save");
         return true;
@@ -380,11 +392,33 @@ bool GuildEnclaveCommandScript::HandleSaveBuild(ChatHandler* handler, char const
     return true;
 }
 
+bool GuildEnclaveCommandScript::HandleClearBuild(ChatHandler* handler, char const* args)
+{
+    Player* player = handler->GetSession()->GetPlayer();
+    if (!player)
+        return false;
+
+    if (args && *args)
+    {
+        handler->PSendSysMessage("Usage: .gh build clear");
+        return true;
+    }
+    
+    handler->PSendSysMessage("Handle build clear");
+    return true;
+}
+
 bool GuildEnclaveCommandScript::HandleAddBuildAsset(ChatHandler* handler, char const* args)
 {
     Player* player = handler->GetSession()->GetPlayer();
     if (!player)
         return false;
+
+    if (!GuildEnclaveUtil::IsInGuildEnclave(player))
+    {
+        handler->PSendSysMessage("Must be in the purchased Guild Enclave to use.");
+        return true;
+    }
 
     if (!args || !*args)
     {
@@ -423,22 +457,6 @@ bool GuildEnclaveCommandScript::HandleRemoveBuildAsset(ChatHandler* handler, cha
     }
     
     handler->PSendSysMessage("Handle build remove <asset>");
-    return true;
-}
-
-bool GuildEnclaveCommandScript::HandleClearBuild(ChatHandler* handler, char const* args)
-{
-    Player* player = handler->GetSession()->GetPlayer();
-    if (!player)
-        return false;
-
-    if (args || *args)
-    {
-        handler->PSendSysMessage("Usage: .gh build clear");
-        return true;
-    }
-    
-    handler->PSendSysMessage("Handle build clear");
     return true;
 }
 
