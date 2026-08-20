@@ -89,6 +89,15 @@ public:
     bool WanderAsset(Player* player, uint32_t assetId, uint32_t distance);
 
     // =====================================================
+    // Builds
+    // =====================================================
+    bool LoadBuild(Player* player);
+    bool SaveBuild(Player* player);
+    bool ClearBuild(Player* player);
+    bool AddToBuild(Player* player, uint32_t assetId);
+    bool RemoveFromBuild(Player* player, uint32_t assetId);
+
+// =====================================================
     // Catalog
     // =====================================================
     bool PurchaseCatalogItem(Player* player, uint32_t catalogId);
