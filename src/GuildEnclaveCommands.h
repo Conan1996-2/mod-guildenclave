@@ -40,8 +40,9 @@ public:
     // =====================================================
     static bool HandleLoadBuild(ChatHandler* handler, char const* args);
     static bool HandleSaveBuild(ChatHandler* handler, char const* args);
-    static bool HandleAddAssetBuild(ChatHandler* handler, char const* args);
     static bool HandleClearBuild(ChatHandler* handler, char const* args);
+    static bool HandleAddBuildAsset(ChatHandler* handler, char const* args);
+    static bool HandleRemoveBuildAsset(ChatHandler* handler, char const* args);
 
     // =====================================================
     // CATALOG / SHOP
