@@ -95,7 +95,7 @@ public:
     bool SaveBuild(Player* player);
     bool ClearBuild(Player* player);
     bool AddToBuild(Player* player, uint32_t catalogId);
-    bool RemoveFromBuild(Player* player, uint32_t catalogId);
+    bool RemoveFromBuild(Player* player, uint32_t assetId);
 
 // =====================================================
     // Catalog
