@@ -349,21 +349,72 @@ bool GuildEnclaveCommandScript::HandleSellAsset(ChatHandler* handler, char const
 // =====================================================
 bool GuildEnclaveCommandScript::HandleLoadBuild(ChatHandler* handler, char const* args)
 {
+    Player* player = handler->GetSession()->GetPlayer();
+    if (!player)
+        return false;
+
+    if (args || *args)
+    {
+        handler->PSendSysMessage("Usage: .gh build load");
+        return true;
+    }
+    
+    handler->PSendSysMessage("Handle build load");
     return true;
 }
 
 bool GuildEnclaveCommandScript::HandleSaveBuild(ChatHandler* handler, char const* args)
 {
+    Player* player = handler->GetSession()->GetPlayer();
+    if (!player)
+        return false;
+
+    if (args || *args)
+    {
+        handler->PSendSysMessage("Usage: .gh build save");
+        return true;
+    }
+    
+    handler->PSendSysMessage("Handle build save");
     return true;
 }
 
 bool GuildEnclaveCommandScript::HandleAddAssetBuild(ChatHandler* handler, char const* args)
 {
+    Player* player = handler->GetSession()->GetPlayer();
+    if (!player)
+        return false;
+
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .gh build add <assetId>");
+        return true;
+    }
+
+    uint32 assetId = atoi(args);
+    if (!assetId)
+    {
+        handler->PSendSysMessage("Invalid asset id.");
+        return true;
+    }
+    
+    handler->PSendSysMessage("Handle build add <asset>");
     return true;
 }
 
 bool GuildEnclaveCommandScript::HandleClearBuild(ChatHandler* handler, char const* args)
 {
+    Player* player = handler->GetSession()->GetPlayer();
+    if (!player)
+        return false;
+
+    if (args || *args)
+    {
+        handler->PSendSysMessage("Usage: .gh build clear");
+        return true;
+    }
+    
+    handler->PSendSysMessage("Handle build clear");
     return true;
 }
 
