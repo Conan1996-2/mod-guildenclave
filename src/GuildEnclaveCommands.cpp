@@ -59,6 +59,7 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "load",        HandleLoadBuild,        SEC_GAMEMASTER, Console::No },
         { "save",        HandleSaveBuild,        SEC_GAMEMASTER, Console::No },
         { "add",         HandleAddAssetBuild,    SEC_GAMEMASTER, Console::No },
+        { "remove",      HandleRemoveAssetBuild, SEC_GAMEMASTER, Console::No },
         { "clear",       HandleClearBuild,       SEC_GAMEMASTER, Console::No }
     };
 
@@ -399,6 +400,29 @@ bool GuildEnclaveCommandScript::HandleAddAssetBuild(ChatHandler* handler, char c
     }
     
     handler->PSendSysMessage("Handle build add <asset>");
+    return true;
+}
+
+bool GuildEnclaveCommandScript::HandleRemoveAssetBuild(ChatHandler* handler, char const* args)
+{
+    Player* player = handler->GetSession()->GetPlayer();
+    if (!player)
+        return false;
+
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .gh build remove <assetId>");
+        return true;
+    }
+
+    uint32 assetId = atoi(args);
+    if (!assetId)
+    {
+        handler->PSendSysMessage("Invalid asset id.");
+        return true;
+    }
+    
+    handler->PSendSysMessage("Handle build remove <asset>");
     return true;
 }
 
