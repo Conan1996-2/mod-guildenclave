@@ -289,8 +289,6 @@ bool GuildEnclaveCommandScript::HandleMoveAsset(ChatHandler* handler, char const
 
 // =====================================================
 // Store Asset
-//
-// Removes world spawn but keeps ownership.
 // =====================================================
 bool GuildEnclaveCommandScript::HandleStoreAsset(ChatHandler* handler, char const* args)
 {
@@ -324,8 +322,6 @@ bool GuildEnclaveCommandScript::HandleStoreAsset(ChatHandler* handler, char cons
 
 // =====================================================
 // Sell Asset
-//
-// Removes ownership permanently.
 // =====================================================
 bool GuildEnclaveCommandScript::HandleSellAsset(ChatHandler* handler, char const* args)
 {
@@ -372,7 +368,13 @@ bool GuildEnclaveCommandScript::HandleLoadBuild(ChatHandler* handler, char const
         return true;
     }
     
-    handler->PSendSysMessage("Handle build load");
+    if (!sGuildEnclaveMgr.LoadBuild(player))
+    {
+        handler->PSendSysMessage("Failed loading all assets from database.");
+        return true;
+    }
+
+    handler->PSendSysMessage("All previous assets removed and Default assets loaded for area build.");
     return true;
 }
 
@@ -387,8 +389,14 @@ bool GuildEnclaveCommandScript::HandleSaveBuild(ChatHandler* handler, char const
         handler->PSendSysMessage("Usage: .gh build save");
         return true;
     }
-    
-    handler->PSendSysMessage("Handle build save");
+
+    if (!sGuildEnclaveMgr.SaveBuild(player))
+    {
+        handler->PSendSysMessage("Failed saving all assets to database.");
+        return true;
+    }
+
+    handler->PSendSysMessage("All assets have been saved to database for area build.");
     return true;
 }
 
@@ -403,8 +411,14 @@ bool GuildEnclaveCommandScript::HandleClearBuild(ChatHandler* handler, char cons
         handler->PSendSysMessage("Usage: .gh build clear");
         return true;
     }
-    
-    handler->PSendSysMessage("Handle build clear");
+
+    if (!sGuildEnclaveMgr.ClearBuild(player))
+    {
+        handler->PSendSysMessage("Failed removing all assets from database for area build.");
+        return true;
+    }
+
+    handler->PSendSysMessage("All loaded assets have been erased.");
     return true;
 }
 
@@ -432,8 +446,14 @@ bool GuildEnclaveCommandScript::HandleAddBuildAsset(ChatHandler* handler, char c
         handler->PSendSysMessage("Invalid asset id.");
         return true;
     }
-    
-    handler->PSendSysMessage("Handle build add <asset>");
+
+    if (!sGuildEnclaveMgr.AddToBuild(player, assetId))
+    {
+        handler->PSendSysMessage("Failed adding asset to area build");
+        return true;
+    }
+
+    handler->PSendSysMessage("Asset has been added area build.");
     return true;
 }
 
@@ -456,7 +476,13 @@ bool GuildEnclaveCommandScript::HandleRemoveBuildAsset(ChatHandler* handler, cha
         return true;
     }
     
-    handler->PSendSysMessage("Handle build remove <asset>");
+    if (!sGuildEnclaveMgr.RemoveFromBuild(player, assetId))
+    {
+        handler->PSendSysMessage("Failed removing asset from area build.");
+        return true;
+    }
+
+    handler->PSendSysMessage("Asset has been removed from area build.");
     return true;
 }
 
