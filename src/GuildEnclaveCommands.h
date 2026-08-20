@@ -36,6 +36,14 @@ public:
     static bool HandleWanderAsset(ChatHandler* handler, char const* args);
 
     // =====================================================
+    // BUILD MANAGEMENT
+    // =====================================================
+    static bool HandleLoadBuild(ChatHandler* handler, char const* args);
+    static bool HandleSaveBuild(ChatHandler* handler, char const* args);
+    static bool HandleAddAssetBuild(ChatHandler* handler, char const* args);
+    static bool HandleClearBuild(ChatHandler* handler, char const* args);
+
+    // =====================================================
     // CATALOG / SHOP
     // =====================================================
     static bool HandleListCategories(ChatHandler* handler, char const* args);
