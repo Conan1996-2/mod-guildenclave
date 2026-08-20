@@ -54,12 +54,21 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "buy",        HandlePurchaseCatalog, SEC_PLAYER, Console::No }
     };
 
+    static ChatCommandTable buildTable =
+    {
+        { "load",        HandleLoadBuild,        SEC_GAMEMASTER, Console::No },
+        { "save",        HandleSaveBuild,        SEC_GAMEMASTER, Console::No },
+        { "add",         HandleAddAssetBuild,    SEC_GAMEMASTER, Console::No },
+        { "clear",       HandleClearBuild,       SEC_GAMEMASTER, Console::No }
+    };
+
     static ChatCommandTable guildEnclaveTable =
     {
         { "npc",   npcTable },
         { "house", houseTable },
         { "asset", assetTable },
-        { "shop",  shopTable }
+        { "shop",  shopTable },
+        { "build", buildTable }
     };
 
     static ChatCommandTable root =
@@ -332,6 +341,29 @@ bool GuildEnclaveCommandScript::HandleSellAsset(ChatHandler* handler, char const
 
     handler->PSendSysMessage("Guild House asset {} sold.", assetId);
 
+    return true;
+}
+
+// =====================================================
+// Handle Builds
+// =====================================================
+bool GuildEnclaveCommandScript::HandleLoadBuild(ChatHandler* handler, char const* args)
+{
+    return true;
+}
+
+bool GuildEnclaveCommandScript::HandleSaveBuild(ChatHandler* handler, char const* args)
+{
+    return true;
+}
+
+bool GuildEnclaveCommandScript::HandleAddAssetBuild(ChatHandler* handler, char const* args)
+{
+    return true;
+}
+
+bool GuildEnclaveCommandScript::HandleClearBuild(ChatHandler* handler, char const* args)
+{
     return true;
 }
 
