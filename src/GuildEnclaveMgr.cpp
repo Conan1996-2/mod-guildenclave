@@ -773,26 +773,81 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
     return assetId;  
 }
 
+bool RemoveAsset(Player* player, uint32_t assetId)
+{
+    if (!GuildEnclaveUtil::IsGuildRank(player))
+        return false;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+
+    sGuildEnclaveSpawner.RemoveAsset(guildId, assetId);
+
+    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
+
+    auto itr = house->Assets.find(assetId);
+    if (itr != house->Assets.end())
+        house->Assets.erase(itr);
+
+    return true;
+}
+
 bool GuildEnclaveMgr::LoadBuild(Player* player)
 {
-    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
+    if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
+
+    return true;
 }
 
 bool GuildEnclaveMgr::SaveBuild(Player* player)
 {
-    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
+    if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
+
+    return true;
 }
 
 bool GuildEnclaveMgr::ClearBuild(Player* player)
 {
-    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
+    if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
+
+     uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+
+    std::vector<uint32_t> assetIds;
+    for (auto const& [assetId, asset] : house->Assets)
+    {
+        if (asset.CatalogId == 2)
+            continue;
+
+        assetIds.push_back(assetId);
+    }
+
+    for (uint32_t assetId : assetIds)
+        if (!RemoveAsset(player, assetId))
+            return false;
+
+    ChatHandler(player->GetSession()).PSendSysMessage("All assets have been removed except the Salesman");
+    return true;
 }
 
 bool GuildEnclaveMgr::AddToBuild(Player* player, uint32_t catalogId)
 {
+    if (!GuildEnclaveUtil::CanManageGuildEnclave(player))
+        return false;
+
     uint32_t assetId = AddAsset(player, catalogId, false);
     if (assetId == 0)
     {
@@ -811,31 +866,7 @@ bool GuildEnclaveMgr::AddToBuild(Player* player, uint32_t catalogId)
 
 bool GuildEnclaveMgr::RemoveFromBuild(Player* player, uint32_t assetId)
 {
-    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
-        return false;
-
-    uint32_t guildId = player->GetGuildId();
-    if (!guildId)
-        return false;
-
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-
-    GHGuildAsset* asset = GetAsset(guildId, assetId);
-    if (!asset)
-        return false;
-
-    if (!sGuildEnclaveSpawner.RemoveAsset(guildId, assetId))
-        return false;
-
-    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
-
-    auto itr = house->Assets.find(assetId);
-    if (itr != house->Assets.end())
-        house->Assets.erase(itr);
-    
-    return true;
+    return RemoveAsset(player, assetId);
 }
 
 bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t distance)
