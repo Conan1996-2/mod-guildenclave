@@ -624,7 +624,7 @@ std::vector<const GHGuildAsset*> GuildEnclaveMgr::GetPurchasedAssets(uint32_t gu
     return result;
 }
 
-bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId)
+bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId, bool useAssetLocation)
 {
     if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
         return false;
@@ -637,25 +637,23 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId)
     if (!asset)
         return false;
 
-    float x = player->GetPositionX();
-    float y = player->GetPositionY();
-    float z = player->GetPositionZ();
-    int16_t w = asset->w;
+    if (!useAssetLocation)
+    {
+        player->UpdateGroundPositionZ(player->GetPositionX(), player->GetPositionY(), player->GetPositionZ());
+        asset->X = player->GetPositionX();
+        asset->Y = player->GetPositionY();
+        asset->Z = player->GetPositionZ();
+        asset->O = player->GetOrientation();
+        asset->w = 0;
+    }
 
-    player->UpdateGroundPositionZ(x, y, z);
-
-    if (!sGuildEnclaveSpawner.SpawnAsset(guildId, asset->AssetId, asset->CatalogId, x, y, z, player->GetOrientation(), w))
+    if (!sGuildEnclaveSpawner.SpawnAsset(guildId, asset->AssetId, asset->CatalogId, asset->X, asset->Y, asset->Z, asset->O, asset->w))
         return false;
 
     asset->Status = GH_ASSET_PLACED;
-    asset->X = x;
-    asset->Y = y;
-    asset->Z = z;
-    asset->O = player->GetOrientation();
-    asset->w = w;
 
     CharacterDatabase.Execute("UPDATE guildenclave_asset SET status={}, positionX={}, positionY={}, positionZ={}, orientation={}, wander={} WHERE assetId={} AND guildId={}",
-        asset->Status, x, y, z, asset->O, w, assetId, guildId);
+        asset->Status, asset->X, asset->Y, asset->Z, asset->O, asset->w, assetId, guildId);
     return true;
 }
 
