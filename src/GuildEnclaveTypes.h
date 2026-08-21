@@ -43,6 +43,7 @@ struct GHCategory
     uint32_t ParentId = 0;
     std::string Name;
     uint16_t SortOrder = 0;
+    GHBehaviorFlags BehaviorFlags = GH_BEHAVIOR_NONE;
     bool Enabled = false;
 };
 
