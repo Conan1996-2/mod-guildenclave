@@ -923,4 +923,6 @@ bool GuildEnclaveMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
         ChatHandler(player->GetSession()).PSendSysMessage("Unable to add asset.");
         return false;
     }
+    
+    return true;
 }
