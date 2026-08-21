@@ -237,7 +237,7 @@ bool GuildEnclaveCommandScript::HandlePlaceAsset(ChatHandler* handler, char cons
         return true;
     }
 
-    if (!sGuildEnclaveMgr.PlaceAsset(player, assetId))
+    if (!sGuildEnclaveMgr.PlaceAsset(player, assetId, false))
     {
         handler->PSendSysMessage("Failed placing Guild House asset.");
         return true;
