@@ -77,13 +77,10 @@ namespace GuildEnclaveUtil
     // =====================================================
     bool IsInGuildEnclave(Player* player)
     {
-        if (!IsInGuildEnclaveArea(player))
-            return false;
-
-        if (!IsInGuildEnclavePhase(player))
-            return false;
+        if (IsInGuildEnclaveArea(player) && IsInGuildEnclavePhase(player))
+            return sGuildEnclaveMgr.IsMember(player);
         
-        return sGuildEnclaveMgr.IsMember(player);
+        return false;
     }
 
 
