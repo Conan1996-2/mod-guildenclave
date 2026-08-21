@@ -16,7 +16,7 @@ COLLATE=utf8mb4_unicode_ci;
 DROP TABLE IF EXISTS `guildenclave_catalog`;
 CREATE TABLE `guildenclave_catalog`
 (
-    `catalogId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `catalogId` INT UNSIGNED NOT NULL,
     `categoryId` INT UNSIGNED NOT NULL,
 
     `name` VARCHAR(100) NOT NULL,
@@ -27,8 +27,6 @@ CREATE TABLE `guildenclave_catalog`
     `behaviorFlags` INT UNSIGNED NOT NULL DEFAULT 0,
 
     `enabled` TINYINT(1) NOT NULL DEFAULT 1,
-
-    PRIMARY KEY (`catalogId`),
 
     KEY `idx_category` (`categoryId`),
     KEY `idx_enabled` (`enabled`)
@@ -48,9 +46,8 @@ CREATE TABLE `guildenclave_prebuilt`
     `O` FLOAT NOT NULL DEFAULT 0,
     `W` INT NOT NULL DEFAULT 0,
 
-    PRIMARY KEY (`catalogId`),
+    PRIMARY KEY (`id`),
     
-    KEY `idx_id` (`id`),
     KEY `idx_location` (`locationId`)
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
