@@ -36,9 +36,9 @@ private:
     // =====================================================
     // Catalog data
     // =====================================================
-    //std::unordered_map<uint32_t, GHCategory> _categories;
-    std::unordered_map<uint32_t, std::vector<GHCategory>> _categories;
-    std::unordered_map<uint32_t, GHCatalog> _catalogs;
+    std::unordered_map<uint32_t, GHCategory> _categories;
+    std::unordered_map<uint32_t, std::vector<GHCatalog>> _catalogs;
+    //std::unordered_map<uint32_t, GHCatalog> _catalogs;
 };
 
 #define sGuildEnclaveCatalogMgr GuildEnclaveCatalogMgr::Instance()
