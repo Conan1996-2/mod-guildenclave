@@ -730,7 +730,7 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
 // =====================================================
 uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool charge)
 {
-    if (!GuildEnclaveUtil::CanManageGuildEnclave(player))
+    if (!GuildEnclaveUtil::IsGuildRank(player))
         return 0;
 
     uint32_t guildId = player->GetGuildId();
