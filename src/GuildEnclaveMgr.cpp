@@ -793,7 +793,7 @@ bool GuildEnclaveMgr::LoadBuild(Player* player)
     if (!house)
         return false;
 
-    if(QueryResult result = WorldDatabase.Query("SELECT catalogId,X,Y,Z,O,W FROM guildenclave_prebuilt WHERE locationId={}", house.LocationId))
+    if(QueryResult result = WorldDatabase.Query("SELECT catalogId,X,Y,Z,O,W FROM guildenclave_prebuilt WHERE locationId={}", house->LocationId))
     {
         do
         {
@@ -802,7 +802,7 @@ bool GuildEnclaveMgr::LoadBuild(Player* player)
         }while(result->NextRow());
     }
 
-    ChatHandler(player->GetSession()).PSendSysMessage("All assets have been loaded for build {}", house.LocationId);
+    ChatHandler(player->GetSession()).PSendSysMessage("All assets have been loaded for build {}", house->LocationId);
     return true;
 }
 
