@@ -46,7 +46,7 @@ CREATE TABLE `guildenclave_prebuilt`
     `Y` FLOAT NOT NULL DEFAULT 0,
     `Z` FLOAT NOT NULL DEFAULT 0,
     `O` FLOAT NOT NULL DEFAULT 0,
-    'W' INt NOT NULL DEFAULT 0,
+    `W` INT NOT NULL DEFAULT 0,
 
     PRIMARY KEY (`catalogId`),
     
