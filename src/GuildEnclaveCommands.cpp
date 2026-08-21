@@ -336,7 +336,7 @@ bool GuildEnclaveCommandScript::HandleSellAsset(ChatHandler* handler, char const
     }
 
     uint32 assetId = atoi(args);
-    if (!assetId || assetId < 100)
+    if (assetId < 100)
     {
         handler->PSendSysMessage("Invalid asset id.");
         return true;
