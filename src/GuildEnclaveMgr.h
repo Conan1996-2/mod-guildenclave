@@ -111,6 +111,7 @@ private:
     std::unordered_map<uint32_t, GHGuildEnclave> _houses;
     std::unordered_map<uint32_t, GHLocation> _locations;
 
+    uint32_t AddAsset(Player* player, uint32_t catalogId, float X, float Y, float Z, float O, int32_t W, bool charge);
     uint32_t AddAsset(Player* player, uint32_t catalogId, bool charge);
     bool RemoveAsset(Player* player, uint32_t assetId, bool refund);
 };
