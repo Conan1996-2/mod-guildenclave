@@ -112,6 +112,7 @@ private:
     std::unordered_map<uint32_t, GHLocation> _locations;
 
     uint32_t AddAsset(Player* player, uint32_t catalogId, bool charge);
+    bool RemoveAsset(Player* player, uint32_t assetId);
 };
 
 #define sGuildEnclaveMgr GuildEnclaveMgr::Instance()
