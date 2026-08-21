@@ -773,7 +773,7 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
     return assetId;  
 }
 
-bool4 GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId)
+bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId)
 {
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
