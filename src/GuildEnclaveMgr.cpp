@@ -699,7 +699,7 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
 // =====================================================
 // Builds
 // =====================================================
-uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool charge)
+uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, float X, float Y, float, Z, float O, int32_t W, bool charge)
 {
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return 0;
@@ -722,8 +722,8 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
             return 0;
     }
     
-    CharacterDatabase.Execute("INSERT INTO guildenclave_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,wander,createdBy) VALUES ({},{},{},{},{},0,0,0,0,{},{})",
-        _nextAssetId, guildId, catalogId, charge ? catalog->Price : 0, GH_ASSET_PURCHASED, 0, player->GetGUID().GetCounter());
+    CharacterDatabase.Execute("INSERT INTO guildenclave_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,wander,createdBy) VALUES ({},{},{},{},{},{},{},{},{},{},{})",
+        _nextAssetId, guildId, catalogId, charge ? catalog->Price : 0, GH_ASSET_PURCHASED, X, Y, Z, O, W, player->GetGUID().GetCounter());
 
     uint32_t assetId = _nextAssetId++;
 
@@ -733,15 +733,20 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
     asset.CatalogId = catalogId;
     asset.PurchasePrice = charge ? catalog->Price : 0;
     asset.Status = GH_ASSET_PURCHASED;
-    asset.X = 0.0f;
-    asset.Y = 0.0f;
-    asset.Z = 0.0f;
-    asset.O = 0.0f;
-    asset.w = 0;
+    asset.X = X;
+    asset.Y = Y;
+    asset.Z = Z;
+    asset.O = O;
+    asset.w = W;
 
     house->Assets.emplace(assetId, std::move(asset));
 
     return assetId;  
+}
+
+uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool charge)
+{
+    return AddAsset(player, catalogId, 0, 0, 0, 0, 0, charge);
 }
 
 bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
@@ -780,6 +785,24 @@ bool GuildEnclaveMgr::LoadBuild(Player* player)
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
 
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+    
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+
+    if(QueryResult result = WorldDatabase.Query("SELECT catalogId,X,Y,Z,O,W FROM guildenclave_prebuilt WHERE locationId={}", locationId))
+    {
+        do
+        {
+            Field* fields = result->Fetch();
+            uint32_t assetId = Addasset(player, fields[0].Get<uint32>(), fields[1].Get<float>(), fields[2].Get<float>(), fields[3].Get<float>(), fields[4].Get<float>(), fields[5].Get<float>(), false);
+        }while(result->NextRow());
+    }
+
+    ChatHandler(player->GetSession()).PSendSysMessage("All assets have been loaded for build {}", locationId);
     return true;
 }
 
@@ -788,6 +811,23 @@ bool GuildEnclaveMgr::SaveBuild(Player* player)
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
 
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+    
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+    
+    WorldDatabase.Query("DELETE FROM guildenclave_prebuilt WHERE locationId={}", house.LocationId));
+    
+    for (auto const& [assetId, asset] : house->Assets)
+    {
+        if (GuildEnclaveUtil::HasFlag(asset.Status, GH_ASSET_PLACED)
+            WorldDatabase.Query("INSERT INTO guildenclave_prebuilt (locationId,catalogId,X,Y,Z,O,W) VALUES({},{},{},{},{},{},{})", house.LocationId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.W);
+    }
+    
+    ChatHandler(player->GetSession()).PSendSysMessage("All assets have been saved to build {}", locationId);
     return true;
 }
 
