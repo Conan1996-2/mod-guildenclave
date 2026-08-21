@@ -639,10 +639,11 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId, bool useAsset
 
     if (!useAssetLocation)
     {
-        player->UpdateGroundPositionZ(player->GetPositionX(), player->GetPositionY(), player->GetPositionZ());
+        float z = player->GetPositionZ();
+        player->UpdateGroundPositionZ(player->GetPositionX(), player->GetPositionY(), z);
         asset->X = player->GetPositionX();
         asset->Y = player->GetPositionY();
-        asset->Z = player->GetPositionZ();
+        asset->Z = z;
         asset->O = player->GetOrientation();
         asset->w = 0;
     }
