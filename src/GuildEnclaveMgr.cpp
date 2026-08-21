@@ -725,6 +725,119 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
     return true;
 }
 
+// =====================================================
+// Builds
+// =====================================================
+uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool charge)
+{
+    if (!GuildEnclaveUtil::CanManageGuildEnclave(player))
+        return 0;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return 0;
+
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return 0;
+
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
+    if (!catalog || !catalog->Enabled)
+        return 0;
+    
+    if (charge && !RemoveMoneyFromGuild(guildId, catalog->Price))
+    {
+            ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
+            return 0;
+    }
+    
+    CharacterDatabase.Execute("INSERT INTO guildenclave_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,wander,createdBy) VALUES ({},{},{},{},{},0,0,0,0,{},{})",
+        _nextAssetId, guildId, catalogId, charge ? catalog->Price : 0, GH_ASSET_PURCHASED, 0, player->GetGUID().GetCounter());
+
+    uint32_t assetId = _nextAssetId++;
+
+    GHGuildAsset asset;
+    asset.AssetId = assetId;
+    asset.GuildId = guildId;
+    asset.CatalogId = catalogId;
+    asset.PurchasePrice = charge ? catalog->Price : 0;
+    asset.Status = GH_ASSET_PURCHASED;
+    asset.X = 0.0f;
+    asset.Y = 0.0f;
+    asset.Z = 0.0f;
+    asset.O = 0.0f;
+    asset.w = 0;
+
+    house->Assets.emplace(assetId, std::move(asset));
+
+    return assetId;  
+}
+
+bool GuildEnclaveMgr::LoadBuild(Player* player)
+{
+    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
+        return false;
+}
+
+bool GuildEnclaveMgr::SaveBuild(Player* player)
+{
+    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
+        return false;
+}
+
+bool GuildEnclaveMgr::ClearBuild(Player* player)
+{
+    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
+        return false;
+}
+
+bool GuildEnclaveMgr::AddToBuild(Player* player, uint32_t catalogId)
+{
+    uint32_t assetId = AddAsset(player, catalogId, false);
+    if (assetId == 0)
+    {
+        ChatHandler(player->GetSession()).PSendSysMessage("Unable to add asset.");
+        return false;
+    }
+    
+    if (!PlaceAsset(player, assetId))
+    {
+        ChatHandler(player->GetSession()).PSendSysMessage("Asset added, but unable to place, try the command .ge asset place {}", assetId);
+        return false;
+    }
+
+    return true;    
+}
+
+bool GuildEnclaveMgr::RemoveFromBuild(Player* player, uint32_t assetId)
+{
+    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
+        return false;
+
+    uint32_t guildId = player->GetGuildId();
+    if (!guildId)
+        return false;
+
+    GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return false;
+
+    GHGuildAsset* asset = GetAsset(guildId, assetId);
+    if (!asset)
+        return false;
+
+    if (!sGuildEnclaveSpawner.RemoveAsset(guildId, assetId))
+        return false;
+
+    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
+
+    auto itr = house->Assets.find(assetId);
+    if (itr != house->Assets.end())
+        house->Assets.erase(itr);
+    
+    return true;
+}
+
 bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t distance)
 {
     if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
@@ -755,48 +868,10 @@ bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t dis
 // =====================================================
 bool GuildEnclaveMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
 {
-    if (!player)
-        return false;
-
-    uint32_t guildId = player->GetGuildId();
-    if (!guildId)
-        return false;
-
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-
-    if (!GuildEnclaveUtil::IsGuildRank(player))
-        return false;
-
-    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
-    if (!catalog || !catalog->Enabled)
-        return false;
-
-    if (!RemoveMoneyFromGuild(guildId, catalog->Price))
+    uint32_t assetId = AddAsset(player, catalogId, true);
+    if (assetId == 0)
     {
-            ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
-            return false;
+        ChatHandler(player->GetSession()).PSendSysMessage("Unable to add asset.");
+        return false;
     }
-    
-    CharacterDatabase.Execute("INSERT INTO guildenclave_asset (assetId,guildId,catalogId,purchasePrice,status,positionX,positionY,positionZ,orientation,wander,createdBy) VALUES ({},{},{},{},{},0,0,0,0,{},{})",
-        _nextAssetId, guildId, catalogId, catalog->Price, GH_ASSET_PURCHASED, 0, player->GetGUID().GetCounter());
-
-    uint32_t assetId = _nextAssetId++;
-
-    GHGuildAsset asset;
-    asset.AssetId = assetId;
-    asset.GuildId = guildId;
-    asset.CatalogId = catalogId;
-    asset.PurchasePrice = catalog->Price;
-    asset.Status = GH_ASSET_PURCHASED;
-    asset.X = 0.0f;
-    asset.Y = 0.0f;
-    asset.Z = 0.0f;
-    asset.O = 0.0f;
-    asset.w = 0;
-
-    house->Assets.emplace(assetId, std::move(asset));
-
-    return true;
 }
