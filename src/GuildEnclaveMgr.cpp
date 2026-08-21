@@ -684,7 +684,7 @@ bool GuildEnclaveMgr::StoreAsset(Player* player, uint32_t assetId)
 bool GuildEnclaveMgr::MoveAsset(Player* player, uint32_t assetId)
 {
     if(StoreAsset(player, assetId))
-        return PlaceAsset(player, assetId);
+        return PlaceAsset(player, assetId, false);
 
     return false;
 }
@@ -797,7 +797,7 @@ bool GuildEnclaveMgr::LoadBuild(Player* player)
         {
             Field* fields = result->Fetch();
             uint32_t assetId = AddAsset(player, fields[0].Get<uint32>(), fields[1].Get<float>(), fields[2].Get<float>(), fields[3].Get<float>(), fields[4].Get<float>(), fields[5].Get<float>(), false);
-            PlaceAsset(player, assetId);
+            PlaceAsset(player, assetId, true);
         }while(result->NextRow());
     }
 
@@ -872,7 +872,7 @@ bool GuildEnclaveMgr::AddToBuild(Player* player, uint32_t catalogId)
         return false;
     }
     
-    if (!PlaceAsset(player, assetId))
+    if (!PlaceAsset(player, assetId, false))
     {
         ChatHandler(player->GetSession()).PSendSysMessage("Asset added, but unable to place, try the command .ge asset place {}", assetId);
         return false;
