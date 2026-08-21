@@ -693,36 +693,7 @@ bool GuildEnclaveMgr::MoveAsset(Player* player, uint32_t assetId)
 
 bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
 {
-    if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
-        return false;
-
-    uint32_t guildId = player->GetGuildId();
-    if (!guildId)
-        return false;
-
-    GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return false;
-
-    GHGuildAsset* asset = GetAsset(guildId, assetId);
-    if (!asset)
-        return false;
-
-    if (!sGuildEnclaveSpawner.RemoveAsset(guildId, assetId))
-        return false;
-
-    if (!AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()))
-        return false;
-
-    ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()));
-    
-    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
-
-    auto itr = house->Assets.find(assetId);
-    if (itr != house->Assets.end())
-        house->Assets.erase(itr);
-
-    return true;
+    return RemoveAsset(player, assetId, true);
 }
 
 // =====================================================
@@ -773,7 +744,7 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
     return assetId;  
 }
 
-bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId)
+bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
 {
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
@@ -785,6 +756,13 @@ bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId)
     GHGuildEnclave* house = GetGuildEnclave(guildId);
     if (!house)
         return false;
+
+    if (refund)
+    {
+        GHGuildAsset* asset = GetAsset(guildId, assetId);
+        if(asset && AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()))
+            ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()));
+    }
 
     sGuildEnclaveSpawner.RemoveAsset(guildId, assetId);
 
@@ -836,7 +814,7 @@ bool GuildEnclaveMgr::ClearBuild(Player* player)
     }
 
     for (uint32_t assetId : assetIds)
-        if (!RemoveAsset(player, assetId))
+        if (!RemoveAsset(player, assetId, false))
             return false;
 
     ChatHandler(player->GetSession()).PSendSysMessage("All assets have been removed except the Salesman");
@@ -866,7 +844,7 @@ bool GuildEnclaveMgr::AddToBuild(Player* player, uint32_t catalogId)
 
 bool GuildEnclaveMgr::RemoveFromBuild(Player* player, uint32_t assetId)
 {
-    return RemoveAsset(player, assetId);
+    return RemoveAsset(player, assetId, false);
 }
 
 bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t distance)
