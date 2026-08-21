@@ -699,7 +699,7 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
 // =====================================================
 // Builds
 // =====================================================
-uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, float X, float Y, float, Z, float O, int32_t W, bool charge)
+uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, float X, float Y, float Z, float O, int32_t W, bool charge)
 {
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return 0;
