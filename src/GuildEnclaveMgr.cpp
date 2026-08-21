@@ -824,7 +824,7 @@ bool GuildEnclaveMgr::SaveBuild(Player* player)
     for (auto const& [assetId, asset] : house->Assets)
     {
         if (GuildEnclaveUtil::HasFlag(asset.Status, GH_ASSET_PLACED))
-            WorldDatabase.Query("INSERT INTO guildenclave_prebuilt (locationId,catalogId,X,Y,Z,O,W) VALUES({},{},{},{},{},{},{})", house->LocationId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.W);
+            WorldDatabase.Query("INSERT INTO guildenclave_prebuilt (locationId,catalogId,X,Y,Z,O,W) VALUES({},{},{},{},{},{},{})", house->LocationId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.w);
     }
     
     ChatHandler(player->GetSession()).PSendSysMessage("All assets have been saved to build {}", house->LocationId);
