@@ -819,7 +819,7 @@ bool GuildEnclaveMgr::SaveBuild(Player* player)
     if (!house)
         return false;
     
-    WorldDatabase.Query("DELETE FROM guildenclave_prebuilt WHERE locationId={}", house->LocationId));
+    WorldDatabase.Query("DELETE FROM guildenclave_prebuilt WHERE locationId={}", house->LocationId);
     
     for (auto const& [assetId, asset] : house->Assets)
     {
