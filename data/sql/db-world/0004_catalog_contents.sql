@@ -26,12 +26,8 @@ INSERT INTO `guildenclave_category` (`categoryId`, `parentId`, `name`, `sortOrde
     (5000, 0, "Animals", 5, 1);
 
 TRUNCATE TABLE `guildenclave_prebuilt`;
-INSERT INTO `guildenclave_prebuilt` (`id`, `locationId`, `catalogId`, `X`, `Y`, `Z`, `O`) VALUES
-    (1, 1, 1101, 5.827, 895.785, 339.394, 3.837),
-    (1, 1, 1102, 3.765, 882.595, 339.394, 2.270),
-    (1, 1, 1103, -8.917, 883.036, 339.394, 0.653),
-    (1, 1, 2101, 16.436, 895.923, 339.394, 0),
-    (1, 1, 2110, 16.436, 895.923, 339.394, 0);
+INSERT INTO `guildenclave_prebuilt` (`id`, `locationId`, `catalogId`, `X`, `Y`, `Z`, `O`, `w`) VALUES
+    (1, 1, 1101, 5.827, 895.785, 339.394, 3.837, 0);
 
 TRUNCATE TABLE `guildenclave_catalog`;
 INSERT INTO `guildenclave_catalog` (`catalogId`, `categoryId`, `name`, `price`, `spawnFlags`, `behaviorFlags`, `enabled`) VALUES
