@@ -114,13 +114,13 @@ const GHCatalog* GuildEnclaveCatalogMgr::GetCatalog(uint32_t catalogId, TeamId t
     if (itr == _catalogs.end())
         return nullptr;
 
-    GHBehaviorFlags factionFlag = team == TEAM_ALLIANCE ? GH_FACTION_ALLIANCE : GH_FACTION_HORDE;
+    GHBehaviorFlags faction = team == TEAM_ALLIANCE ? GH_FACTION_ALLIANCE : GH_FACTION_HORDE;
     for (GHCatalog const& catalog : itr->second)
     {
         if (!catalog.Enabled)
             continue;
 
-        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, factionFlag))
+        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, faction) || GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL))
             return &catalog;
     }
 
@@ -175,7 +175,6 @@ std::vector<const GHCategory*> GuildEnclaveCatalogMgr::GetChildCategories(uint32
 // =====================================================
 // Catalog list by category
 // =====================================================
-/*
 std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categoryId, TeamId team) const
 {
     std::vector<const GHCatalog*> result;
@@ -189,29 +188,6 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categ
             (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
             (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
                 result.push_back(&catalog);
-    }
-
-    std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b) { return a->Name < b->Name; });
-
-    return result;
-}
-*/
-std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categoryId, TeamId team) const
-{
-    std::vector<const GHCatalog*> result;
-    
-    for (auto const& [catalogId, catalogs] : _catalogs)
-    {
-        for (GHCatalog const& catalog : catalogs)
-        {
-            if (!catalog.Enabled || catalog.CategoryId != categoryId)
-                continue;
-
-            if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || 
-                (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
-                (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
-                    result.push_back(&catalog);
-        }
     }
 
     std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b) { return a->Name < b->Name; });
