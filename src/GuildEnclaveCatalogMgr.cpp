@@ -89,8 +89,17 @@ void GuildEnclaveCatalogMgr::Load()
             component.ChildCatalogId = fields[11].IsNull() ? 0 : fields[11].Get<uint32_t>();
             component.SortOrder = fields[12].Get<uint16_t>();
 
-            catalogItr->second.Components.push_back(component);
-            componentCount++;
+            for (GHCatalog& catalog : catalogItr->second)
+            {
+                if (catalog.BehaviorFlags != component.BehaviorFlags)
+                    continue;
+            
+                catalog.Components.push_back(component);
+                componentCount++;
+                break;
+            }
+//            catalogItr->second.Components.push_back(component);
+//            componentCount++;
 
         } while (result->NextRow());
     }
