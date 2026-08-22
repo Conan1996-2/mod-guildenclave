@@ -17,7 +17,8 @@ public:
     // =====================================================
     // Direct lookups
     // =====================================================
-    const GHCatalog* GetCatalog(uint32_t catalogId) const;
+    //const GHCatalog* GetCatalog(uint32_t catalogId) const;
+    const GHCatalog* GetCatalog(uint32_t catalogId, TeamId team) const;
     const GHCategory* GetCategory(uint32_t categoryId) const;
     //const GHCatalogAsset* GetCatalogAsset(uint32_t componentId) const;
 
