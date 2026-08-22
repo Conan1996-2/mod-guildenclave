@@ -49,10 +49,6 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
     if(HasExistingSpawn(guildId, assetId))
         return false;
 
-    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
-    if(!catalog)
-        return false;
-
     GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
     if (!house)
         return false;
@@ -62,6 +58,10 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
         return false;
     
     uint8_t team = house->Team;    
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, team);
+    if(!catalog)
+        return false;
+
     for(auto const& component : catalog->Components)
     {
         if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
