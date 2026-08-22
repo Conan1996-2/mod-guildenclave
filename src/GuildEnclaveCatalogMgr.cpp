@@ -190,7 +190,7 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categ
 
     for (auto const& [id, catalog] : _catalogs)
     {
-        if (!catalog.Enabled || catalog.CategoryId != categoryId)
+        if (catalog.CategoryId != categoryId)
             continue;
 
         if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
