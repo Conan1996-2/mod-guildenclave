@@ -77,7 +77,7 @@ void GuildEnclaveMgr::Load()
             GHGuildEnclave house;
             house.GuildId = fields[0].Get<uint32>();
             house.OwnerGuid = fields[1].Get<uint32>();
-            house.Team =  fields[2].Get<uint8_t>();
+            house.Faction =  fields[2].Get<uint8_t>();
             house.RequiredGuildRank = fields[3].Get<uint8_t>();
             house.LocationId = fields[4].Get<uint32>();
             house.PurchasePrice = fields[5].Get<uint64_t>();
@@ -378,12 +378,14 @@ bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint3
         return false;
     }
     
+    GHBehaviorFlags faction = player->GetTeamId() == TEAM_ALLIANCE ? GH_FACTION_ALLIANCE : GH_FACTION_HORDE;
+    
     CharacterDatabase.Execute("INSERT INTO guildenclave (guildId,ownerGuid,faction,requiredGuildRank,locationId,purchasePrice,purchaseDate) VALUES ({}, {}, {}, 0, {}, {}, (NOW()))",
-        guildId, ownerGuid, static_cast<uint8>(player->GetTeamId()), locationId, location->Price);
+        guildId, ownerGuid, faction, locationId, location->Price);
     
     GHGuildEnclave house;
     house.GuildId = guildId;
-    house.Team = static_cast<uint8>(player->GetTeamId());
+    house.Faction = faction;
     house.OwnerGuid = ownerGuid;
     house.LocationId = locationId;
     house.PhaseMask = 0;
