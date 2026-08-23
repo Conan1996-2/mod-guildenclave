@@ -231,6 +231,7 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categ
 // =====================================================
 // All catalogs
 // =====================================================
+/*
 std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team) const
 {
     std::vector<const GHCatalog*> result;
@@ -240,7 +241,9 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team
         if (!catalog.Enabled)
             continue;        
  
-        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) || (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
+        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || 
+            (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
+            (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
                 result.push_back(&catalog);
     }
 
@@ -248,4 +251,26 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team
 
     return result;
 }
+*/
+std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team) const
+{
+    std::vector<const GHCatalog*> result;
 
+    for (auto const& [catalogId, catalogs] : _catalogs)
+    {
+        for (GHCatalog const& catalog : catalogs)
+        {
+            if (!catalog.Enabled)
+                continue;
+
+            if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
+                (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
+                (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag( catalog.BehaviorFlags, GH_FACTION_HORDE)))
+                    result.push_back(&catalog);
+        }
+    }
+
+    std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b) { return a->Name < b->Name; });
+
+    return result;
+}
