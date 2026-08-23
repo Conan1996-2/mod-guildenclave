@@ -57,20 +57,14 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
     if (!location)
         return false;
     
-    uint8_t team = house->Team;    
-    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, static_cast<TeamId>(team));
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, static_cast<TeamId>(house->faction == GH_FACTION_ALLIANCE ? TEAM_ALLIANCE : TEAM_HORDE));
     if(!catalog)
         return false;
 
     for(auto const& component : catalog->Components)
     {
-        if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
-        {
-            if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_ALLIANCE) && team != TEAM_ALLIANCE)
+        if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(component.BehaviorFlags, house->faction))
                 continue;
-            if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_HORDE) && team != TEAM_HORDE)
-                continue;
-        }
 
         float sinO = std::sin(o);
         float cosO = std::cos(o);
@@ -109,7 +103,7 @@ void GuildEnclaveSpawner::LoadPlacedAssets(uint32_t guildId)
             if (!location)
                 return;
             
-            uint32 entry = house->Team == TEAM_ALLIANCE ? 900002 : 900003;
+            uint32 entry = house->faction == GH_FACTION_ALLIANCE ? 900002 : 900003;
             SpawnCreature(guildId, 0, house->PhaseMask, location->MapId, entry, asset.X, asset.Y, asset.Z, asset.O, 0);
         }
     }
