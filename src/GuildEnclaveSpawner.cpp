@@ -58,7 +58,7 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
         return false;
     
     uint8_t team = house->Team;    
-    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, team);
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, static_cast<TeamId>(team));
     if(!catalog)
         return false;
 
