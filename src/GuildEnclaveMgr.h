@@ -78,7 +78,7 @@ public:
     // =====================================================
     // Assets
     // =====================================================
-    uint64_t GetTotalAssetCost(uint32_t locationId);
+    uint64_t GetTotalAssetCost(Player* player, uint32_t locationId);
     const GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId) const;
     GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId);
     std::vector<const GHGuildAsset*> GetPurchasedAssets(uint32_t guildId) const;
