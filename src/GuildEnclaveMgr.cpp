@@ -555,7 +555,7 @@ bool GuildEnclaveMgr::CheckBoundary(Player* player)
 // =====================================================
 // Assets
 // =====================================================
-uint64_t GuildEnclaveMgr::GetTotalAssetCost(uint32_t locationId)
+uint64_t GuildEnclaveMgr::GetTotalAssetCost(Player* player, uint32_t locationId)
 {
     uint64_t totalCost = 0;
 
@@ -568,7 +568,7 @@ uint64_t GuildEnclaveMgr::GetTotalAssetCost(uint32_t locationId)
         Field* fields = result->Fetch();
         uint32_t catalogId = fields[0].Get<uint32_t>();
 
-        const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
+        const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, player->GetTeamId());
         if (!catalog)
             continue;
 
