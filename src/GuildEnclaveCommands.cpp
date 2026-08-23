@@ -192,7 +192,7 @@ bool GuildEnclaveCommandScript::HandleListAssets(ChatHandler* handler, char cons
     for (uint32_t assetId : assetIds)
     {
         GHGuildAsset const& asset = house->Assets.at(assetId);
-        const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(asset.CatalogId, player->GetTeamId());
+        const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(asset.CatalogId);
         char const* statusText = "Unknown";
         
         switch (asset.Status)
