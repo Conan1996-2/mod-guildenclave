@@ -117,7 +117,7 @@ void GuildEnclaveSalesman::SendPreMadePurchaseConfirmMenu(Player* player, Creatu
         return;
     }
     
-    std::string cost = GuildEnclaveUtil::GoldToString(sGuildEnclaveMgr.GetTotalAssetCost(location->Id));
+    std::string cost = GuildEnclaveUtil::GoldToString(sGuildEnclaveMgr.GetTotalAssetCost(player, location->Id));
 
     AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, "Purchase Total Assets - " + cost, GOSSIP_SENDER_MAIN, ACTION_CONFIRM);
     AddGossipItemFor(player, GOSSIP_ICON_CHAT, "<< Back", GOSSIP_SENDER_MAIN, ACTION_BACK);
