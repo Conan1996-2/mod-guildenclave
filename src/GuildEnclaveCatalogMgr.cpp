@@ -208,6 +208,7 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categ
 std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categoryId, TeamId team) const
 {
     std::vector<const GHCatalog*> result;
+    GHBehaviorFlags faction = team == TEAM_ALLIANCE ? GH_FACTION_ALLIANCE : GH_FACTION_HORDE;
     
     for (auto const& [catalogId, catalogs] : _catalogs)
     {
@@ -216,9 +217,7 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categ
             if (!catalog.Enabled || catalog.CategoryId != categoryId)
                 continue;
 
-            if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
-                (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
-                (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_HORDE)))
+            if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, faction))
                     result.push_back(&catalog);
         }
     }
@@ -255,6 +254,7 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team
 std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team) const
 {
     std::vector<const GHCatalog*> result;
+    GHBehaviorFlags faction = team == TEAM_ALLIANCE ? GH_FACTION_ALLIANCE : GH_FACTION_HORDE;
 
     for (auto const& [catalogId, catalogs] : _catalogs)
     {
@@ -263,9 +263,7 @@ std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team
             if (!catalog.Enabled)
                 continue;
 
-            if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
-                (team == TEAM_ALLIANCE && GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_ALLIANCE)) ||
-                (team == TEAM_HORDE && GuildEnclaveUtil::HasFlag( catalog.BehaviorFlags, GH_FACTION_HORDE)))
+            if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, faction))
                     result.push_back(&catalog);
         }
     }
