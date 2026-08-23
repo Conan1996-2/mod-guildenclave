@@ -715,6 +715,8 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, float X, 
     if (!catalog || !catalog->Enabled)
         return 0;
     
+    ChatHandler(player->GetSession()).PSendSysMessage("Catalog -> {}.", catalog->Name);
+    
     if (charge && !RemoveMoneyFromGuild(guildId, catalog->Price))
     {
             ChatHandler(player->GetSession()).PSendSysMessage("Not enough money in the Guild bank to purchase.");
