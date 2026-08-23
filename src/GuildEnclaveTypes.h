@@ -178,7 +178,7 @@ struct GHLocation
 struct GHGuildEnclave
 {
     uint32_t GuildId = 0;
-    uint8_t Team = 0;
+    uint8_t Faction = 0;
 
     uint32_t OwnerGuid = 0;
     uint8_t RequiredGuildRank = 0;
