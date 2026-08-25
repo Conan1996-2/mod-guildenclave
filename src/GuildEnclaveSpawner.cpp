@@ -63,7 +63,7 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
 
     for(auto const& component : catalog->Components)
     {
-        if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(component.BehaviorFlags, static_cast<uint32_t>(house->Faction)))
+        if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(component.BehaviorFlags, house->Faction))
                 continue;
 
         float sinO = std::sin(o);
