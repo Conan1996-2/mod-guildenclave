@@ -63,6 +63,8 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
 
     for(auto const& component : catalog->Components)
     {
+        LOG_INFO("server.loading", ">>component {} catalog {} entry {} spawn {} behavior {}", component.ComponentId, component.CatalogId, component.Entry, component.SpawnFlags, component.BehanviorFlags, house->Faction);
+        
         if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(component.BehaviorFlags, static_cast<GHBehaviorFlags>(house->Faction)))
                 continue;
 
