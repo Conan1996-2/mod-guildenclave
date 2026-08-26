@@ -68,6 +68,8 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
         if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(component.BehaviorFlags, static_cast<GHBehaviorFlags>(house->Faction)))
                 continue;
 
+        LOG_INFO("server.loading", "Found match");
+        
         float sinO = std::sin(o);
         float cosO = std::cos(o);
     
