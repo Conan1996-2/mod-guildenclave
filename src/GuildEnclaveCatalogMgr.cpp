@@ -102,7 +102,22 @@ void GuildEnclaveCatalogMgr::Load()
 
             auto catalogItr = _catalogs.find(catalogId);
             if (catalogItr == _catalogs.end())
+            {
+                LOG_INFO(
+                    "server.loading",
+                    "NO CATALOG MATCH: componentId={} catalogId={}",
+                    fields[0].Get<uint32_t>(),
+                    catalogId);
+            
                 continue;
+            }
+            
+            LOG_INFO(
+                "server.loading",
+                "FOUND CATALOG: componentId={} catalogId={} variants={}",
+                fields[0].Get<uint32_t>(),
+                catalogId,
+                catalogItr->second.size());
 
             GHCatalogAsset component;
 
@@ -123,36 +138,6 @@ void GuildEnclaveCatalogMgr::Load()
             component.YOffset = fields[8].Get<float>();
             component.ZOffset = fields[9].Get<float>();
             component.OOffset = fields[10].Get<float>();
-
-            /*
-            component.ScriptType =
-                static_cast<GHScriptType>(fields[7].Get<uint32_t>());
-
-            component.ScriptData =
-                fields[8].IsNull()
-                    ? ""
-                    : fields[8].Get<std::string>();
-
-            component.TargetMap =
-                fields[13].IsNull()
-                    ? 0
-                    : fields[13].Get<uint32_t>();
-
-            component.TargetX =
-                fields[14].IsNull()
-                    ? 0.0f
-                    : fields[14].Get<float>();
-
-            component.TargetY =
-                fields[15].IsNull()
-                    ? 0.0f
-                    : fields[15].Get<float>();
-
-            component.TargetZ =
-                fields[16].IsNull()
-                    ? 0.0f
-                    : fields[16].Get<float>();
-            */
 
             component.ChildCatalogId =
                 fields[11].IsNull()
