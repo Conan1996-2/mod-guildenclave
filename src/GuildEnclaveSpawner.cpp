@@ -48,32 +48,24 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
 {
     if(HasExistingSpawn(guildId, assetId))
         return false;
-    LOG_INFO("server.loading", "Have Spawn");
 
     GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(guildId);
     if (!house)
         return false;
-    LOG_INFO("server.loading", "Have House");
 
     GHLocation* location = sGuildEnclaveMgr.GetLocation(house->LocationId);
     if (!location)
         return false;
-    LOG_INFO("server.loading", "Have Location");
     
     const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, house->Faction == GH_FACTION_ALLIANCE ? TEAM_ALLIANCE : TEAM_HORDE);
     if(!catalog)
         return false;
-    LOG_INFO("server.loading", "Have Catalog");
 
     for(auto const& component : catalog->Components)
     {
-        LOG_INFO("server.loading", ">>component {} catalog {} entry {} spawn {} behavior {} House {}", component.ComponentId, component.CatalogId, component.Entry, component.SpawnFlags, component.BehaviorFlags, house->Faction);
-        
         if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) && !GuildEnclaveUtil::HasFlag(component.BehaviorFlags, static_cast<GHBehaviorFlags>(house->Faction)))
             continue;
 
-        LOG_INFO("server.loading", "Found match");
-        
         float sinO = std::sin(o);
         float cosO = std::cos(o);
     
