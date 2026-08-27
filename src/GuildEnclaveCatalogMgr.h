@@ -14,17 +14,9 @@ public:
 
     void Load();
 
-    // =====================================================
-    // Direct lookups
-    // =====================================================
-    //const GHCatalog* GetCatalog(uint32_t catalogId) const;
-    const GHCatalog* GetCatalog(uint32_t catalogId) const;
+    const GHCatalog* GetCatalog(uint32_t catalogId, TeamId team) const;
     const GHCategory* GetCategory(uint32_t categoryId) const;
-    //const GHCatalogAsset* GetCatalogAsset(uint32_t componentId) const;
 
-    // =====================================================
-    // Salesman browsing
-    // =====================================================
     std::vector<const GHCategory*> GetRootCategories() const;
     std::vector<const GHCategory*> GetChildCategories(uint32_t parentId) const;
     std::vector<const GHCatalog*> GetCatalogs(uint32_t categoryId, TeamId team) const;
@@ -34,12 +26,8 @@ private:
 
     GuildEnclaveCatalogMgr() = default;
 
-    // =====================================================
-    // Catalog data
-    // =====================================================
     std::unordered_map<uint32_t, GHCategory> _categories;
     std::unordered_map<uint32_t, std::vector<GHCatalog>> _catalogs;
-//    std::unordered_map<uint32_t, GHCatalog> _catalogs;
 };
 
 #define sGuildEnclaveCatalogMgr GuildEnclaveCatalogMgr::Instance()
