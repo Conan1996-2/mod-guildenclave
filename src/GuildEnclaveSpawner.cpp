@@ -60,7 +60,7 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
         return false;
     LOG_INFO("server.loading", "Have Location");
     
-    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, house->Faction == GH_FACTION_ALLIANCE ? TEAM_ALLIANCE  :TEAM_HORDE);
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, house->Faction == GH_FACTION_ALLIANCE ? TEAM_ALLIANCE : TEAM_HORDE);
     if(!catalog)
         return false;
     LOG_INFO("server.loading", "Have Catalog");
@@ -69,8 +69,8 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
     {
         LOG_INFO("server.loading", ">>component {} catalog {} entry {} spawn {} behavior {} House {}", component.ComponentId, component.CatalogId, component.Entry, component.SpawnFlags, component.BehaviorFlags, house->Faction);
         
-        if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) && !GuildEnclaveUtil::HasFlag(component.BehaviorFlags, static_cast<GHBehaviorFlags>(house->Faction)))
-                continue;
+//        if (!GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) && !GuildEnclaveUtil::HasFlag(component.BehaviorFlags, static_cast<GHBehaviorFlags>(house->Faction)))
+//                continue;
 
         LOG_INFO("server.loading", "Found match");
         
