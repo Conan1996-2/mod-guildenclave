@@ -151,24 +151,24 @@ void GuildEnclaveCatalogMgr::Load()
             // Store component in the catalog with the
             // same CatalogId AND matching faction.
             //
-LOG_INFO(
-    "server.loading",
-    "Component {} catalogId {} behaviorFlags {} - catalog variants {}",
-    component.ComponentId,
-    component.CatalogId,
-    component.BehaviorFlags,
-    catalogItr->second.size());
-            
+            LOG_INFO(
+                "server.loading",
+                "Component {} catalogId {} behaviorFlags {} - catalog variants {}",
+                component.ComponentId,
+                component.CatalogId,
+                component.BehaviorFlags,
+                catalogItr->second.size());
+                        
             for (GHCatalog& catalog : catalogItr->second)
             {
-                    LOG_INFO(
-        "server.loading",
-        "  Checking catalog {} '{}' behaviorFlags {}",
-        catalog.CatalogId,
-        catalog.Name,
-        catalog.BehaviorFlags);
-                
-                // Neutral component belongs to every faction variant.
+                LOG_INFO(
+                    "server.loading",
+                    "  Checking catalog {} '{}' behaviorFlags {}",
+                    catalog.CatalogId,
+                    catalog.Name,
+                    catalog.BehaviorFlags);
+            
+                // Neutral components belong to every catalog.
                 if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
                 {
                     catalog.Components.push_back(component);
@@ -176,8 +176,9 @@ LOG_INFO(
                     continue;
                 }
             
-                // Otherwise only attach it to the matching faction catalog.
-                if (catalog.BehaviorFlags == component.BehaviorFlags)
+                // A neutral catalog can contain faction-specific components.
+                if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
+                    catalog.BehaviorFlags == component.BehaviorFlags)
                 {
                     catalog.Components.push_back(component);
                     componentCount++;
