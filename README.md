@@ -147,12 +147,9 @@ These are also located on the Salesman or via chat commands for purchase.
 <DETAILS>
 <SUMMARY>Common Portals</SUMMARY>
 
-- 2101: Stormwind Portal  
-- 2101: Orgrimmar Portal  
-- 2102: Ironforge Portal  
-- 2102: Thunder Bluff Portal  
-- 2103: Darnassus Portal  
-- 2103: Undercity Portal  
+- 2101: Stormwind Portal / Orgrimmar Portal  
+- 2102: Ironforge Portal / Thunder Bluff Portal  
+- 2103: Darnassus Portal / Undercity Portal  
 
 </DETAILS>
 <DETAILS>
