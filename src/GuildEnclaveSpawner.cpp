@@ -57,7 +57,7 @@ bool GuildEnclaveSpawner::SpawnAsset(uint32_t guildId, uint32_t assetId, uint32_
     if (!location)
         return false;
     
-    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, house->Faction == GH_FACTION_ALLIANCE ? GH_FACTION_ALLIANCE  : GH_FACTION_HORDE);
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, house->Faction == GH_FACTION_ALLIANCE ? TEAM_ALLIANCE  :TEAM_HORDE);
     if(!catalog)
         return false;
 
