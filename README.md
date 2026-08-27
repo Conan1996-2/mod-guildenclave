@@ -34,45 +34,6 @@ This Addon will use a guild area in the world. Default predefined areas are GM I
 - Purchase items via the Salesman and place, move, or store them for later use.
 
 ---------------------------------------
-### Added/In Progress
-
-- Added Locations to use for guilds with boundries, teleports player back to port location if trying to go out of bounds
-- Added Broker - Purchase/Sell Guild Hall, Teleport to Guild area (only GM or higher can place in game) **(working)**
-- Added Salesperson - Purchase Items that can be placed in the guild area (Security of who in guild can access set by GM) **(working)**
-- Added commands to Purchase/Sell/Place/Move/Store items For the guild area design (Security of who in guild can access set by GM) **(working)**
-- Added temporary phases **(working)**
-- Work on:
-    - NPC
-        - Class Trainers **(Completed not tested)**
-        - Manufacturing Trainers **(Completed not tested)**
-        - Gathering Trainers **(Completed not tested)**
-        - Secondary Trainers **(Completed not tested)**
-        - Townsfolk
-        - Vendors
-        - Guards
-    - Portals
-        - Common Portals **(Completed not tested)**
-        - Expansion Portals **(Completed not tested)**
-        - Custom Portals
-    - Indoor Decorations
-        - Chairs **(Completed not tested)**
-        - Tables **(Completed not tested)**
-        - Chests
-        - Dressers
-        - Bookcases
-    - Outdoor Decorations
-        - Mailboxs **(Completed not tested)**
-        - Braziers
-        - Lamp Posts
-    - Animals
-
----------------------------------------
-### Build Catalog Items
-These can only be added via Game Masters and they are used to create a GuildEnclave Package via `build` command.  
-The correct faction object will spawn for the guild using the build.  
-These are also located on the Salesman or via chat commands for purchase.  
-
----------------------------------------
 ### Build Catalog Items
 These can only be added via Game Masters and they are used to create a GuildEnclave Package via `build` command.  
 The correct faction object will spawn for the guild using the build.  
@@ -266,6 +227,7 @@ These are also located on the Salesman or via chat commands for purchase.
 
 
 </DETAILS>
+   
 ---------------------------------------  
 ### GuildEnclave Commands
 Note that some commands may not be available to all accounts (depending on their access level and permissions set in the RBAC tables (TC) / in the `command` table (AC)). You may need to change your account permissions / security level to enable usage of some commands
@@ -314,7 +276,7 @@ _ARGUMENT_  indicates argument names
             **Example Usage**:  
                 - `.ge npc broker`  
     - **`wander <_ASSETID_> <_DISTANCE_>`** -- Change how far the asset will wander from its spawn point. Only usable on NPCs.  
-        - _ASSETID_ = specific owned asset in your list  
+        - _ASSETID_ = specific owned asset in your list (viewed by `.ge asset list`)  
         - _DISTANCE_ = How far from spawn point the NPC will wander randomly  
             **Example Usage**:  
                 - `.ge npc wander 1 50`
@@ -348,7 +310,42 @@ _ARGUMENT_  indicates argument names
         - _ASSETID_ = specific owned asset in your list (viewed by `.ge asset list`)  
             **Example Usage**:  
                 - `.ge build remove 4`
-    - **`save`** -- Saves all assets to the build for the specific GuildEnclave location. Previous saved build will be overwritten.  
+    - **`save`** -- Saves all assets and changes to the build for the specific GuildEnclave location. Previous saved build will be overwritten.  
             **Example Usage**:  
                 - `.ge build save`
   
+---------------------------------------
+### Added/In Progress
+
+- Added Locations to use for guilds with boundries, teleports player back to port location if trying to go out of bounds
+- Added Broker - Purchase/Sell Guild Hall, Teleport to Guild area (only GM or higher can place in game) **(working)**
+- Added Salesperson - Purchase Items that can be placed in the guild area (Security of who in guild can access set by GM) **(working)**
+- Added commands to Purchase/Sell/Place/Move/Store items For the guild area design (Security of who in guild can access set by GM) **(working)**
+- Added temporary phases **(working)**
+- Added build chat menus for Game Masters and functionality **(working)**
+- Added default purchaseable package of assets for the guild you purchased. **(working)**
+- Work on:
+    - NPC
+        - Class Trainers **(Completed not tested)**
+        - Manufacturing Trainers **(Completed not tested)**
+        - Gathering Trainers **(Completed not tested)**
+        - Secondary Trainers **(Completed not tested)**
+        - Townsfolk
+        - Vendors
+        - Guards
+    - Portals
+        - Common Portals **(Completed not tested)**
+        - Expansion Portals **(Completed not tested)**
+        - Custom Portals
+    - Indoor Decorations
+        - Chairs **(Completed not tested)**
+        - Tables **(Completed not tested)**
+        - Chests
+        - Dressers
+        - Bookcases
+    - Outdoor Decorations
+        - Mailboxs **(Completed not tested)**
+        - Braziers
+        - Lamp Posts
+    - Animals
+
