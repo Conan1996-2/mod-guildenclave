@@ -166,8 +166,23 @@ void GuildEnclaveCatalogMgr::Load()
             // Store component in the catalog with the
             // same CatalogId AND matching faction.
             //
+LOG_INFO(
+    "server.loading",
+    "Component {} catalogId {} behaviorFlags {} - catalog variants {}",
+    component.ComponentId,
+    component.CatalogId,
+    component.BehaviorFlags,
+    catalogItr->second.size());
+            
             for (GHCatalog& catalog : catalogItr->second)
             {
+                    LOG_INFO(
+        "server.loading",
+        "  Checking catalog {} '{}' behaviorFlags {}",
+        catalog.CatalogId,
+        catalog.Name,
+        catalog.BehaviorFlags);
+                
                 // Neutral component belongs to every faction variant.
                 if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
                 {
