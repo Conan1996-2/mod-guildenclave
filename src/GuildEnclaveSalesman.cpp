@@ -89,7 +89,7 @@ void GuildEnclaveSalesman::SendPurchaseConfirmMenu(Player* player, Creature* cre
 
     ChatHandler(player->GetSession()).PSendSysMessage("In Confirmation.");
 
-    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, player->GetTeamId());
     if (!catalog)
     {
         CloseGossipMenuFor(player);
