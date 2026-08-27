@@ -134,7 +134,7 @@ const GHCatalog* GuildEnclaveCatalogMgr::GetCatalog(uint32_t catalogId, TeamId t
         if (!catalog.Enabled)
             continue;
 
-        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, faction))
+        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, faction) || GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL))
             return &catalog;
     }
 
