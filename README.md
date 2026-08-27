@@ -17,7 +17,8 @@ This Addon will use a guild area in the world. Default predefined areas are GM I
 - Purchase Items that can be placed anywhere in your GuildEnclave (via the Salesman)  
 - Separate phases for each guild in that specific area. This way each design is different.  
 - Dynamic loading of Enclave when a member enters the guild, and released when the last member leaves.  
-- Every guild purchase also adds a "Salesman" as your first asset, this can not be sold.  
+- Every guild purchase also adds a "Salesman" as your first asset, this can not be sold.
+- There is a default asset package for each guild location that can be purchased and customized for your guild.  
 
 ---------------------------------------
 ### Things the Broker can do:
