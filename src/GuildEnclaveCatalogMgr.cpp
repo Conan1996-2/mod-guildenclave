@@ -168,13 +168,20 @@ void GuildEnclaveCatalogMgr::Load()
             //
             for (GHCatalog& catalog : catalogItr->second)
             {
-                if (catalog.BehaviorFlags != component.BehaviorFlags)
+                // Neutral component belongs to every faction variant.
+                if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
+                {
+                    catalog.Components.push_back(component);
+                    componentCount++;
                     continue;
-
-                catalog.Components.push_back(component);
-                componentCount++;
-
-                break;
+                }
+            
+                // Otherwise only attach it to the matching faction catalog.
+                if (catalog.BehaviorFlags == component.BehaviorFlags)
+                {
+                    catalog.Components.push_back(component);
+                    componentCount++;
+                }
             }
 
         } while (result->NextRow());
