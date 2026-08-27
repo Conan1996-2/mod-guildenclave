@@ -765,10 +765,13 @@ bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
     if (!house)
         return false;
 
+    GHGuildAsset* asset = GetAsset(guildId, assetId);
+    if (!asset || asset->CatalogId < 100)
+        return false;
+    
     if (refund)
     {
-        GHGuildAsset* asset = GetAsset(guildId, assetId);
-        if(asset && AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()))
+        if(AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()))
             ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()));
     }
 
@@ -827,11 +830,11 @@ bool GuildEnclaveMgr::SaveBuild(Player* player)
     
     for (auto const& [assetId, asset] : house->Assets)
     {
-        if (GuildEnclaveUtil::HasFlag(asset.Status, GH_ASSET_PLACED))
+        if (GuildEnclaveUtil::HasFlag(asset.Status, GH_ASSET_PLACED) && asset.CatalogId >= 100)
             WorldDatabase.Query("INSERT INTO guildenclave_prebuilt (locationId,catalogId,X,Y,Z,O,W) VALUES({},{},{},{},{},{},{})", house->LocationId, asset.CatalogId, asset.X, asset.Y, asset.Z, asset.O, asset.w);
     }
     
-    ChatHandler(player->GetSession()).PSendSysMessage("All assets have been saved to build {}", house->LocationId);
+    ChatHandler(player->GetSession()).PSendSysMessage("All assets have been saved except Salesman to build {}", house->LocationId);
     return true;
 }
 
@@ -851,10 +854,8 @@ bool GuildEnclaveMgr::ClearBuild(Player* player)
     std::vector<uint32_t> assetIds;
     for (auto const& [assetId, asset] : house->Assets)
     {
-        if (asset.CatalogId == 2)
-            continue;
-
-        assetIds.push_back(assetId);
+        if (asset.CatalogId >= 100)
+            assetIds.push_back(assetId);
     }
 
     for (uint32_t assetId : assetIds)
