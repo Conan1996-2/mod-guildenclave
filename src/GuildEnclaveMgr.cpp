@@ -570,7 +570,7 @@ uint64_t GuildEnclaveMgr::GetTotalAssetCost(Player* player, uint32_t locationId)
         Field* fields = result->Fetch();
         uint32_t catalogId = fields[0].Get<uint32_t>();
 
-        const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
+        const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, player->GetTeamId());
         if (!catalog)
             continue;
 
@@ -713,7 +713,7 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, float X, 
     if (!house)
         return 0;
 
-    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId);
+    const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(catalogId, player->GetTeamId());
     if (!catalog || !catalog->Enabled)
         return 0;
     
