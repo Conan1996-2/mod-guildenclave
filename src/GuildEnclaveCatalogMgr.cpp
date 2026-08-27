@@ -100,7 +100,7 @@ void GuildEnclaveCatalogMgr::Load()
                 //    continue;
                 //}
             
-                if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || catalog.BehaviorFlags == component.BehaviorFlags)
+                if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL) || GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || catalog.BehaviorFlags == component.BehaviorFlags)
                 {
                     catalog.Components.push_back(component);
                     componentCount++;
