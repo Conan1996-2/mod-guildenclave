@@ -21,13 +21,7 @@ void GuildEnclaveCatalogMgr::Load()
     _catalogs.clear();
 
     LOG_INFO("server.loading", ">> Starting guildenclave_category");
-
-    //
-    // Categories
-    //
-    if (QueryResult result = WorldDatabase.Query(
-        "SELECT categoryId, parentId, name, sortOrder, enabled "
-        "FROM guildenclave_category"))
+    if (QueryResult result = WorldDatabase.Query("SELECT categoryId, parentId, name, sortOrder, enabled FROM guildenclave_category"))
     {
         do
         {
@@ -42,57 +36,32 @@ void GuildEnclaveCatalogMgr::Load()
             category.Enabled = fields[4].Get<bool>();
 
             _categories.emplace(category.Id, category);
-
         } while (result->NextRow());
     }
 
     LOG_INFO("server.loading", ">> Starting guildenclave_catalog");
-
-    //
-    // Catalog Items
-    //
-    if (QueryResult result = WorldDatabase.Query(
-        "SELECT catalogId, categoryId, name, price, "
-        "spawnFlags, behaviorFlags, enabled "
-        "FROM guildenclave_catalog"))
+    if (QueryResult result = WorldDatabase.Query("SELECT catalogId, categoryId, name, price, spawnFlags, behaviorFlags, enabled FROM guildenclave_catalog"))
     {
         do
         {
             Field* fields = result->Fetch();
 
             GHCatalog catalog;
-
             catalog.CatalogId = fields[0].Get<uint32_t>();
             catalog.CategoryId = fields[1].Get<uint32_t>();
             catalog.Name = fields[2].Get<std::string>();
             catalog.Price = fields[3].Get<uint64_t>();
-            catalog.SpawnFlags =
-                static_cast<GHSpawnFlags>(fields[4].Get<uint32_t>());
-            catalog.BehaviorFlags =
-                static_cast<GHBehaviorFlags>(fields[5].Get<uint32_t>());
+            catalog.SpawnFlags = static_cast<GHSpawnFlags>(fields[4].Get<uint32_t>());
+            catalog.BehaviorFlags = static_cast<GHBehaviorFlags>(fields[5].Get<uint32_t>());
             catalog.Enabled = fields[6].Get<bool>();
 
-            //
-            // Multiple catalog rows may use the same CatalogId.
-            //
             _catalogs[catalog.CatalogId].push_back(catalog);
-
         } while (result->NextRow());
     }
 
     LOG_INFO("server.loading", ">> Starting guildenclave_catalog_asset");
-
-    //
-    // Catalog Components
-    //
     uint16_t componentCount = 0;
-
-    if (QueryResult result = WorldDatabase.Query(
-        "SELECT componentId,catalogId,spawnFlags,behaviorFlags,"
-        "entryId,displayId,scale,xOffset,yOffset,zOffset,oOffset,"
-        "childCatalogId,sortOrder "
-        "FROM guildenclave_catalog_asset "
-        "ORDER BY sortOrder"))
+    if (QueryResult result = WorldDatabase.Query("SELECT componentId,catalogId,spawnFlags,behaviorFlags,entryId,displayId,scale,xOffset,yOffset,zOffset,oOffset,childCatalogId,sortOrder FROM guildenclave_catalog_asset ORDER BY sortOrder"))
     {
         do
         {
@@ -103,82 +72,35 @@ void GuildEnclaveCatalogMgr::Load()
             auto catalogItr = _catalogs.find(catalogId);
             if (catalogItr == _catalogs.end())
             {
-                LOG_INFO(
-                    "server.loading",
-                    "NO CATALOG MATCH: componentId={} catalogId={}",
-                    fields[0].Get<uint32_t>(),
-                    catalogId);
-            
+                LOG_INFO("server.loading", "NO CATALOG MATCH: componentId={} catalogId={}", fields[0].Get<uint32_t>(), catalogId);
                 continue;
             }
             
-            LOG_INFO(
-                "server.loading",
-                "FOUND CATALOG: componentId={} catalogId={} variants={}",
-                fields[0].Get<uint32_t>(),
-                catalogId,
-                catalogItr->second.size());
-
             GHCatalogAsset component;
-
             component.ComponentId = fields[0].Get<uint32_t>();
             component.CatalogId = catalogId;
-
-            component.SpawnFlags =
-                static_cast<GHSpawnFlags>(fields[2].Get<uint32_t>());
-
-            component.BehaviorFlags =
-                static_cast<GHBehaviorFlags>(fields[3].Get<uint32_t>());
-
+            component.SpawnFlags = static_cast<GHSpawnFlags>(fields[2].Get<uint32_t>());
+            component.BehaviorFlags = static_cast<GHBehaviorFlags>(fields[3].Get<uint32_t>());
             component.Entry = fields[4].Get<uint32_t>();
             component.DisplayId = fields[5].Get<uint32_t>();
             component.Scale = fields[6].Get<float>();
-
             component.XOffset = fields[7].Get<float>();
             component.YOffset = fields[8].Get<float>();
             component.ZOffset = fields[9].Get<float>();
             component.OOffset = fields[10].Get<float>();
+            component.ChildCatalogId = fields[11].IsNull() ? 0 : fields[11].Get<uint32_t>();
+            component.SortOrder = fields[12].Get<uint16_t>();
 
-            component.ChildCatalogId =
-                fields[11].IsNull()
-                    ? 0
-                    : fields[11].Get<uint32_t>();
-
-            component.SortOrder =
-                fields[12].Get<uint16_t>();
-
-            //
-            // Store component in the catalog with the
-            // same CatalogId AND matching faction.
-            //
-            LOG_INFO(
-                "server.loading",
-                "Component {} catalogId {} behaviorFlags {} - catalog variants {}",
-                component.ComponentId,
-                component.CatalogId,
-                component.BehaviorFlags,
-                catalogItr->second.size());
-                        
             for (GHCatalog& catalog : catalogItr->second)
             {
-                LOG_INFO(
-                    "server.loading",
-                    "  Checking catalog {} '{}' behaviorFlags {}",
-                    catalog.CatalogId,
-                    catalog.Name,
-                    catalog.BehaviorFlags);
+                //if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
+                //{
+                //    catalog.Components.push_back(component);
+                //    componentCount++;
+                //    continue;
+                //}
             
-                // Neutral components belong to every catalog.
-                if (GuildEnclaveUtil::HasFlag(component.BehaviorFlags, GH_FACTION_NEUTRAL))
-                {
-                    catalog.Components.push_back(component);
-                    componentCount++;
-                    continue;
-                }
-            
-                // A neutral catalog can contain faction-specific components.
-                if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) ||
-                    catalog.BehaviorFlags == component.BehaviorFlags)
+                if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL) || catalog.BehaviorFlags == component.BehaviorFlags)
                 {
                     catalog.Components.push_back(component);
                     componentCount++;
@@ -188,12 +110,7 @@ void GuildEnclaveCatalogMgr::Load()
         } while (result->NextRow());
     }
 
-    LOG_INFO(
-        "server.loading",
-        ">> GuildEnclaveCatalogMgr loaded {} categories, {} catalogs, {} components",
-        _categories.size(),
-        _catalogs.size(),
-        componentCount);
+    LOG_INFO("server.loading", ">> GuildEnclaveCatalogMgr loaded {} categories, {} catalogs, {} components", _categories.size(), _catalogs.size(), componentCount);
 }
 
 // =====================================================
@@ -203,61 +120,41 @@ void GuildEnclaveCatalogMgr::Load()
 // Return the catalog matching the requested faction.
 // Neutral is accepted as a fallback.
 // =====================================================
-const GHCatalog* GuildEnclaveCatalogMgr::GetCatalog(
-    uint32_t catalogId,
-    TeamId team) const
+const GHCatalog* GuildEnclaveCatalogMgr::GetCatalog(uint32_t catalogId, TeamId team) const
 {
     auto itr = _catalogs.find(catalogId);
 
     if (itr == _catalogs.end())
         return nullptr;
 
-    GHBehaviorFlags faction =
-        team == TEAM_ALLIANCE
-            ? GH_FACTION_ALLIANCE
-            : GH_FACTION_HORDE;
+    GHBehaviorFlags faction = team == TEAM_ALLIANCE ? GH_FACTION_ALLIANCE : GH_FACTION_HORDE;
 
-    //
-    // First look for the exact faction.
-    //
     for (GHCatalog const& catalog : itr->second)
     {
         if (!catalog.Enabled)
             continue;
 
-        if (GuildEnclaveUtil::HasFlag(
-                catalog.BehaviorFlags,
-                faction))
-        {
+        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, faction))
             return &catalog;
-        }
     }
 
-    //
-    // If no faction-specific version exists,
-    // allow a neutral catalog.
-    //
+/*
     for (GHCatalog const& catalog : itr->second)
     {
         if (!catalog.Enabled)
             continue;
 
-        if (GuildEnclaveUtil::HasFlag(
-                catalog.BehaviorFlags,
-                GH_FACTION_NEUTRAL))
-        {
+        if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL))
             return &catalog;
-        }
     }
-
+*/
     return nullptr;
 }
 
 // =====================================================
 // Get Category
 // =====================================================
-const GHCategory* GuildEnclaveCatalogMgr::GetCategory(
-    uint32_t categoryId) const
+const GHCategory* GuildEnclaveCatalogMgr::GetCategory(uint32_t categoryId) const
 {
     auto itr = _categories.find(categoryId);
 
@@ -270,8 +167,7 @@ const GHCategory* GuildEnclaveCatalogMgr::GetCategory(
 // =====================================================
 // Root category list
 // =====================================================
-std::vector<const GHCategory*>
-GuildEnclaveCatalogMgr::GetRootCategories() const
+std::vector<const GHCategory*> GuildEnclaveCatalogMgr::GetRootCategories() const
 {
     std::vector<const GHCategory*> result;
 
@@ -281,13 +177,7 @@ GuildEnclaveCatalogMgr::GetRootCategories() const
             result.push_back(&category);
     }
 
-    std::sort(
-        result.begin(),
-        result.end(),
-        [](const GHCategory* a, const GHCategory* b)
-        {
-            return a->SortOrder < b->SortOrder;
-        });
+    std::sort(result.begin(), result.end(), [](const GHCategory* a, const GHCategory* b) { return a->SortOrder < b->SortOrder; });
 
     return result;
 }
@@ -295,8 +185,7 @@ GuildEnclaveCatalogMgr::GetRootCategories() const
 // =====================================================
 // Child category list
 // =====================================================
-std::vector<const GHCategory*>
-GuildEnclaveCatalogMgr::GetChildCategories(uint32_t parentId) const
+std::vector<const GHCategory*> GuildEnclaveCatalogMgr::GetChildCategories(uint32_t parentId) const
 {
     std::vector<const GHCategory*> result;
 
@@ -306,13 +195,7 @@ GuildEnclaveCatalogMgr::GetChildCategories(uint32_t parentId) const
             result.push_back(&category);
     }
 
-    std::sort(
-        result.begin(),
-        result.end(),
-        [](const GHCategory* a, const GHCategory* b)
-        {
-            return a->SortOrder < b->SortOrder;
-        });
+    std::sort(result.begin(), result.end(), [](const GHCategory* a, const GHCategory* b) { return a->SortOrder < b->SortOrder; });
 
     return result;
 }
@@ -323,24 +206,14 @@ GuildEnclaveCatalogMgr::GetChildCategories(uint32_t parentId) const
 // Returns only the faction-specific version of each
 // logical catalog item.
 // =====================================================
-std::vector<const GHCatalog*>
-GuildEnclaveCatalogMgr::GetCatalogs(
-    uint32_t categoryId,
-    TeamId team) const
+std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetCatalogs(uint32_t categoryId, TeamId team) const
 {
     std::vector<const GHCatalog*> result;
-
     for (auto const& [catalogId, catalogs] : _catalogs)
     {
         const GHCatalog* selectedCatalog = nullptr;
 
-        //
-        // First find the faction-specific version.
-        //
-        GHBehaviorFlags faction =
-            team == TEAM_ALLIANCE
-                ? GH_FACTION_ALLIANCE
-                : GH_FACTION_HORDE;
+        GHBehaviorFlags faction = team == TEAM_ALLIANCE ? GH_FACTION_ALLIANCE : GH_FACTION_HORDE;
 
         for (GHCatalog const& catalog : catalogs)
         {
@@ -350,19 +223,13 @@ GuildEnclaveCatalogMgr::GetCatalogs(
             if (catalog.CategoryId != categoryId)
                 continue;
 
-            if (GuildEnclaveUtil::HasFlag(
-                    catalog.BehaviorFlags,
-                    faction))
+            if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, faction))
             {
                 selectedCatalog = &catalog;
                 break;
             }
         }
 
-        //
-        // If there isn't a faction-specific version,
-        // look for neutral.
-        //
         if (!selectedCatalog)
         {
             for (GHCatalog const& catalog : catalogs)
@@ -373,9 +240,7 @@ GuildEnclaveCatalogMgr::GetCatalogs(
                 if (catalog.CategoryId != categoryId)
                     continue;
 
-                if (GuildEnclaveUtil::HasFlag(
-                        catalog.BehaviorFlags,
-                        GH_FACTION_NEUTRAL))
+                if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL))
                 {
                     selectedCatalog = &catalog;
                     break;
@@ -387,13 +252,7 @@ GuildEnclaveCatalogMgr::GetCatalogs(
             result.push_back(selectedCatalog);
     }
 
-    std::sort(
-        result.begin(),
-        result.end(),
-        [](const GHCatalog* a, const GHCatalog* b)
-        {
-            return a->Name < b->Name;
-        });
+    std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b) { return a->Name < b->Name; });
 
     return result;
 }
@@ -404,40 +263,28 @@ GuildEnclaveCatalogMgr::GetCatalogs(
 // Returns only the faction-specific version of each
 // logical catalog item.
 // =====================================================
-std::vector<const GHCatalog*>
-GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team) const
+std::vector<const GHCatalog*> GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team) const
 {
     std::vector<const GHCatalog*> result;
 
-    GHBehaviorFlags faction =
-        team == TEAM_ALLIANCE
-            ? GH_FACTION_ALLIANCE
-            : GH_FACTION_HORDE;
+    GHBehaviorFlags faction = team == TEAM_ALLIANCE ? GH_FACTION_ALLIANCE : GH_FACTION_HORDE;
 
     for (auto const& [catalogId, catalogs] : _catalogs)
     {
         const GHCatalog* selectedCatalog = nullptr;
 
-        //
-        // First find faction-specific version.
-        //
         for (GHCatalog const& catalog : catalogs)
         {
             if (!catalog.Enabled)
                 continue;
 
-            if (GuildEnclaveUtil::HasFlag(
-                    catalog.BehaviorFlags,
-                    faction))
+            if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, faction))
             {
                 selectedCatalog = &catalog;
                 break;
             }
         }
 
-        //
-        // Otherwise use neutral.
-        //
         if (!selectedCatalog)
         {
             for (GHCatalog const& catalog : catalogs)
@@ -445,9 +292,7 @@ GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team) const
                 if (!catalog.Enabled)
                     continue;
 
-                if (GuildEnclaveUtil::HasFlag(
-                        catalog.BehaviorFlags,
-                        GH_FACTION_NEUTRAL))
+                if (GuildEnclaveUtil::HasFlag(catalog.BehaviorFlags, GH_FACTION_NEUTRAL))
                 {
                     selectedCatalog = &catalog;
                     break;
@@ -459,13 +304,7 @@ GuildEnclaveCatalogMgr::GetAllCatalogs(TeamId team) const
             result.push_back(selectedCatalog);
     }
 
-    std::sort(
-        result.begin(),
-        result.end(),
-        [](const GHCatalog* a, const GHCatalog* b)
-        {
-            return a->Name < b->Name;
-        });
+    std::sort(result.begin(), result.end(), [](const GHCatalog* a, const GHCatalog* b) { return a->Name < b->Name; });
 
     return result;
 }
