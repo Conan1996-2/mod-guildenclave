@@ -116,28 +116,6 @@ void GuildEnclaveMgr::Load()
         }while(result->NextRow());
     }
 
-    for (auto& [guildId, house] : _houses)
-    {
-        house.AssetIdMap.clear();
-    
-        std::vector<uint32_t> databaseAssetIds;
-        databaseAssetIds.reserve(house.Assets.size());
-    
-        for (auto const& [databaseAssetId, asset] : house.Assets)
-            databaseAssetIds.push_back(databaseAssetId);
-    
-        // Ensure deterministic local IDs.
-        std::sort(databaseAssetIds.begin(), databaseAssetIds.end());
-    
-        uint32_t localAssetId = 1;
-    
-        for (uint32_t databaseAssetId : databaseAssetIds)
-        {
-            house.AssetIdMap[localAssetId] = databaseAssetId;
-            ++localAssetId;
-        }
-    }
-
     LOG_INFO("server.loading", ">> GuildEnclaveMgr loaded {} houses and {} locations", _houses.size(), _locations.size());
 }
 
