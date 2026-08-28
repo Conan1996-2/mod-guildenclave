@@ -115,37 +115,28 @@ void GuildEnclaveMgr::Load()
             itr->second.Assets.emplace(asset.AssetId, std::move(asset));
         }while(result->NextRow());
     }
-/*
-    if(QueryResult result = CharacterDatabase.Query("SELECT spawnId,guildId,assetId,phaseMask,spawnGuid,spawnType,mapId,x,y,z,o,w FROM guildenclave_spawn"))
+
+    for (auto& [guildId, house] : _houses)
     {
-        do
+        house.AssetIdMap.clear();
+    
+        std::vector<uint32_t> databaseAssetIds;
+        databaseAssetIds.reserve(house.Assets.size());
+    
+        for (auto const& [databaseAssetId, asset] : house.Assets)
+            databaseAssetIds.push_back(databaseAssetId);
+    
+        // Ensure deterministic local IDs.
+        std::sort(databaseAssetIds.begin(), databaseAssetIds.end());
+    
+        uint32_t localAssetId = 1;
+    
+        for (uint32_t databaseAssetId : databaseAssetIds)
         {
-            Field* fields = result->Fetch();
-            uint32 guildId = fields[1].Get<uint32>();
-
-            auto itr = _houses.find(guildId);
-            if(itr == _houses.end())
-                continue;
-
-            GHGuildSpawn spawn;
-            spawn.SpawnId = fields[0].Get<uint32>();
-            spawn.GuildId = fields[1].Get<uint32>();
-            spawn.AssetId = fields[2].Get<uint32>();
-            spawn.PhaseMask = fields[3].Get<uint32>();
-            spawn.SpawnGuid = fields[4].Get<uint32>();
-            spawn.SpawnType = fields[5].Get<uint8>();
-
-            spawn.MapId = fields[6].Get<uint32>();
-            spawn.X = fields[7].Get<float>();
-            spawn.Y = fields[8].Get<float>();
-            spawn.Z = fields[9].Get<float>();
-            spawn.O = fields[10].Get<float>();
-            spawn.w = fields[11].Get<float>();
-
-            itr->second.Spawns.push_back(spawn);
-        }while(result->NextRow());
+            house.AssetIdMap[localAssetId] = databaseAssetId;
+            ++localAssetId;
+        }
     }
-*/
 
     LOG_INFO("server.loading", ">> GuildEnclaveMgr loaded {} houses and {} locations", _houses.size(), _locations.size());
 }
