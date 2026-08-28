@@ -526,19 +526,6 @@ bool GuildEnclaveMgr::CheckBoundary(Player* player)
 // =====================================================
 // Assets
 // =====================================================
-uint32_t GuildEnclaveMgr::ResolveAssetId(uint32_t guildId, uint32_t localAssetId) const
-{
-    const GHGuildEnclave* house = GetGuildEnclave(guildId);
-    if (!house)
-        return 0;
-
-    auto itr = house->AssetIdMap.find(localAssetId);
-    if (itr == house->AssetIdMap.end())
-        return 0;
-
-    return itr->second;
-}
-
 uint64_t GuildEnclaveMgr::GetTotalAssetCost(Player* player, uint32_t locationId)
 {
     uint64_t totalCost = 0;
