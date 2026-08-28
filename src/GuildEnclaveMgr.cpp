@@ -691,7 +691,7 @@ bool GuildEnclaveMgr::StoreAsset(Player* player, uint32_t localAssetId)
     asset->Status = GH_ASSET_STORED;
 
     CharacterDatabase.Execute("UPDATE guildenclave_asset SET status={} WHERE guildId={} AND assetId={}",
-        asset->Status, guildId, asset->assetId);
+        asset->Status, guildId, asset->AssetId);
 
     return true;
 }
