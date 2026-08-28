@@ -185,10 +185,17 @@ bool GuildEnclaveCommandScript::HandleListAssets(ChatHandler* handler, char cons
     for (auto const& [assetId, asset] : house->Assets)
         assetIds.push_back(assetId);
     
-    std::sort(assetIds.begin(), assetIds.end()); 
-    for (uint32_t assetId : assetIds)
+    std::sort(assetIds.begin(), assetIds.end());
+    
+//    for (uint32_t assetId : assetIds)
+    for (auto const& [localAssetId, databaseAssetId] : house->AssetIdMap)
         {
-            GHGuildAsset const& asset = house->Assets.at(assetId);
+            auto assetItr = house->Assets.find(databaseAssetId);
+            if (assetItr == house->Assets.end())
+                continue;
+            GHGuildAsset const& asset = assetItr->second;
+            
+//            GHGuildAsset const& asset = house->Assets.at(assetId);
             const GHCatalog* catalog = sGuildEnclaveCatalogMgr.GetCatalog(asset.CatalogId, player->GetTeamId());
             char const* statusText = "Unknown";
             
@@ -200,7 +207,8 @@ bool GuildEnclaveCommandScript::HandleListAssets(ChatHandler* handler, char cons
                     case GH_ASSET_DISABLED: statusText = "Disabled"; break;
                 }
             
-            handler->PSendSysMessage("Asset {} | {} | {}", assetId, catalog ? catalog->Name.c_str() : "Unknown", statusText);
+//            handler->PSendSysMessage("Asset {} | {} | {}", assetId, catalog ? catalog->Name.c_str() : "Unknown", statusText);
+            handler->PSendSysMessage("Asset {} | {} | {}", localAssetId, catalog ? catalog->Name.c_str() : "Unknown", statusText);
         }
     return true;
 }
