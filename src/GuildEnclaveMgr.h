@@ -78,6 +78,7 @@ public:
     // =====================================================
     // Assets
     // =====================================================
+    uint32_t ResolveAssetId(uint32_t guildId, uint32_t localAssetId) const
     uint64_t GetTotalAssetCost(Player* player, uint32_t locationId);
     const GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId) const;
     GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId);
