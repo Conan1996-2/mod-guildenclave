@@ -706,7 +706,7 @@ bool GuildEnclaveMgr::MoveAsset(Player* player, uint32_t localAssetId)
 
 bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t localAssetId)
 {
-    uint32_t databaseAssetId = ResolveAssetId(guildId, localAssetId);
+    uint32_t databaseAssetId = ResolveAssetId(player->GetGuildId(), localAssetId);
     if (!databaseAssetId)
         return false;
 
