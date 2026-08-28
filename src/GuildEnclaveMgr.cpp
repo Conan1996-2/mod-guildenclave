@@ -685,7 +685,7 @@ bool GuildEnclaveMgr::StoreAsset(Player* player, uint32_t localAssetId)
     if (!asset)
         return false;
 
-    if (!sGuildEnclaveSpawner.RemoveAsset(guildId, assetId))
+    if (!sGuildEnclaveSpawner.RemoveAsset(guildId, databaseAssetId))
         return false;
 
     asset->Status = GH_ASSET_STORED;
@@ -706,7 +706,11 @@ bool GuildEnclaveMgr::MoveAsset(Player* player, uint32_t localAssetId)
 
 bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t localAssetId)
 {
-    return RemoveAsset(player, localAssetId, true);
+    uint32_t databaseAssetId = ResolveAssetId(guildId, localAssetId);
+    if (!databaseAssetId)
+        return false;
+
+    return RemoveAsset(player, databaseAssetId, true);
 }
 
 // =====================================================
@@ -770,7 +774,7 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
     return AddAsset(player, catalogId, 0, 0, 0, 0, 0, charge);
 }
 
-bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t localAssetId, bool refund)
+bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
 {
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
@@ -783,11 +787,7 @@ bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t localAssetId, bool re
     if (!house)
         return false;
 
-    uint32_t databaseAssetId = ResolveAssetId(guildId, localAssetId);
-    if (!databaseAssetId)
-        return false;
-
-    GHGuildAsset* asset = GetAsset(guildId, databaseAssetId);
+    GHGuildAsset* asset = GetAsset(guildId, assetId);
     if (!asset || asset->CatalogId < 100)
         return false;
     
@@ -797,11 +797,11 @@ bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t localAssetId, bool re
             ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()));
     }
 
-    sGuildEnclaveSpawner.RemoveAsset(guildId, databaseAssetId);
+    sGuildEnclaveSpawner.RemoveAsset(guildId, assetId);
 
-    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, databaseAssetId);
+    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
 
-    auto itr = house->Assets.find(databaseAssetId);
+    auto itr = house->Assets.find(assetId);
     if (itr != house->Assets.end())
         house->Assets.erase(itr);
 
