@@ -78,11 +78,12 @@ public:
     // =====================================================
     // Assets
     // =====================================================
+    uint32_t GuildEnclaveMgr::ResolveAssetId(uint32_t guildId, uint32_t localAssetId) const;
     uint64_t GetTotalAssetCost(Player* player, uint32_t locationId);
     const GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId) const;
     GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId);
     std::vector<const GHGuildAsset*> GetPurchasedAssets(uint32_t guildId) const;
-    bool PlaceAsset(Player* player, uint32_t assetId, bool useAssetLocation);
+    bool PlaceAsset(Player* player, uint32_t localAssetId, bool useAssetLocation);
     bool MoveAsset(Player* player, uint32_t assetId);
     bool StoreAsset(Player* player, uint32_t assetId);
     bool SellAsset(Player* player, uint32_t assetId);
