@@ -74,6 +74,24 @@ INSERT INTO `guildenclave_catalog` (`catalogId`, `categoryId`, `name`, `price`, 
     (1605, 1600, "Ammo & Repair Vendor", 500000, 1, 4, 1),
     (1606, 1600, "Poisons Vendor", 500000, 1, 4, 1),
 
+    (1700, 1700, "Stormwind Guard", 500000, 1, 1, 1),
+    (1700, 1700, "Orgrimmar Guard", 500000, 1, 2, 1),
+    (1710, 1700, "Ironforge Guard", 500000, 1, 1, 1),
+    (1710, 1700, "Thunder Bluff Guard", 500000, 1, 2, 1),
+    (1720, 1700, "Darnassus Guard", 500000, 1, 1, 1),
+    (1720, 1700, "Undercity Guard", 500000, 1, 2, 1),
+
+    (1790, 1700, "Silver Covenant Scout ", 500000, 1, 1, 1),
+    (1790, 1700, "Sunreaver Scout", 500000, 1, 2, 1),
+    (1791, 1700, "Silver Covenant Horseman", 500000, 1, 1, 1),
+    (1791, 1700, "Sunreaver Hawkrider", 500000, 1, 2, 1),
+    (1792, 1700, "Silver Covenant Guardian", 500000, 1, 1, 1),
+    (1792, 1700, "Sunreaver Guardian", 500000, 1, 2, 1),
+    (1793, 1700, "Silver Covenant Sentinel", 500000, 1, 1, 1),
+    (1793, 1700, "Sunreaver Agent", 500000, 1, 2, 1),
+    (1794, 1700, "Silver Covenant Guardian Mage", 500000, 1, 1, 1),
+    (1794, 1700, "Sunreaver Guardian Mage", 500000, 1, 2, 1),
+    
     (2101, 2100, "Stormwind", 500000, 2, 1, 1),
     (2101, 2100, "Orgrimmar", 500000, 2, 2, 1),
     (2102, 2100, "Ironforge", 500000, 2, 1, 1),
@@ -153,6 +171,44 @@ INSERT INTO `guildenclave_catalog` (`catalogId`, `categoryId`, `name`, `price`, 
 
 TRUNCATE TABLE `guildenclave_catalog_asset`;
 INSERT INTO `guildenclave_catalog_asset` (`componentId`,`catalogId`,`spawnFlags`,`behaviorFlags`,`entryId`,`displayId`,`scale`,`xOffset`,`yOffset`,`zOffset`,`oOffset`,`wander`,`childCatalogId`,`sortOrder`) VALUES
+
+    (1700, 1700, "Stormwind Infantryman", 500000, 1, 1, 1),
+    (1700, 1700, "Orgrimmar Guard", 500000, 1, 2, 1),
+    (1701, 1700, "Stormwind Cavalryman", 500000, 1, 1, 1),
+    (1701, 1700, "Orgrimmar Guard", 500000, 1, 2, 1),
+    (1702, 1700, "Stormwind Elite Guard", 500000, 1, 1, 1),
+    (1702, 1700, "Orgrimmar Guard", 500000, 1, 2, 1),
+    (1703, 1700, "Stormwind Cavalryman", 500000, 1, 1, 1),
+    (1703, 1700, "Orgrimmar Guard", 500000, 1, 2, 1),
+    
+    (1710, 1700, "Ironforge Guard", 500000, 1, 1, 1),
+    (1710, 1700, "Thunder Bluff Guard", 500000, 1, 2, 1),
+    (1720, 1700, "Darnassus Guard", 500000, 1, 1, 1),
+    (1720, 1700, "Undercity Guard", 500000, 1, 2, 1),
+    
+    scout, horse, guard sentinal mage
+    
+    (1701, 1700, 1, 1, 1756, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1702, 1700, 1, 2, 30238, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1703, 1700, 1, 1, 1756, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1704, 1700, 1, 2, 30238, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1710, 1710, 1, 1, 30263, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1711, 1710, 1, 2, 30263, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1720, 1720, 1, 1, 33643, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1721, 1720, 1, 2, 33643, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+
+    (1790, 1790, 1, 1, 30238, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1791, 1790, 1, 2, 30233, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1792, 1791, 1, 1, 30263, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1793, 1791, 1, 2, 30265, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1794, 1792, 1, 1, 33643, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1795, 1792, 1, 2, 33543, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1796, 1793, 1, 1, 36656, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1797, 1793, 1, 2, 36776, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1798, 1794, 1, 1, 29254, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+    (1799, 1794, 1, 2, 29255, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+
+    
     (1, 1, 1, 1, 900002, 0, 1, 0, 0, 0, 0, 0, 0, 0),
     (2, 1, 1, 2, 900003, 0, 1, 0, 0, 0, 0, 0, 0, 0),
     (3, 2, 1, 1, 900002, 0, 1, 0, 0, 0, 0, 0, 0, 0),
