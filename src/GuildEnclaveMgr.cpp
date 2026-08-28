@@ -617,6 +617,19 @@ std::vector<const GHGuildAsset*> GuildEnclaveMgr::GetPurchasedAssets(uint32_t gu
     return result;
 }
 
+uint32_t GuildEnclaveMgr::ResolveAssetId(uint32_t guildId, uint32_t localAssetId) const
+{
+    const GHGuildEnclave* house = GetGuildEnclave(guildId);
+    if (!house)
+        return 0;
+
+    auto itr = house->AssetIdMap.find(localAssetId);
+    if (itr == house->AssetIdMap.end())
+        return 0;
+
+    return itr->second;
+}
+
 bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId, bool useAssetLocation)
 {
     if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
@@ -626,7 +639,9 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId, bool useAsset
     if (!guildId)
         return false;
 
-    GHGuildAsset* asset = GetAsset(guildId, assetId);
+    uint32_t databaseAssetId = ResolveAssetId(guildId, assetId);
+
+    GHGuildAsset* asset = GetAsset(guildId, databaseAssetId);
     if (!asset)
         return false;
 
@@ -647,7 +662,7 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId, bool useAsset
     asset->Status = GH_ASSET_PLACED;
 
     CharacterDatabase.Execute("UPDATE guildenclave_asset SET status={}, positionX={}, positionY={}, positionZ={}, orientation={}, wander={} WHERE assetId={} AND guildId={}",
-        asset->Status, asset->X, asset->Y, asset->Z, asset->O, asset->w, assetId, guildId);
+        asset->Status, asset->X, asset->Y, asset->Z, asset->O, asset->w, asset->AssetId, guildId);
     return true;
 }
 
@@ -739,7 +754,8 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, float X, 
     while (house->AssetIdMap.contains(localAssetId))
         ++localAssetId;
     house->AssetIdMap[localAssetId] = assetId;
-
+    LOG_INFO("server.loading", "Map: {} -> {}", localAssetId, assetId);
+    
     return assetId;  
 }
 
