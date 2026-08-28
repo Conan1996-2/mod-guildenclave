@@ -188,6 +188,7 @@ struct GHGuildEnclave
 
     uint32_t PhaseMask = 0;
 
+    std::unordered_map<uint32_t, uint32_t> AssetIdMap;
     std::unordered_map<uint32_t, GHGuildAsset> Assets;
     std::vector<GHGuildSpawn> Spawns;
 
