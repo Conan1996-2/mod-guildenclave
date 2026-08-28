@@ -180,19 +180,35 @@ bool GuildEnclaveCommandScript::HandleListAssets(ChatHandler* handler, char cons
         return true;
     }
     
-    std::vector<uint32_t> assetIds;
-    assetIds.reserve(house->Assets.size());
-    for (auto const& [assetId, asset] : house->Assets)
-        assetIds.push_back(assetId);
+//    std::vector<uint32_t> assetIds;
+//    assetIds.reserve(house->Assets.size());
+//    for (auto const& [assetId, asset] : house->Assets)
+//        assetIds.push_back(assetId);
     
-    std::sort(assetIds.begin(), assetIds.end());
+//    std::sort(assetIds.begin(), assetIds.end());
     
 //    for (uint32_t assetId : assetIds)
-    for (auto const& [localAssetId, databaseAssetId] : house->AssetIdMap)
+//    for (auto const& [localAssetId, databaseAssetId] : house->AssetIdMap)
+//        {
+//            auto assetItr = house->Assets.find(databaseAssetId);
+//            if (assetItr == house->Assets.end())
+//                continue;
+        std::vector<uint32_t> localAssetIds;
+        localAssetIds.reserve(house->AssetIdMap.size());
+        
+        for (auto const& [localAssetId, databaseAssetId] : house->AssetIdMap)
+            localAssetIds.push_back(localAssetId);
+        
+        std::sort(localAssetIds.begin(), localAssetIds.end());
+        
+        for (uint32_t localAssetId : localAssetIds)
         {
+            uint32_t databaseAssetId = house->AssetIdMap.at(localAssetId);
+        
             auto assetItr = house->Assets.find(databaseAssetId);
             if (assetItr == house->Assets.end())
                 continue;
+            
             GHGuildAsset const& asset = assetItr->second;
             
 //            GHGuildAsset const& asset = house->Assets.at(assetId);
