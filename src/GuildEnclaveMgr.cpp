@@ -738,7 +738,7 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, float X, 
     uint32_t localAssetId = 1;
     while (house->AssetIdMap.contains(localAssetId))
         ++localAssetId;
-    house->AssetIdMap[localAssetId] = databaseAssetId;
+    house->AssetIdMap[localAssetId] = assetId;
 
     return assetId;  
 }
