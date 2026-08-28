@@ -630,7 +630,7 @@ uint32_t GuildEnclaveMgr::ResolveAssetId(uint32_t guildId, uint32_t localAssetId
     return itr->second;
 }
 
-bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId, bool useAssetLocation)
+bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t localAssetId, bool useAssetLocation)
 {
     if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
         return false;
@@ -639,7 +639,9 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId, bool useAsset
     if (!guildId)
         return false;
 
-    uint32_t databaseAssetId = ResolveAssetId(guildId, assetId);
+    uint32_t databaseAssetId = ResolveAssetId(guildId, localAssetId);
+    if (!databaseAssetId)
+        return false;
 
     GHGuildAsset* asset = GetAsset(guildId, databaseAssetId);
     if (!asset)
@@ -666,7 +668,7 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t assetId, bool useAsset
     return true;
 }
 
-bool GuildEnclaveMgr::StoreAsset(Player* player, uint32_t assetId)
+bool GuildEnclaveMgr::StoreAsset(Player* player, uint32_t localAssetId)
 {
     if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
         return false;
@@ -675,7 +677,11 @@ bool GuildEnclaveMgr::StoreAsset(Player* player, uint32_t assetId)
     if (!guildId)
         return false;
 
-    GHGuildAsset* asset = GetAsset(guildId, assetId);
+    uint32_t databaseAssetId = ResolveAssetId(guildId, localAssetId);
+    if (!databaseAssetId)
+        return false;
+
+    GHGuildAsset* asset = GetAsset(guildId, databaseAssetId);
     if (!asset)
         return false;
 
@@ -685,22 +691,22 @@ bool GuildEnclaveMgr::StoreAsset(Player* player, uint32_t assetId)
     asset->Status = GH_ASSET_STORED;
 
     CharacterDatabase.Execute("UPDATE guildenclave_asset SET status={} WHERE guildId={} AND assetId={}",
-        asset->Status, guildId, assetId);
+        asset->Status, guildId, asset->assetId);
 
     return true;
 }
 
-bool GuildEnclaveMgr::MoveAsset(Player* player, uint32_t assetId)
+bool GuildEnclaveMgr::MoveAsset(Player* player, uint32_t localAssetId)
 {
-    if(StoreAsset(player, assetId))
-        return PlaceAsset(player, assetId, false);
+    if(StoreAsset(player, localAssetId))
+        return PlaceAsset(player, localAssetId, false);
 
     return false;
 }
 
-bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t assetId)
+bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t localAssetId)
 {
-    return RemoveAsset(player, assetId, true);
+    return RemoveAsset(player, localAssetId, true);
 }
 
 // =====================================================
@@ -764,7 +770,7 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
     return AddAsset(player, catalogId, 0, 0, 0, 0, 0, charge);
 }
 
-bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
+bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t localAssetId, bool refund)
 {
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
@@ -777,7 +783,11 @@ bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
     if (!house)
         return false;
 
-    GHGuildAsset* asset = GetAsset(guildId, assetId);
+    uint32_t databaseAssetId = ResolveAssetId(guildId, localAssetId);
+    if (!databaseAssetId)
+        return false;
+
+    GHGuildAsset* asset = GetAsset(guildId, databaseAssetId);
     if (!asset || asset->CatalogId < 100)
         return false;
     
@@ -787,11 +797,11 @@ bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
             ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()));
     }
 
-    sGuildEnclaveSpawner.RemoveAsset(guildId, assetId);
+    sGuildEnclaveSpawner.RemoveAsset(guildId, databaseAssetId);
 
-    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
+    CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, databaseAssetId);
 
-    auto itr = house->Assets.find(assetId);
+    auto itr = house->Assets.find(databaseAssetId);
     if (itr != house->Assets.end())
         house->Assets.erase(itr);
 
