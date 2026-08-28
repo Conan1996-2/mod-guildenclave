@@ -134,6 +134,7 @@ void GuildEnclaveMgr::Load()
         for (uint32_t databaseAssetId : databaseAssetIds)
         {
             house.AssetIdMap[localAssetId] = databaseAssetId;
+            LOG_INFO("server.loading", "Map: {} -> {}", localAssetId, databaseAssetId);
             ++localAssetId;
         }
     }
