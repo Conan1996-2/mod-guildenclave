@@ -78,15 +78,14 @@ public:
     // =====================================================
     // Assets
     // =====================================================
-    uint32_t ResolveAssetId(uint32_t guildId, uint32_t localAssetId) const;
     uint64_t GetTotalAssetCost(Player* player, uint32_t locationId);
     const GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId) const;
     GHGuildAsset* GetAsset(uint32_t guildId, uint32_t assetId);
     std::vector<const GHGuildAsset*> GetPurchasedAssets(uint32_t guildId) const;
     bool PlaceAsset(Player* player, uint32_t localAssetId, bool useAssetLocation);
-    bool MoveAsset(Player* player, uint32_t assetId);
-    bool StoreAsset(Player* player, uint32_t assetId);
-    bool SellAsset(Player* player, uint32_t assetId);
+    bool MoveAsset(Player* player, uint32_t localAssetId);
+    bool StoreAsset(Player* player, uint32_t localAssetId);
+    bool SellAsset(Player* player, uint32_t localAssetId);
     bool WanderAsset(Player* player, uint32_t assetId, uint32_t distance);
 
     // =====================================================
@@ -112,9 +111,10 @@ private:
     std::unordered_map<uint32_t, GHGuildEnclave> _houses;
     std::unordered_map<uint32_t, GHLocation> _locations;
 
+    uint32_t ResolveAssetId(uint32_t guildId, uint32_t localAssetId) const;
     uint32_t AddAsset(Player* player, uint32_t catalogId, float X, float Y, float Z, float O, int32_t W, bool charge);
     uint32_t AddAsset(Player* player, uint32_t catalogId, bool charge);
-    bool RemoveAsset(Player* player, uint32_t assetId, bool refund);
+    bool RemoveAsset(Player* player, uint32_t localAssetId, bool refund);
 };
 
 #define sGuildEnclaveMgr GuildEnclaveMgr::Instance()
