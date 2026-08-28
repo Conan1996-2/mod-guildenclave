@@ -590,7 +590,11 @@ GHGuildAsset* GuildEnclaveMgr::GetAsset(uint32_t guildId, uint32_t assetId)
     if (houseItr == _houses.end())
         return nullptr;
 
-    auto itr = houseItr->second.Assets.find(assetId);
+    uint32_t databaseAssetId = ResolveAssetId(guildId, assetId);
+    if (!databaseAssetId)
+        return nullptr;
+    
+    auto itr = houseItr->second.Assets.find(databaseAssetId);
     if (itr == houseItr->second.Assets.end())
         return nullptr;
     
@@ -603,7 +607,11 @@ const GHGuildAsset* GuildEnclaveMgr::GetAsset(uint32_t guildId, uint32_t assetId
     if (houseItr == _houses.end())
         return nullptr;
 
-    auto itr = houseItr->second.Assets.find(assetId);
+    uint32_t databaseAssetId = ResolveAssetId(guildId, assetId);
+    if (!databaseAssetId)
+        return nullptr;
+    
+    auto itr = houseItr->second.Assets.find(databaseAssetId);
     if (itr == houseItr->second.Assets.end())
         return nullptr;
     
