@@ -706,10 +706,12 @@ bool GuildEnclaveMgr::MoveAsset(Player* player, uint32_t localAssetId)
 
 bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t localAssetId)
 {
+    LOG_INFO("server.loading", "SellAsset ResolveAssetId");
     uint32_t databaseAssetId = ResolveAssetId(player->GetGuildId(), localAssetId);
     if (!databaseAssetId)
         return false;
 
+    LOG_INFO("server.loading", "SellAsset RemoveAsset");
     return RemoveAsset(player, databaseAssetId, true);
 }
 
@@ -776,31 +778,39 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
 
 bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
 {
+    LOG_INFO("server.loading", "RemoveAsset IsRank");
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
 
+    LOG_INFO("server.loading", "RemoveAsset GetGuildId");
     uint32_t guildId = player->GetGuildId();
     if (!guildId)
         return false;
 
+    LOG_INFO("server.loading", "RemoveAsset GetGuildEnclave");
     GHGuildEnclave* house = GetGuildEnclave(guildId);
     if (!house)
         return false;
 
+    LOG_INFO("server.loading", "RemoveAsset GetAsset");
     GHGuildAsset* asset = GetAsset(guildId, assetId);
     if (!asset || asset->CatalogId < 100)
         return false;
     
+    LOG_INFO("server.loading", "RemoveAsset Refund");
     if (refund)
     {
         if(AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()))
             ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()));
     }
 
+    LOG_INFO("server.loading", "RemoveAsset spawner.Removeasset");
     sGuildEnclaveSpawner.RemoveAsset(guildId, assetId);
 
+    LOG_INFO("server.loading", "RemoveAsset Update Database");
     CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
 
+    LOG_INFO("server.loading", "RemoveAsset Remove asset from _house");
     auto itr = house->Assets.find(assetId);
     if (itr != house->Assets.end())
         house->Assets.erase(itr);
