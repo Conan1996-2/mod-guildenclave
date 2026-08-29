@@ -356,12 +356,6 @@ bool GuildEnclaveCommandScript::HandleSellAsset(ChatHandler* handler, char const
     }
 
     uint32 assetId = atoi(args);
-    if (assetId < 100)
-    {
-        handler->PSendSysMessage("Invalid asset id.");
-        return true;
-    }
-
     if (!sGuildEnclaveMgr.SellAsset(player, assetId))
     {
         handler->PSendSysMessage("Failed selling Guild House asset.");
