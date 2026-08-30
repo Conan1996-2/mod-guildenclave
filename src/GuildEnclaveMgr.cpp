@@ -712,10 +712,7 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t localAssetId)
         return false;
 
     if (databaseAssetId < 100)
-    {
-        handler->PSendSysMessage("Invalid asset id.");
-        return true;
-    }
+        return false;
 
     LOG_INFO("server.loading", "SellAsset RemoveAsset");
     return RemoveAsset(player, databaseAssetId, true);
