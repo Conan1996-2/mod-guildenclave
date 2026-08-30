@@ -778,39 +778,31 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool char
 
 bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
 {
-    LOG_INFO("server.loading", "RemoveAsset IsRank");
     if (!GuildEnclaveUtil::IsGuildRank(player))
         return false;
 
-    LOG_INFO("server.loading", "RemoveAsset GetGuildId");
     uint32_t guildId = player->GetGuildId();
     if (!guildId)
         return false;
 
-    LOG_INFO("server.loading", "RemoveAsset GetGuildEnclave");
     GHGuildEnclave* house = GetGuildEnclave(guildId);
     if (!house)
         return false;
 
-    LOG_INFO("server.loading", "RemoveAsset GetAsset");
     GHGuildAsset* asset = GetAsset(guildId, assetId);
     if (!asset || asset->CatalogId < 100)
         return false;
     
-    LOG_INFO("server.loading", "RemoveAsset Refund");
     if (refund)
     {
         if(AddMoneyToGuild(guildId, asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()))
             ChatHandler(player->GetSession()).PSendSysMessage("Total refunded for sale - {}", GuildEnclaveUtil::GoldToString(asset->PurchasePrice * sGuildEnclaveConfig.GetRefundPercent()));
     }
 
-    LOG_INFO("server.loading", "RemoveAsset spawner.Removeasset");
     sGuildEnclaveSpawner.RemoveAsset(guildId, assetId);
 
-    LOG_INFO("server.loading", "RemoveAsset Update Database");
     CharacterDatabase.Execute("DELETE FROM guildenclave_asset WHERE guildId={} AND assetId={}", guildId, assetId);
 
-    LOG_INFO("server.loading", "RemoveAsset Remove asset from _house");
     auto itr = house->Assets.find(assetId);
     if (itr != house->Assets.end())
         house->Assets.erase(itr);
@@ -921,10 +913,14 @@ bool GuildEnclaveMgr::AddToBuild(Player* player, uint32_t catalogId)
 
 bool GuildEnclaveMgr::RemoveFromBuild(Player* player, uint32_t assetId)
 {
-    return RemoveAsset(player, assetId, false);
+    uint32_t databaseAssetId = ResolveAssetId(player->GetGuildId(), assetId);
+    if (!databaseAssetId)
+        return false;
+    
+    return RemoveAsset(player, databaseAssetId, false);
 }
 
-bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t distance)
+bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t localAssetId, uint32_t distance)
 {
     if (!IsMember(player) && !GuildEnclaveUtil::CanManageGuildEnclave(player))
         return false;
@@ -933,17 +929,21 @@ bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t assetId, uint32_t dis
     if (!guildId)
         return false;
 
-    GHGuildAsset* asset = GetAsset(guildId, assetId);
+    uint32_t databaseAssetId = ResolveAssetId(player->GetGuildId(), localAssetId);
+    if (!databaseAssetId)
+        return false;
+
+    GHGuildAsset* asset = GetAsset(guildId, databaseAssetId);
     if (!asset)
         return false;
 
     asset->w = distance;
-    CharacterDatabase.Execute("UPDATE guildenclave_asset SET wander={} WHERE assetId={} AND guildId={}", distance, assetId, guildId);
+    CharacterDatabase.Execute("UPDATE guildenclave_asset SET wander={} WHERE assetId={} AND guildId={}", distance, asset->AssetId, guildId);
     if (asset->Status == GH_ASSET_PLACED)
     {
-        if (!sGuildEnclaveSpawner.RemoveAsset(guildId, assetId))
+        if (!sGuildEnclaveSpawner.RemoveAsset(guildId, asset->AssetId))
             return false;
-        sGuildEnclaveSpawner.SpawnAsset(guildId, assetId, asset->CatalogId, asset->X, asset->Y, asset->Z, asset->O, asset->w);
+        sGuildEnclaveSpawner.SpawnAsset(guildId, asset->AssetId, asset->CatalogId, asset->X, asset->Y, asset->Z, asset->O, asset->w);
     }
 
     return true;
