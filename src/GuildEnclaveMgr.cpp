@@ -655,7 +655,7 @@ bool GuildEnclaveMgr::PlaceAsset(Player* player, uint32_t localAssetId, bool use
         asset->Y = player->GetPositionY();
         asset->Z = z;
         asset->O = player->GetOrientation();
-        asset->w = 0;
+//        asset->w = 0;
     }
 
     if (!sGuildEnclaveSpawner.SpawnAsset(guildId, asset->AssetId, asset->CatalogId, asset->X, asset->Y, asset->Z, asset->O, asset->w))
