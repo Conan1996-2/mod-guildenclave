@@ -711,9 +711,6 @@ bool GuildEnclaveMgr::SellAsset(Player* player, uint32_t localAssetId)
     if (!databaseAssetId)
         return false;
 
-    if (databaseAssetId < 100)
-        return false;
-
     LOG_INFO("server.loading", "SellAsset RemoveAsset");
     return RemoveAsset(player, databaseAssetId, true);
 }
