@@ -768,7 +768,7 @@ uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, float X, 
     house->AssetIdMap[localAssetId] = assetId;
     LOG_INFO("server.loading", "Map: {} -> {}", localAssetId, assetId);
     
-    return assetId;  
+    return localAssetId;  
 }
 
 uint32_t GuildEnclaveMgr::AddAsset(Player* player, uint32_t catalogId, bool charge)
