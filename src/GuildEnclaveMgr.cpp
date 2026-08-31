@@ -828,8 +828,8 @@ bool GuildEnclaveMgr::LoadBuild(Player* player)
         do
         {
             Field* fields = result->Fetch();
-            uint32_t assetId = AddAsset(player, fields[0].Get<uint32>(), fields[1].Get<float>(), fields[2].Get<float>(), fields[3].Get<float>(), fields[4].Get<float>(), fields[5].Get<float>(), false);
-            PlaceAsset(player, assetId, true);
+            uint32_t localAssetId = AddAsset(player, fields[0].Get<uint32>(), fields[1].Get<float>(), fields[2].Get<float>(), fields[3].Get<float>(), fields[4].Get<float>(), fields[5].Get<float>(), false);
+            PlaceAsset(player, localAssetId, true);
         }while(result->NextRow());
     }
 
