@@ -792,6 +792,18 @@ bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
     GHGuildAsset* asset = GetAsset(guildId, assetId);
     if (!asset || asset->CatalogId < 100)
         return false;
+
+    uint32_t localAssetId = 0;
+    for (auto const& [localId, databaseId] : house->AssetIdMap)
+    {
+        if (databaseId == assetId)
+        {
+            localAssetId = localId;
+            break;
+        }
+    }
+    if (!localAssetId)
+        return false;
     
     if (refund)
     {
@@ -807,6 +819,17 @@ bool GuildEnclaveMgr::RemoveAsset(Player* player, uint32_t assetId, bool refund)
     if (itr != house->Assets.end())
         house->Assets.erase(itr);
 
+    house->AssetIdMap.erase(localAssetId);
+    std::unordered_map<uint32_t, uint32_t> newAssetIdMap;
+    for (auto const& [oldLocalId, databaseId] : house->AssetIdMap)
+    {
+        uint32_t newLocalId = oldLocalId;
+        if (oldLocalId > localAssetId)
+            newLocalId--;
+        newAssetIdMap[newLocalId] = databaseId;
+    }
+    house->AssetIdMap = std::move(newAssetIdMap);
+    
     return true;
 }
 
