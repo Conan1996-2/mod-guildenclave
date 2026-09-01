@@ -33,7 +33,7 @@ namespace GuildEnclaveUtil
         float x = player->GetPositionX();
         float y = player->GetPositionY();
 
-        std::vector<const GHLocation*> _locations = sGuildEnclaveMgr.GetLocations();
+        std::vector<const GHLocation*> _locations = sGuildEnclaveMgr.GetLocations(false);
         for (const GHLocation* location : _locations)
         if (location->MapId == mapId && x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY)
             return location->Id;
