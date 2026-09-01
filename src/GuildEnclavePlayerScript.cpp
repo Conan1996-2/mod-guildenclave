@@ -15,13 +15,9 @@ public:
         if (sGuildEnclaveMgr.IsMember(player))
             return;
 
-//        if (!GuildEnclaveUtil::IsInGuildEnclaveArea(player))
-//            return;
         if (GuildEnclaveUtil::GetPlayerLocationId(player))
-        {
             if(!sGuildEnclaveMgr.EnterPhase(player))
-                player->TeleportTo(player->m_homebindMapId, player->m_homebindX, player->m_homebindY, player->m_homebindZ, player->GetOrientation());
-        }
+                GuildEnclaveUtil::useStoneTeleport(player);
     }
 
     void OnPlayerUpdate(Player* player, uint32 diff) override
@@ -43,11 +39,9 @@ public:
             player->SetRestFlag(REST_FLAG_IN_CITY);
         } 
         else
-        {
             if (GuildEnclaveUtil::GetPlayerLocationId(player))
                 if(!sGuildEnclaveMgr.EnterPhase(player))
-                    player->TeleportTo(player->m_homebindMapId, player->m_homebindX, player->m_homebindY, player->m_homebindZ, player->GetOrientation());
-        }
+                    GuildEnclaveUtil::useStoneTeleport(player);
     }
 
     void OnPlayerMapChanged(Player* player) override
