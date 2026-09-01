@@ -15,7 +15,7 @@ namespace GuildEnclaveUtil
     uint32_t GetPlayerLocationId(Player* player)
     {
         if (!player)
-            return;
+            return 0;
 
         uint32_t mapId = player->GetMapId();
         float x = player->GetPositionX();
