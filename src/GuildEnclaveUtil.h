@@ -23,6 +23,11 @@ namespace GuildEnclaveUtil
     inline bool IsNeutral(uint32_t flags) { return HasFlag(flags, GH_FACTION_NEUTRAL); }
 
     // =====================================================
+    // Teleport the player to the Stones hearth and set phase to 1
+    // =====================================================
+    void useStoneTeleport(Player* player)
+
+    // =====================================================
     // Guild Enclave checks
     // =====================================================
     uint32_t GetPlayerLocationId(Player* player);
