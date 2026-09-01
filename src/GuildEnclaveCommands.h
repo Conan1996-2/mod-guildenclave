@@ -24,6 +24,8 @@ public:
     // =====================================================
     static bool HandleSellGuildEnclave(ChatHandler* handler, char const* args);
     static bool HandleTeleportGuildEnclave(ChatHandler* handler, char const* args);
+    static bool HandleListEnclaves(ChatHandler* handler, char const*);
+    static bool HandleNewEnclave(ChatHandler* handler, char const*);
 
     // =====================================================
     // ASSET MANAGEMENT
