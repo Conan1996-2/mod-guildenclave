@@ -31,11 +31,13 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "wander",     HandleWanderAsset, SEC_PLAYER, Console::No }
     };
 
-    static ChatCommandTable houseTable =
+    static ChatCommandTable enclaveTable =
     {
         { "sell",       HandleSellGuildEnclave,     SEC_PLAYER, Console::No },
         { "tele",       HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
-        { "teleport",   HandleTeleportGuildEnclave, SEC_PLAYER, Console::No }
+        { "teleport",   HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
+        { "list",       HandleListEnclaves,         SEC_GAMEMASTER, Console::No },
+        { "new",        HandleNewEnclave,           SEC_GAMEMASTER, Console::No }
     };
 
     static ChatCommandTable assetTable =
@@ -56,25 +58,25 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
 
     static ChatCommandTable buildTable =
     {
-        { "load",        HandleLoadBuild,        SEC_GAMEMASTER, Console::No },
-        { "save",        HandleSaveBuild,        SEC_GAMEMASTER, Console::No },
-        { "clear",       HandleClearBuild,       SEC_GAMEMASTER, Console::No },
-        { "add",         HandleAddBuildAsset,    SEC_GAMEMASTER, Console::No },
-        { "remove",      HandleRemoveBuildAsset, SEC_GAMEMASTER, Console::No }
+        { "load",       HandleLoadBuild,        SEC_GAMEMASTER, Console::No },
+        { "save",       HandleSaveBuild,        SEC_GAMEMASTER, Console::No },
+        { "clear",      HandleClearBuild,       SEC_GAMEMASTER, Console::No },
+        { "add",        HandleAddBuildAsset,    SEC_GAMEMASTER, Console::No },
+        { "remove",     HandleRemoveBuildAsset, SEC_GAMEMASTER, Console::No }
     };
 
     static ChatCommandTable guildEnclaveTable =
     {
         { "npc",   npcTable },
-        { "house", houseTable },
         { "asset", assetTable },
         { "shop",  shopTable },
-        { "build", buildTable }
+        { "build", buildTable },
+        { "enclave", enclaveTable }
     };
 
     static ChatCommandTable root =
     {
-        { "ge",          guildEnclaveTable },
+        { "ge",            guildEnclaveTable },
         { "guildenclave",  guildEnclaveTable }
     };
 
@@ -660,6 +662,51 @@ bool GuildEnclaveCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char
 
     handler->PSendSysMessage("Guild House item purchased.");
 
+    return true;
+}
+
+// =====================================================
+// List All Guild Enclaves and if Active
+//
+// Usage:
+// .ge enclave list
+//
+// 
+// =====================================================
+bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char const*)
+{
+    std::vector<const GHLocation*> locations = sGuildEnclaveMgr.GetLocations();
+
+    handler->PSendSysMessage("==== Guild Enclaves ====");
+
+    if (locations.empty())
+    {
+        handler->PSendSysMessage("No Guild Enclaves loaded.");
+        return true;
+    }
+
+    for (const GHLocation* location : locations)
+    {
+        if (!location)
+            continue;
+
+        handler->PSendSysMessage("{} | {} | Map: {} | Zone: {} | Area: {}", location->Id, location->Name.c_str(), location->MapId, location->ZoneId, location->AreaId);
+        handler->PSendSysMessage("    Status: {}", location->Enabled ? "Enabled" : "Disabled");
+    }
+
+    return true;
+}
+
+// =====================================================
+// Adds a new Guild Enclaves and sets it deactivated by default
+//
+// Usage:
+// .ge enclave add 
+//
+// 
+// =====================================================
+bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char const* args)
+{
     return true;
 }
 
