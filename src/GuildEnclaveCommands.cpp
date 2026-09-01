@@ -672,7 +672,7 @@ bool GuildEnclaveCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char
 // =====================================================
 bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char const*)
 {
-    std::vector<const GHLocation*> locations = sGuildEnclaveMgr.GetLocations();
+    std::vector<const GHLocation*> locations = sGuildEnclaveMgr.GetLocations(true);
 
     handler->PSendSysMessage("==== Guild Enclaves ====");
 
