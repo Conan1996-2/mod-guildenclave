@@ -848,6 +848,8 @@ bool GuildEnclaveMgr::LoadBuild(Player* player)
 
     if(QueryResult result = WorldDatabase.Query("SELECT catalogId,X,Y,Z,O,W FROM guildenclave_prebuilt WHERE locationId={}", house->LocationId))
     {
+        ClearBuild(player);
+
         do
         {
             Field* fields = result->Fetch();
