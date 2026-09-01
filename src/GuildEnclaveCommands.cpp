@@ -690,8 +690,7 @@ bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char co
         if (!location)
             continue;
 
-        handler->PSendSysMessage("{} | {} | Map: {} | Zone: {} | Area: {}", location->Id, location->Name.c_str(), location->MapId, location->ZoneId, location->AreaId);
-        handler->PSendSysMessage("    Status: {}", location->Enabled ? "Enabled" : "Disabled");
+        handler->PSendSysMessage("LocationId: {} | Name: {} | Map: {} | Enabled: {}", location->Id, location->Name.c_str(), location->MapId, location->Enabled ? "Enabled" : "Disabled");
     }
 
     return true;
