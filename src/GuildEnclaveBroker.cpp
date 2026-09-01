@@ -32,7 +32,7 @@ bool GuildEnclaveBroker::OnGossipHello(Player* player, Creature* creature)
     {
         if (GuildEnclaveUtil::IsGuildRank(player))
         {
-            auto locations = sGuildEnclaveMgr.GetLocations();
+            auto locations = sGuildEnclaveMgr.GetLocations(false);
 
             if (locations.empty())
             {
