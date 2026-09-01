@@ -37,7 +37,9 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "tele",       HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
         { "teleport",   HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
         { "list",       HandleListEnclaves,         SEC_GAMEMASTER, Console::No },
-        { "new",        HandleNewEnclave,           SEC_GAMEMASTER, Console::No }
+        { "new",        HandleNewEnclave,           SEC_GAMEMASTER, Console::No },
+        { "enable",     HandleEnableEnclave,        SEC_GAMEMASTER, Console::No },
+        { "disable",    HandleDisableEnclave,       SEC_GAMEMASTER, Console::No }
     };
 
     static ChatCommandTable assetTable =
@@ -667,11 +669,6 @@ bool GuildEnclaveCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char
 
 // =====================================================
 // List All Guild Enclaves and if Active
-//
-// Usage:
-// .ge enclave list
-//
-// 
 // =====================================================
 bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char const*)
 {
@@ -700,14 +697,94 @@ bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char co
 
 // =====================================================
 // Adds a new Guild Enclaves and sets it deactivated by default
-//
-// Usage:
-// .ge enclave add 
-//
-// 
 // =====================================================
 bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char const* args)
 {
+    return true;
+}
+
+// =====================================================
+// Adds a new Guild Enclaves and sets it deactivated by default
+// =====================================================
+bool GuildEnclaveCommandScript::HandleEnableEnclave(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave enable <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    const GHLocation* location = sGuildEnclaveMgr.GetLocation(locationId);
+    if (!location)
+    {
+        handler->PSendSysMessage("Guild Enclave location {} does not exist.", locationId);
+        return true;
+    }
+
+    if (location->Enabled)
+    {
+        handler->PSendSysMessage("Guild Enclave {} is already enabled.", locationId);
+        return true;
+    }
+
+    if (!sGuildEnclaveMgr.SetLocationEnabled(locationId, true))
+    {
+        handler->PSendSysMessage("Failed to enable Guild Enclave {}.", locationId);
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave {} '{}' has been enabled.", locationId, location->Name);
+
+    return true;
+}
+
+// =====================================================
+// Adds a new Guild Enclaves and sets it deactivated by default
+// =====================================================
+bool GuildEnclaveCommandScript::HandleDisableEnclave(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave disable <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    const GHLocation* location = sGuildEnclaveMgr.GetLocation(locationId);
+    if (!location)
+    {
+        handler->PSendSysMessage("Guild Enclave location {} does not exist.", locationId);
+        return true;
+    }
+
+    if (!location->Enabled)
+    {
+        handler->PSendSysMessage("Guild Enclave {} is already disabled.", locationId);
+        return true;
+    }
+
+    std::string name = location->Name;
+    if (!sGuildEnclaveMgr.SetLocationEnabled(locationId, false))
+    {
+        handler->PSendSysMessage("Failed to disable Guild Enclave {}.", locationId);
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave {} '{}' has been disabled.", locationId, name);
+
     return true;
 }
 
