@@ -25,6 +25,7 @@ namespace GuildEnclaveUtil
     // =====================================================
     // Guild Enclave checks
     // =====================================================
+    uint32_t GetPlayerLocationId(Player* player);
     bool IsInsideGuildEnclaveBoundary(Player* player);
     bool IsInGuildEnclaveArea(Player* player);
     bool IsInGuildEnclavePhase(Player* player);
