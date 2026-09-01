@@ -44,10 +44,11 @@ public:
     GHGuildEnclave* GetGuildEnclave(uint32_t guildId);
 
     // =====================================================
-    // Create and Sell Guild Enclave
+    // Guild Enclave Management
     // =====================================================
     bool CreateGuildEnclave(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId);
     bool SellGuildEnclave(uint32_t guildId);
+    bool SetLocationEnabled(uint32_t locationId, bool enabled);
 
     // =====================================================
     // Money Management
