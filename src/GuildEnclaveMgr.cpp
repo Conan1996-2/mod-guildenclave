@@ -423,6 +423,23 @@ bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
 // =====================================================
 // Money Management
 // =====================================================
+bool GuildEnclaveMgr::SetLocationEnabled(uint32_t locationId, bool enabled)
+{
+    auto itr = _locations.find(locationId);
+    if (itr == _locations.end())
+        return false;
+
+    GHLocation& location = itr->second;
+    location.Enabled = enabled;
+
+    WorldDatabase.Execute("UPDATE guildenclave_location SET enabled = {} WHERE id = {}", enabled ? 1 : 0, locationId);
+
+    return true;
+}
+
+// =====================================================
+// Money Management
+// =====================================================
 bool GuildEnclaveMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
 {
     return true;
