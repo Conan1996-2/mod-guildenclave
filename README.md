@@ -242,78 +242,130 @@ _ARGUMENT_  indicates argument names
 ```
 **COMMAND**: **`.guildenclave | .ge`** -- (Player command) by itself will list all syntax available  
 
-  - **`asset`** -- (Proper Guild Rank Access to use command)  
-    - **`list`** -- Lists all owned assets in the world, and their asset ID and status of the asset.  
-            **Example Usage**:  
-                - `.ge asset list`  
-    - **`move <_ASSETID_>`** -- Move a spawned asset in the world from where it was placed to the players current position.  
-        - _ASSETID_ = specific owned asset in your list  
-            **Example Usage**:  
-                - `.ge asset move 2`  
-    - **`place <_ASSETID_>`** -- Place a specific non spawned asset at the players current position.  
-        - _ASSETID_ = specific owned asset in your list  
-            **Example Usage**:  
-                - `.ge asset place 1`  
-    - **`sell <_ASSETID_>`** -- Sell a specific asset, removing it from guild inventory.  
-        - _ASSETID_ = specific owned asset in your list  
-            **Example Usage**:  
-                - `.ge asset sell 5`  
-    - **`store <_ASSETID_>`** -- Removes a spawned asset from the world, saving it to be spawned at a future time.  
-        - _ASSETID_ = specific owned asset in your list  
-            **Example Usage**:  
-                - `.ge asset store 12`
-  
-  - **`enclave`** -- (Proper Guild Rank Access to use command)  
-    - **`sell`** -- Sells the enclave and all its contents back to the broker, refund is a set percentage of cost.  
-            **Example Usage**:  
-                - `.ge enclave sell`  
-  - **`enclave`** -- (Any player in a guild that owns a enclave)  
+### All Guild Member or Game Master commands:  
+  - **`enclave`**
     - **`tele | teleport`** -- Teleports the player to the guild enclave they own.  
-            **Example Usage**:  
-                - `.ge enclave tele`  
+      **Example Usage**:  
+        - `.ge enclave tele`  
+
+### Proper Guild Rank or Game Master commands:  
+  - **`asset`**
+    - **`list`** -- Lists all owned assets in the world, and their asset ID and status of the asset.  
+      **Example Usage**:  
+        - `.ge asset list`  
+    - **`move <_ASSETID_>`** -- Move a spawned asset in the world from where it was placed to the players current position.  
+      - _ASSETID_ = specific owned asset in your list  
+      **Example Usage**:  
+        - `.ge asset move 2`  
+    - **`place <_ASSETID_>`** -- Place a specific non spawned asset at the players current position.  
+      - _ASSETID_ = specific owned asset in your list  
+      **Example Usage**:  
+        - `.ge asset place 1`  
+    - **`sell <_ASSETID_>`** -- Sell a specific asset, removing it from guild inventory.  
+      - _ASSETID_ = specific owned asset in your list  
+      **Example Usage**:  
+        - `.ge asset sell 5`  
+    - **`store <_ASSETID_>`** -- Removes a spawned asset from the world, saving it to be spawned at a future time.  
+      - _ASSETID_ = specific owned asset in your list  
+      **Example Usage**:  
+        - `.ge asset store 12`
   
-  - **`npc`** -- (Game Master or higher)  
-    - **`broker`** -- Spawns a broker at the players position. There can be more then one.  
-            **Example Usage**:  
-                - `.ge npc broker`  
-    - **`wander <_ASSETID_> <_DISTANCE_>`** -- Change how far the asset will wander from its spawn point. Only usable on NPCs.  
-        - _ASSETID_ = specific owned asset in your list (viewed by `.ge asset list`)  
-        - _DISTANCE_ = How far from spawn point the NPC will wander randomly  
-            **Example Usage**:  
-                - `.ge npc wander 1 50`
+  - **`enclave`**
+    - **`sell`** -- Sells the enclave and all its contents back to the broker, refund is a set percentage of cost.  
+      **Example Usage**:  
+        - `.ge enclave sell`  
   
-  - **`shop`** -- (Proper Guild Rank Access command)  
+  - **`shop`**
     - **`buy <_CATALOGID_>`** -- Purchase a specific item  
-        - _CATALOGID_ = specific owned asset in your list  
-            **Example Usage**:  
-                - `.ge shop buy`  
+      - _CATALOGID_ = specific owned asset in your list  
+      **Example Usage**:  
+          - `.ge shop buy`  
     - **`categories`** -- List all categories  
-            **Example Usage**:  
-                - `.ge shop categories`  
+      **Example Usage**:  
+        - `.ge shop categories`  
     - **`list <_CATEGORYID_>`** -- Lists all items in a category  
-        - _CATEGORYID_ = specific owned asset in your list  
-            **Example Usage**:  
-                - `.ge shop list 100`  
+      - _CATEGORYID_ = specific owned asset in your list  
+      **Example Usage**:  
+        - `.ge shop list 100`  
   
-  - **`build`** -- (Game Master or higher)
-        *note: used for designing or changing the default design of a GuildEnclave that can be purchased.
+  - **`npc`**
+    - **`wander <_ASSETID_> <_DISTANCE_>`** -- Change how far the asset will wander from its spawn point. Only usable on NPCs.  
+      - _ASSETID_ = specific owned asset in your list (viewed by `.ge asset list`)  
+      - _DISTANCE_ = How far from spawn point the NPC will wander randomly  
+      **Example Usage**:  
+        - `.ge npc wander 1 50`
+  
+### Game Master or higher commands:  
+  - **`npc`**
+    - **`broker`** -- Spawns a broker at the players position. There can be more then one.  
+      **Example Usage**:  
+        - `.ge npc broker`  
+  
+  - **`enclave`**
+    - **`list`** -- Lists all enclaves and if enabled/disabled.  
+      **Example Usage**:  
+        - `.ge enclave list`  
+    - **`new "<_NAME_>" <_MAPID_> <_ZONEID_> <_AREAID_>`** -- Creates a new enclave, returning the _LOCATIONID_, also found by using the `.ge enclave list` command.  
+      - _NAME_ = Unique name of new enclave.  
+      - _MAP_ = MapId from .gps command.  
+      - _ZONE_ = ZoneId from .gps command.  
+      - _AREA_ = AreaId from .gps command.  
+      **Example Usage**:  
+        - `.ge enclave new "Goldshire" 0 12 87`  
+    - **`setspawn <_LOCATIONID_> <_POSITIONX_> <_POSITIONY_> <_POSITIONZ_> <_ORIENTATION_>`** -- Sets the spawn location for the player when entering.  
+      - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+      - _POSITIONX_ = X position.  
+      - _POSITIONY_ = Y position.  
+      - _POSITIONZ_ = Z position.  
+      - _ORIENTATION_ = Orientation.  
+      **Example Usage**:  
+        - `.ge enclave setspawn 4 -9448.42 67.06755 56.22756 3.2`  
+    - **`setboundaries <_LOCATIONID_> <_MINX_> <_MINY_> <_MAXX_> <_MAXY_>`** -- Set the boundaries of the GuildEnclave. If anyone leaves the boundary, they are teleported back in.  
+      - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+      - _MINX_ = X position.  
+      - _MINY_ = Y position.  
+      - _MAXX_ = Z position.  
+      - _MAXY_ = Z position.  
+      **Example Usage**:  
+        - `.ge enclave setboundaries 4 -9440 56 -9400 80`  
+    - **`enable <_LOCATIONID_>`** -- Enable the guildenclave so it can be used. They are disabled by default when created.  
+      - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+      **Example Usage**:  
+        - `.ge enclave enable 4`  
+    - **`disable <_LOCATIONID_>`** -- Disable the guildenclave so it can not be used. This is the default on a newly created guildenclave.  
+      - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+      **Example Usage**:  
+        - `.ge enclave disable 4`  
+  
+  - **`gameobjects`**  
+    - **`new <_CATALOGID_> <_CATEGORYID_> <_OBJECTID_> <_FACTIONID_> <_COST_>`** -- Adds a gameobject into the purchaseable catalog.  
+      - _CATALOGID_ = specific owned asset in your list (viewed by `.ge asset list`)  
+      - _CATEGORYID_ = specific owned asset in your list (viewed by `.ge asset list`)  
+      - _OBJECTID_ = specific owned asset in your list (viewed by `.ge asset list`)  
+      - _FACTIONID_ = specific owned asset in your list (viewed by `.ge asset list`)  
+      - _COST_ = specific owned asset in your list (viewed by `.ge asset list`)  
+      **Example Usage**:  
+        - `.ge gameobjects new 100 1035 5190 4 500000`  
+  
+  - **`build`**
+    *note: used for designing or changing the default design of a GuildEnclave that can be purchased.
     - **`add <_CATALOGID_>`** -- Add an asset and spawns it at the individuals location at no cost.  
-        - _CATALOGID_ = Specific catalog asset listed in the above list.  
-            **Example Usage**:  
-                - `.ge build add 2101` -- Adds and spawns either a Stormwind or Orgrimmar portal depending on faction.
+      - _CATALOGID_ = Specific catalog asset listed in the above list.  
+      **Example Usage**:  
+        - `.ge build add 2101` -- Adds and spawns either a Stormwind or Orgrimmar portal depending on faction.
     - **`clear`** -- Despawns all assets and removes them from your list.  
-            **Example Usage**:  
-                - `.ge build clear`
-    - **`load`** -- Clears your asset list, then loads the default assets for the current GuildEnclave location.  
-            **Example Usage**:  
-                - `.ge build load`
+      **Example Usage**:  
+        - `.ge build clear`
+    - **`load`** -- Clears your asset list, then loads the default assets for the current GuildEnclave location placing them in the original position.  
+      **Example Usage**:  
+        - `.ge build load`
     - **`remove <_ASSETID_>`** -- Despawns (if spawned) and removes a specific asset from your design.  
-        - _ASSETID_ = specific owned asset in your list (viewed by `.ge asset list`)  
-            **Example Usage**:  
-                - `.ge build remove 4`
+      - _ASSETID_ = specific owned asset in your list (viewed by `.ge asset list`)  
+      **Example Usage**:  
+        - `.ge build remove 4`
     - **`save`** -- Saves all assets and changes to the build for the specific GuildEnclave location. Previous saved build will be overwritten.  
-            **Example Usage**:  
-                - `.ge build save`
+      **Example Usage**:  
+        - `.ge build save`
   
 ---------------------------------------
 ### Added/In Progress
