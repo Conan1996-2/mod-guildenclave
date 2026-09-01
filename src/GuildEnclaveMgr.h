@@ -67,7 +67,7 @@ public:
     // =====================================================
     const GHLocation* GetLocation(uint32_t locationId) const;
     GHLocation* GetLocation(uint32_t locationId);
-    std::vector<const GHLocation*> GetLocations() const;
+    std::vector<const GHLocation*> GetLocations(bool getAll) const;
 
     // =====================================================
     // Boundary
