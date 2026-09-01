@@ -685,12 +685,14 @@ bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char co
         return true;
     }
 
+    std::sort(locations.begin(), locations.end(), [](const GHLocation* a, const GHLocation* b) { return a->Id < b->Id; });
+
     for (const GHLocation* location : locations)
     {
         if (!location)
             continue;
 
-        handler->PSendSysMessage("LocationId: {} | Name: {} | Map: {} | Enabled: {}", location->Id, location->Name.c_str(), location->MapId, location->Enabled ? "Enabled" : "Disabled");
+        handler->PSendSysMessage("LocationId: {} | Name: {} | Map: {} | {}", location->Id, location->Name.c_str(), location->MapId, location->Enabled ? "Enabled" : "Disabled");
     }
 
     return true;
