@@ -12,6 +12,23 @@ namespace GuildEnclaveUtil
     // =====================================================
     // Is Player Inside Guild Enclave AREA, does not have to be a member
     // =====================================================
+    uint32_t GetPlayerLocationId(Player* player)
+    {
+        if (!player)
+            return;
+
+        uint32_t mapId = player->GetMapId();
+        float x = player->GetPositionX();
+        float y = player->GetPositionY();
+
+        std::vector<const GHLocation*> _locations = sGuildEnclaveMgr.GetLocations();
+        for (auto const& [locationId, location] : _locations)
+        if (location.MapId == mapId && x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY)
+            return locationId;
+        
+        return 0;
+    }
+
     bool IsInsideGuildEnclaveBoundary(Player* player)
     {
         const GHLocation* location = sGuildEnclaveMgr.GetGuildLocation(player->GetGuildId());
