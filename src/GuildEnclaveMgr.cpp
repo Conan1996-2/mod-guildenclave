@@ -421,7 +421,7 @@ bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
 }
 
 // =====================================================
-// Money Management
+// GuildEnclave enable/disable
 // =====================================================
 bool GuildEnclaveMgr::SetLocationEnabled(uint32_t locationId, bool enabled)
 {
@@ -432,7 +432,7 @@ bool GuildEnclaveMgr::SetLocationEnabled(uint32_t locationId, bool enabled)
     GHLocation& location = itr->second;
     location.Enabled = enabled;
 
-    WorldDatabase.Execute("UPDATE guildenclave_location SET enabled = {} WHERE id = {}", enabled ? 1 : 0, locationId);
+    WorldDatabase.Execute("UPDATE guildenclave_locations SET enabled = {} WHERE id = {}", enabled ? 1 : 0, locationId);
 
     return true;
 }
