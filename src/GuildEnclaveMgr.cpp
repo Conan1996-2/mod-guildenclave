@@ -535,13 +535,13 @@ const GHLocation* GuildEnclaveMgr::GetGuildLocation(uint32_t guildId) const
     return GetLocation(house->LocationId);
 }
 
-std::vector<const GHLocation*> GuildEnclaveMgr::GetLocations() const
+std::vector<const GHLocation*> GuildEnclaveMgr::GetLocations(bool getAll) const
 {
     std::vector<const GHLocation*> result;
 
     for(auto const& [id, location] : _locations)
     {
-        if(location.Enabled)
+        if(location.Enabled || getAll)
             result.push_back(&location);
     }
 
