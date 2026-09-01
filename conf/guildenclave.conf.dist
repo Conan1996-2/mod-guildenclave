@@ -46,7 +46,7 @@ GuildEnclave.Refund = .8
 #        Default:    0 - Disabled (Some NPCs dont move)
 #                    1 - Enabled (ALL NPCs move)
 
-GuildEnclave.NPCWander.Enabled = 1
+GuildEnclave.NPCWander.Enabled = 0
 
 #    GuildEnclave.NPCWander.Distance
 #        Description: The distance a NPC will move if they have a wander of 0 set in the database.
