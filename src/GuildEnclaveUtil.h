@@ -25,7 +25,7 @@ namespace GuildEnclaveUtil
     // =====================================================
     // Teleport the player to the Stones hearth and set phase to 1
     // =====================================================
-    void useStoneTeleport(Player* player)
+    void useStoneTeleport(Player* player);
 
     // =====================================================
     // Guild Enclave checks
