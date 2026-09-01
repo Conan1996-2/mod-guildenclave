@@ -10,6 +10,18 @@
 namespace GuildEnclaveUtil
 {
     // =====================================================
+    // Teleport the player to the Stones hearth and set phase to 1
+    // =====================================================
+    void useStoneTeleport(Player* player)
+    {
+        if(player)
+        {
+            player->SetPhaseMask(1, true);
+            player->TeleportTo(player->m_homebindMapId, player->m_homebindX, player->m_homebindY, player->m_homebindZ, player->GetOrientation());
+        }            
+    }
+
+    // =====================================================
     // Is Player Inside Guild Enclave AREA, does not have to be a member
     // =====================================================
     uint32_t GetPlayerLocationId(Player* player)
