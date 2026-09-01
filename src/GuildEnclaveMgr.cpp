@@ -536,7 +536,7 @@ std::vector<const GHLocation*> GuildEnclaveMgr::GetLocations() const
 // =====================================================
 bool GuildEnclaveMgr::CheckBoundary(Player* player)
 {
-    if (!IsMember(player) && !GuildEnclaveUtil::IsInsideGuildEnclaveBoundary(player))
+    if (IsMember(player) && !GuildEnclaveUtil::IsInsideGuildEnclaveBoundary(player))
     {
         const GHLocation* location = GetGuildLocation(player->GetGuildId());
         player->TeleportTo(location->MapId, location->X, location->Y, location->Z, location->O);
