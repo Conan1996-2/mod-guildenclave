@@ -438,6 +438,34 @@ bool GuildEnclaveMgr::SetLocationEnabled(uint32_t locationId, bool enabled)
 }
 
 // =====================================================
+// Create a new GuildEnclave and save
+// =====================================================
+uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, uint32_t mapId, uint32_t zoneId, uint32_t areaId)
+{
+    uint32_t highestId = 1;
+    for (const auto& [_, location] : _locations)
+        if (location.Id > highestId)
+            highestId = location.Id;
+
+    uint32_t locationId = highestId + 1;
+    GHLocation location;
+    location.Id = locationId;
+    location.Name = name;
+    location.MapId = mapId;
+    location.ZoneId = zoneId;
+    location.AreaId = areaId;
+    location.Enabled = false;
+
+    CharacterDatabase.Execute("INSERT INTO guildenclave_location (id, name, mapId, zoneId, areaId, X, Y, Z, O, minX, maxX, minY, maxY, price, enabled) "
+        "VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})", location.Id, name, location.MapId, location.ZoneId, location.AreaId, location.X, location.Y, location.Z, location.O,
+        location.MinX, location.MaxX, location.MinY, location.MaxY, location.Price, location.Enabled);
+
+    _locations.emplace(location.Id, std::move(location));
+
+    return locationId;
+}
+
+// =====================================================
 // Money Management
 // =====================================================
 bool GuildEnclaveMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
