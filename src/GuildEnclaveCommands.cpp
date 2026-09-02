@@ -700,6 +700,77 @@ bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char co
 // =====================================================
 bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char const* args)
 {
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave new <name> <mapId> <zoneId> <areaId>");
+        return true;
+    }
+
+    std::string input(args);
+    size_t areaPos = input.find_last_of(' ');
+    if (areaPos == std::string::npos)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave new <name> <mapId> <zoneId> <areaId>");
+        return true;
+    }
+
+    uint32_t areaId = std::atoi(input.substr(areaPos + 1).c_str());
+    input.erase(areaPos);
+    size_t zonePos = input.find_last_of(' ');
+    if (zonePos == std::string::npos)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave new <name> <mapId> <zoneId> <areaId>");
+        return true;
+    }
+
+    uint32_t zoneId = std::atoi(input.substr(zonePos + 1).c_str());
+    input.erase(zonePos);
+    size_t mapPos = input.find_last_of(' ');
+    if (mapPos == std::string::npos)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave new <name> <mapId> <zoneId> <areaId>");
+        return true;
+    }
+
+    uint32_t mapId = std::atoi(input.substr(mapPos + 1).c_str());
+    std::string name = input.substr(0, mapPos);
+    while (!name.empty() && name.front() == ' ')
+        name.erase(name.begin());
+    while (!name.empty() && name.back() == ' ')
+        name.pop_back();
+    if (name.empty())
+    {
+        handler->PSendSysMessage("Enclave name cannot be empty.");
+        return true;
+    }
+
+    if (!mapId)
+    {
+        handler->PSendSysMessage("Invalid map id.");
+        return true;
+    }
+
+    if (!zoneId)
+    {
+        handler->PSendSysMessage("Invalid zone id.");
+        return true;
+    }
+
+    if (!areaId)
+    {
+        handler->PSendSysMessage("Invalid area id.");
+        return true;
+    }
+
+    uint32_t locationId = sGuildEnclaveMgr.CreateLocation(name, mapId, zoneId, areaId);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Failed creating Guild Enclave.");
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave {} created with ID {}.", name.c_str(), locationId);
+
     return true;
 }
 
