@@ -699,7 +699,6 @@ bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char co
 // =====================================================
 // Adds a new Guild Enclaves and sets it deactivated by default
 // =====================================================
-```cpp
 bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char const* args)
 {
     if (!args || !*args)
