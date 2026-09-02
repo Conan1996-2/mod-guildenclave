@@ -744,24 +744,6 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
         return true;
     }
 
-    if (!mapId)
-    {
-        handler->PSendSysMessage("Invalid map id.");
-        return true;
-    }
-
-    if (!zoneId)
-    {
-        handler->PSendSysMessage("Invalid zone id.");
-        return true;
-    }
-
-    if (!areaId)
-    {
-        handler->PSendSysMessage("Invalid area id.");
-        return true;
-    }
-
     uint32_t locationId = sGuildEnclaveMgr.CreateLocation(name, mapId, zoneId, areaId);
     if (!locationId)
     {
