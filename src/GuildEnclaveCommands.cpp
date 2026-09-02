@@ -15,6 +15,7 @@
 #include "Guild.h"
 
 #include <cstdlib>
+#include <sstream>
 
 GuildEnclaveCommandScript::GuildEnclaveCommandScript() : CommandScript("GuildEnclaveCommandScript")
 {
@@ -698,49 +699,56 @@ bool GuildEnclaveCommandScript::HandleListEnclaves(ChatHandler* handler, char co
 // =====================================================
 // Adds a new Guild Enclaves and sets it deactivated by default
 // =====================================================
+```cpp
 bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char const* args)
 {
     if (!args || !*args)
     {
-        handler->PSendSysMessage("Usage: .ge enclave new <name> <mapId> <zoneId> <areaId>");
+        handler->PSendSysMessage("Usage: .ge enclave new \"<name>\" <mapId> <zoneId> <areaId>");
         return true;
     }
 
     std::string input(args);
-    size_t areaPos = input.find_last_of(' ');
-    if (areaPos == std::string::npos)
+    if (input.empty() || input.front() != '"')
     {
-        handler->PSendSysMessage("Usage: .ge enclave new <name> <mapId> <zoneId> <areaId>");
+        handler->PSendSysMessage("Enclave name must be enclosed in double quotes.");
+        handler->PSendSysMessage("Usage: .ge enclave new \"<name>\" <mapId> <zoneId> <areaId>");
         return true;
     }
 
-    uint32_t areaId = std::atoi(input.substr(areaPos + 1).c_str());
-    input.erase(areaPos);
-    size_t zonePos = input.find_last_of(' ');
-    if (zonePos == std::string::npos)
+    size_t closingQuote = input.find('"', 1);
+    if (closingQuote == std::string::npos)
     {
-        handler->PSendSysMessage("Usage: .ge enclave new <name> <mapId> <zoneId> <areaId>");
+        handler->PSendSysMessage("Enclave name must be enclosed in double quotes.");
         return true;
     }
 
-    uint32_t zoneId = std::atoi(input.substr(zonePos + 1).c_str());
-    input.erase(zonePos);
-    size_t mapPos = input.find_last_of(' ');
-    if (mapPos == std::string::npos)
-    {
-        handler->PSendSysMessage("Usage: .ge enclave new <name> <mapId> <zoneId> <areaId>");
-        return true;
-    }
-
-    uint32_t mapId = std::atoi(input.substr(mapPos + 1).c_str());
-    std::string name = input.substr(0, mapPos);
-    while (!name.empty() && name.front() == ' ')
-        name.erase(name.begin());
-    while (!name.empty() && name.back() == ' ')
-        name.pop_back();
+    std::string name = input.substr(1, closingQuote - 1);
     if (name.empty())
     {
         handler->PSendSysMessage("Enclave name cannot be empty.");
+        return true;
+    }
+
+    std::string arguments = input.substr(closingQuote + 1);
+    size_t firstNonSpace = arguments.find_first_not_of(' ');
+    if (firstNonSpace == std::string::npos)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave new \"<name>\" <mapId> <zoneId> <areaId>");
+        return true;
+    }
+
+    arguments.erase(0, firstNonSpace);
+
+    uint32_t mapId = 0;
+    uint32_t zoneId = 0;
+    uint32_t areaId = 0;
+    char extra;
+
+    std::stringstream ss(arguments);
+    if (!(ss >> mapId >> zoneId >> areaId) || (ss >> extra))
+    {
+        handler->PSendSysMessage("Usage: .ge enclave new \"<name>\" <mapId> <zoneId> <areaId>");
         return true;
     }
 
