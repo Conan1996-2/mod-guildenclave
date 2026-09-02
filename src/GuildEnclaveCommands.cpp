@@ -751,7 +751,7 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
         return true;
     }
 
-    handler->PSendSysMessage("Guild Enclave {} created with ID {}.", name.c_str(), locationId);
+    handler->PSendSysMessage("Guild Enclave {} created with ID: {}, Map: {}, Zone: {}, Area: {}.", name.c_str(), locationId, mapId, zoneId, areaId);
 
     return true;
 }
