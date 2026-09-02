@@ -48,6 +48,8 @@ public:
     // =====================================================
     bool CreateGuildEnclave(Player* player, uint32_t guildId, uint32_t ownerGuid, uint32_t locationId);
     bool SellGuildEnclave(uint32_t guildId);
+
+    uint32_t CreateLocation(std::string const& name, uint32_t mapId, uint32_t zoneId, uint32_t areaId);
     bool SetLocationEnabled(uint32_t locationId, bool enabled);
 
     // =====================================================
