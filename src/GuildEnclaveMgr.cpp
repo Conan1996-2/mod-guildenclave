@@ -456,8 +456,7 @@ uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, uint32_t mapId
 //    location.AreaId = areaId;
     location.Enabled = false;
 
-    CharacterDatabase.Execute("INSERT INTO guildenclave_location (id, name, mapId, zoneId, areaId, enabled) "
-        "VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})", locationId, name, mapId, zoneId, areaId, location.Enabled);
+    CharacterDatabase.Execute("INSERT INTO guildenclave_location (id, name, mapId, zoneId, areaId, enabled) VALUES ({}, '{}', {}, {}, {}, {})", locationId, name, mapId, zoneId, areaId, location.Enabled);
 
     _locations.emplace(location.Id, std::move(location));
 
