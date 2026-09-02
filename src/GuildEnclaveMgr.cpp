@@ -452,13 +452,12 @@ uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, uint32_t mapId
     location.Id = locationId;
     location.Name = name;
     location.MapId = mapId;
-    location.ZoneId = zoneId;
-    location.AreaId = areaId;
+//    location.ZoneId = zoneId;
+//    location.AreaId = areaId;
     location.Enabled = false;
 
-    CharacterDatabase.Execute("INSERT INTO guildenclave_location (id, name, mapId, zoneId, areaId, X, Y, Z, O, minX, maxX, minY, maxY, price, enabled) "
-        "VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})", location.Id, name, location.MapId, location.ZoneId, location.AreaId, location.X, location.Y, location.Z, location.O,
-        location.MinX, location.MaxX, location.MinY, location.MaxY, location.Price, location.Enabled);
+    CharacterDatabase.Execute("INSERT INTO guildenclave_location (id, name, mapId, zoneId, areaId, enabled) "
+        "VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})", locationId, name, mapId, zoneId, areaId, location.Enabled);
 
     _locations.emplace(location.Id, std::move(location));
 
