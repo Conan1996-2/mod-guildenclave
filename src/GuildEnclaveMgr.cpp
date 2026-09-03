@@ -447,7 +447,7 @@ uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, uint32_t mapId
 // =====================================================
 // Create a new GuildEnclave and save
 // =====================================================
-bool GuildEnclaveMgr::SetEnclavePortPosition(Player* player, uint32_t locationId)
+bool GuildEnclaveMgr::SetEnclavePortPosition(uint32_t locationId, Player* player)
 {
     if (!player)
         return false;
