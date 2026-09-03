@@ -34,13 +34,14 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
 
     static ChatCommandTable enclaveTable =
     {
-        { "sell",       HandleSellGuildEnclave,     SEC_PLAYER, Console::No },
-        { "tele",       HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
-        { "teleport",   HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
-        { "list",       HandleListEnclaves,         SEC_GAMEMASTER, Console::No },
-        { "new",        HandleNewEnclave,           SEC_GAMEMASTER, Console::No },
-        { "enable",     HandleEnableEnclave,        SEC_GAMEMASTER, Console::No },
-        { "disable",    HandleDisableEnclave,       SEC_GAMEMASTER, Console::No }
+        { "sell",           HandleSellGuildEnclave,     SEC_PLAYER, Console::No },
+        { "tele",           HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
+        { "teleport",       HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
+        { "list",           HandleListEnclaves,         SEC_GAMEMASTER, Console::No },
+        { "new",            HandleNewEnclave,           SEC_GAMEMASTER, Console::No },
+        { "portposition",   HandlePortPosition,         SEC_GAMEMASTER, Console::No },
+        { "enable",         HandleEnableEnclave,        SEC_GAMEMASTER, Console::No },
+        { "disable",        HandleDisableEnclave,       SEC_GAMEMASTER, Console::No }
     };
 
     static ChatCommandTable assetTable =
@@ -764,7 +765,36 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
 }
 
 // =====================================================
-// Adds a new Guild Enclaves and sets it deactivated by default
+// Set the port position to the players current position
+// =====================================================
+bool GuildEnclaveCommandScript::HandlePortPosition(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave portposition <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    if(!sGuildEnclaveMgr.SetEnclavePortPosition(handler->GetSession()->GetPlayer(), locationId))
+    {
+        handler->PSendSysMessage("Failed setting GuildEnclave port position.");
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave {} port position set", locationId);
+
+    return true;
+}
+
+// =====================================================
+// Enables the ability to use and show a GuildEnclave for purchase
 // =====================================================
 bool GuildEnclaveCommandScript::HandleEnableEnclave(ChatHandler* handler, char const* args)
 {
