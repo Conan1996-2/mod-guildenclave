@@ -50,6 +50,7 @@ public:
     bool SellGuildEnclave(uint32_t guildId);
 
     uint32_t CreateLocation(std::string const& name, uint32_t mapId, uint32_t zoneId, uint32_t areaId);
+    bool SetEnclavePortPosition(uint32_t locationId);
     bool SetLocationEnabled(uint32_t locationId, bool enabled);
 
     // =====================================================
