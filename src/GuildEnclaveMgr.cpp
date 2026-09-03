@@ -423,8 +423,15 @@ bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
 // =====================================================
 // Create a new GuildEnclave and save
 // =====================================================
-uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, uint32_t mapId, uint32_t zoneId, uint32_t areaId)
+uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, Player* player)
 {
+    if (!player)
+        return true;
+
+    uint32_t mapId = player->GetMapId();
+    uint32_t zoneId = player->GetZoneId();
+    uint32_t areaId = player->GetAreaId();
+    
     uint32_t highestId = 1;
     for (const auto& [_, location] : _locations)
         if (location.Id > highestId)
