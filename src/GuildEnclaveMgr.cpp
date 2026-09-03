@@ -431,6 +431,10 @@ uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, Player* player
     uint32_t mapId = player->GetMapId();
     uint32_t zoneId = player->GetZoneId();
     uint32_t areaId = player->GetAreaId();
+    float x = player->GetPositionX();
+    float y = player->GetPositionY();
+    float z = player->GetPositionZ();
+    float o = player->GetOrientation();
     
     uint32_t highestId = 1;
     for (const auto& [_, location] : _locations)
@@ -443,8 +447,13 @@ uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, Player* player
     location.Name = name;
     location.MapId = mapId;
     location.Enabled = false;
+    location->X = x;
+    location->Y = y;
+    location->Z = z;
+    location->O = o;
 
-    WorldDatabase.Execute("INSERT INTO guildenclave_locations (id, name, mapId, zoneId, areaId, enabled) VALUES ({}, '{}', {}, {}, {}, {})", locationId, name, mapId, zoneId, areaId, location.Enabled);
+    WorldDatabase.Execute("INSERT INTO guildenclave_locations (id, name, mapId, zoneId, areaId, positionX, positionY, positionZ, orientation, enabled) VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {})",
+        locationId, name, mapId, zoneId, areaId, x, y, z, o, location.Enabled);
 
     _locations.emplace(location.Id, std::move(location));
 
