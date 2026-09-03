@@ -751,6 +751,14 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
 
     handler->PSendSysMessage("Guild Enclave {} created with ID: {}.", name.c_str(), locationId);
 
+    if(!sGuildEnclaveMgr.SetEnclavePortPosition(locationId, handler->GetSession()->GetPlayer()))
+    {
+        handler->PSendSysMessage("Failed setting GuildEnclave port position.");
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave {} port position set", locationId);
+    
     return true;
 }
 
