@@ -473,7 +473,7 @@ bool GuildEnclaveMgr::SetEnclavePortPosition(uint32_t locationId, Player* player
 // =====================================================
 // set the GuildEnclave boundries
 // =====================================================
-bool GuildEnclaveMgr::SetEnclaveBoundries(uint32_t locationId, float minX, float minY, float maxX, float maxY)
+bool GuildEnclaveMgr::SetEnclaveBoundaries(uint32_t locationId, float minX, float minY, float maxX, float maxY)
 {
     GHLocation* location = GetLocation(locationId);
     if (!location)
