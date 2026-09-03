@@ -462,6 +462,32 @@ uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, uint32_t mapId
 }
 
 // =====================================================
+// Create a new GuildEnclave and save
+// =====================================================
+bool GuildEnclaveMgr::SetEnclavePortPosition(Player* player, uint32_t locationId)
+{
+    if (!player)
+        return false;
+
+    GHLocation* location = GetLocation(locationId);
+    if (!location)
+        return false;
+
+    float x = player->GetPositionX();
+    float y = player->GetPositionY();
+    float z = player->GetPositionZ();
+    float o = player->GetOrientation();
+    location->X = x;
+    location->Y = y;
+    location->Z = z;
+    location->O = o;
+
+    WorldDatabase.Execute("UPDATE guildenclave_locations SET positionX = {}, positionY = {}, positionZ = {}, orientation = {} WHERE id = {}", x, y, z, o, locationId);
+
+    return true;    
+}
+
+// =====================================================
 // Money Management
 // =====================================================
 bool GuildEnclaveMgr::HasEnoughMoneyInGuild(uint32_t guildId, uint64_t amount)
