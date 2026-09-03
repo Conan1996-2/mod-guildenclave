@@ -803,7 +803,7 @@ bool GuildEnclaveCommandScript::HandleEnclavePortPosition(ChatHandler* handler, 
 // =====================================================
 // Enables the ability to use and show a GuildEnclave for purchase
 // =====================================================
-bool GuildEnclaveCommandScript:HandleEnclaveBoundaries(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleEnclaveBoundaries(ChatHandler* handler, char const* args)
 {
     if (!args || !*args)
     {
@@ -858,7 +858,7 @@ bool GuildEnclaveCommandScript:HandleEnclaveBoundaries(ChatHandler* handler, cha
 // =====================================================
 // Enables the ability to use and show a GuildEnclave for purchase
 // =====================================================
-bool GuildEnclaveCommandScript:HandleEnclavePrice(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleEnclavePrice(ChatHandler* handler, char const* args)
 {
     if (!args || !*args)
     {
