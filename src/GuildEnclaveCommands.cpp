@@ -32,16 +32,23 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "wander",     HandleWanderAsset, SEC_PLAYER, Console::No }
     };
 
+    static ChatCommandTable setEnclaveTable =
+    {
+        { "portposition",   HandleEnclavePortPosition,  SEC_GAMEMASTER, Console::No },
+        { "boundaries",     HandleEnclaveBoundaries,    SEC_GAMEMASTER, Console::No },
+        { "price",          HandleEnclavePrice,         SEC_GAMEMASTER, Console::No },
+        { "enable",         HandleEnclaveEnable,        SEC_GAMEMASTER, Console::No },
+        { "disable",        HandleEnclaveDisable,       SEC_GAMEMASTER, Console::No }
+    };
+
     static ChatCommandTable enclaveTable =
     {
         { "sell",           HandleSellGuildEnclave,     SEC_PLAYER, Console::No },
         { "tele",           HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
         { "teleport",       HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
         { "list",           HandleListEnclaves,         SEC_GAMEMASTER, Console::No },
-        { "new",            HandleNewEnclave,           SEC_GAMEMASTER, Console::No },
-        { "portposition",   HandlePortPosition,         SEC_GAMEMASTER, Console::No },
-        { "enable",         HandleEnableEnclave,        SEC_GAMEMASTER, Console::No },
-        { "disable",        HandleDisableEnclave,       SEC_GAMEMASTER, Console::No }
+        { "create",         HandleNewEnclave,           SEC_GAMEMASTER, Console::No },
+        { "set",            setEnclaveTable ,           SEC_GAMEMASTER, Console::No }
     };
 
     static ChatCommandTable assetTable =
@@ -71,10 +78,10 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
 
     static ChatCommandTable guildEnclaveTable =
     {
-        { "npc",   npcTable },
-        { "asset", assetTable },
-        { "shop",  shopTable },
-        { "build", buildTable },
+        { "npc",     npcTable },
+        { "asset",   assetTable },
+        { "shop",    shopTable },
+        { "build",   buildTable },
         { "enclave", enclaveTable }
     };
 
@@ -767,7 +774,7 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
 // =====================================================
 // Set the port position to the players current position
 // =====================================================
-bool GuildEnclaveCommandScript::HandlePortPosition(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleEnclavePortPosition(ChatHandler* handler, char const* args)
 {
     if (!args || !*args)
     {
@@ -796,7 +803,101 @@ bool GuildEnclaveCommandScript::HandlePortPosition(ChatHandler* handler, char co
 // =====================================================
 // Enables the ability to use and show a GuildEnclave for purchase
 // =====================================================
-bool GuildEnclaveCommandScript::HandleEnableEnclave(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript:HandleEnclaveBoundaries(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave boundaries <locationId> <minX> <minY> <maxX> <maxY>");
+        return true;
+    }
+
+    std::stringstream ss(args);
+    uint32_t locationId = 0;
+    float minX = 0.0f;
+    float maxX = 0.0f;
+    float minY = 0.0f;
+    float maxY = 0.0f;
+
+    if (!(ss >> locationId >> minX >> minY >> maxX >> maxY))
+    {
+        handler->PSendSysMessage("Usage: .ge enclave boundaries <locationId> <minX> <minY> <maxX> <maxY>");
+        return true;
+    }
+    
+    std::string extra;
+    if (ss >> extra)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave boundaries <locationId> <minX> <minY> <maxX> <maxY>");
+        return true;
+    }
+    
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    GHLocation* location = sGuildEnclaveMgr.GetLocation(locationId);
+    if (!location)
+    {
+        handler->PSendSysMessage("Guild Enclave location {} does not exist.", locationId);
+        return true;
+    }
+
+    if (!sGuildEnclaveMgr.SetEnclaveBoundaries(locationId, minX, maxX, minY, maxY))
+    {
+        handler->PSendSysMessage("Failed to set boundaries for Guild Enclave {}.", locationId);
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave {} '{}' boundaries updated: MinX: {} MaxX: {} MinY: {} MaxY: {}",locationId, location->Name, minX, maxX, minY, maxY);
+
+    return true;
+}
+
+// =====================================================
+// Enables the ability to use and show a GuildEnclave for purchase
+// =====================================================
+bool GuildEnclaveCommandScript:HandleEnclavePrice(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set setprice <locationId> <price>");
+        return true;
+    }
+
+    std::stringstream ss(args);
+    uint32_t locationId = 0;
+    uint64_t amount = 0;
+    
+    if (!(ss >> locationId >> amount))
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set setprice <locationId> <price>");
+        return true;
+    }
+
+    std::string extra;
+    if (ss >> extra)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set setprice <locationId> <price>");
+        return true;
+    }
+
+    if (!sGuildEnclaveMgr.SetEnclavePrice(locationId, amount))
+    {
+        handler->PSendSysMessage("Failed to set price for Guild Enclave location {}.", locationId);
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave location {} price set to {}.", locationId, amount);
+
+    return true;
+}
+
+// =====================================================
+// Enables the ability to use and show a GuildEnclave for purchase
+// =====================================================
+bool GuildEnclaveCommandScript::HandleEnclaveEnable(ChatHandler* handler, char const* args)
 {
     if (!args || !*args)
     {
@@ -838,7 +939,7 @@ bool GuildEnclaveCommandScript::HandleEnableEnclave(ChatHandler* handler, char c
 // =====================================================
 // Adds a new Guild Enclaves and sets it deactivated by default
 // =====================================================
-bool GuildEnclaveCommandScript::HandleDisableEnclave(ChatHandler* handler, char const* args)
+bool GuildEnclaveCommandScript::HandleEnclaveDisable(ChatHandler* handler, char const* args)
 {
     if (!args || !*args)
     {
