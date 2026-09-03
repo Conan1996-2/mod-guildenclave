@@ -26,6 +26,7 @@ public:
     static bool HandleTeleportGuildEnclave(ChatHandler* handler, char const* args);
     static bool HandleListEnclaves(ChatHandler* handler, char const*);
     static bool HandleNewEnclave(ChatHandler* handler, char const*);
+    static bool HandlePortPosition(ChatHandler* handler, char const* args);
     static bool HandleEnableEnclave(ChatHandler* handler, char const* args);
     static bool HandleDisableEnclave(ChatHandler* handler, char const* args);
 
