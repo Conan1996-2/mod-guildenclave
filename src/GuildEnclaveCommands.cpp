@@ -711,15 +711,14 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
 {
     if (!args || !*args)
     {
-        handler->PSendSysMessage("Usage: .ge enclave new \"<name>\" <mapId> <zoneId> <areaId>");
+        handler->PSendSysMessage("Usage: .ge enclave create \"<name>\"");
         return true;
     }
 
     std::string input(args);
-    if (input.empty() || input.front() != '"')
+    if (input.front() != '"')
     {
         handler->PSendSysMessage("Enclave name must be enclosed in double quotes.");
-        handler->PSendSysMessage("Usage: .ge enclave new \"<name>\" <mapId> <zoneId> <areaId>");
         return true;
     }
 
@@ -730,6 +729,12 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
         return true;
     }
 
+    if (!input.substr(closingQuote + 1).empty())
+    {
+        handler->PSendSysMessage("Usage: .ge enclave create \"<name>\"");
+        return true;
+    }
+
     std::string name = input.substr(1, closingQuote - 1);
     if (name.empty())
     {
@@ -737,36 +742,14 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
         return true;
     }
 
-    std::string arguments = input.substr(closingQuote + 1);
-    size_t firstNonSpace = arguments.find_first_not_of(' ');
-    if (firstNonSpace == std::string::npos)
-    {
-        handler->PSendSysMessage("Usage: .ge enclave new \"<name>\" <mapId> <zoneId> <areaId>");
-        return true;
-    }
-
-    arguments.erase(0, firstNonSpace);
-
-    uint32_t mapId = 0;
-    uint32_t zoneId = 0;
-    uint32_t areaId = 0;
-    char extra;
-
-    std::stringstream ss(arguments);
-    if (!(ss >> mapId >> zoneId >> areaId) || (ss >> extra))
-    {
-        handler->PSendSysMessage("Usage: .ge enclave new \"<name>\" <mapId> <zoneId> <areaId>");
-        return true;
-    }
-
-    uint32_t locationId = sGuildEnclaveMgr.CreateLocation(name, mapId, zoneId, areaId);
+    uint32_t locationId = sGuildEnclaveMgr.CreateLocation(name, handler->GetSession()->GetPlayer());
     if (!locationId)
     {
         handler->PSendSysMessage("Failed creating Guild Enclave.");
         return true;
     }
 
-    handler->PSendSysMessage("Guild Enclave {} created with ID: {}, Map: {}, Zone: {}, Area: {}.", name.c_str(), locationId, mapId, zoneId, areaId);
+    handler->PSendSysMessage("Guild Enclave {} created with ID: {}.", name.c_str(), locationId);
 
     return true;
 }
