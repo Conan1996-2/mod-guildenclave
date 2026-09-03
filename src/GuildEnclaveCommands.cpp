@@ -789,7 +789,7 @@ bool GuildEnclaveCommandScript::HandleEnclavePortPosition(ChatHandler* handler, 
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclavePortPosition(handler->GetSession()->GetPlayer(), locationId))
+    if(!sGuildEnclaveMgr.SetEnclavePortPosition(locationId, handler->GetSession()->GetPlayer()))
     {
         handler->PSendSysMessage("Failed setting GuildEnclave port position.");
         return true;
