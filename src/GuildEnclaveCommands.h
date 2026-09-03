@@ -26,9 +26,11 @@ public:
     static bool HandleTeleportGuildEnclave(ChatHandler* handler, char const* args);
     static bool HandleListEnclaves(ChatHandler* handler, char const*);
     static bool HandleNewEnclave(ChatHandler* handler, char const*);
-    static bool HandlePortPosition(ChatHandler* handler, char const* args);
-    static bool HandleEnableEnclave(ChatHandler* handler, char const* args);
-    static bool HandleDisableEnclave(ChatHandler* handler, char const* args);
+    static bool HandleEnclavePortPosition(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveBoundaries(ChatHandler* handler, char const* args);
+    static bool HandleEnclavePrice(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveEnable(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveDisable(ChatHandler* handler, char const* args);
 
     // =====================================================
     // ASSET MANAGEMENT
