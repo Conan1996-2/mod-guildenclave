@@ -48,7 +48,7 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "teleport",       HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
         { "list",           HandleListEnclaves,         SEC_GAMEMASTER, Console::No },
         { "create",         HandleNewEnclave,           SEC_GAMEMASTER, Console::No },
-        { "set",            setEnclaveTable ,           SEC_GAMEMASTER, Console::No }
+        { "set",            setEnclaveTable }
     };
 
     static ChatCommandTable assetTable =
