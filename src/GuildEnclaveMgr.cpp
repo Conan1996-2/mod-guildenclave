@@ -421,23 +421,6 @@ bool GuildEnclaveMgr::SellGuildEnclave(uint32_t guildId)
 }
 
 // =====================================================
-// GuildEnclave enable/disable
-// =====================================================
-bool GuildEnclaveMgr::SetLocationEnabled(uint32_t locationId, bool enabled)
-{
-    auto itr = _locations.find(locationId);
-    if (itr == _locations.end())
-        return false;
-
-    GHLocation& location = itr->second;
-    location.Enabled = enabled;
-
-    WorldDatabase.Execute("UPDATE guildenclave_locations SET enabled = {} WHERE id = {}", enabled ? 1 : 0, locationId);
-
-    return true;
-}
-
-// =====================================================
 // Create a new GuildEnclave and save
 // =====================================================
 uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, uint32_t mapId, uint32_t zoneId, uint32_t areaId)
@@ -485,6 +468,64 @@ bool GuildEnclaveMgr::SetEnclavePortPosition(Player* player, uint32_t locationId
     WorldDatabase.Execute("UPDATE guildenclave_locations SET positionX = {}, positionY = {}, positionZ = {}, orientation = {} WHERE id = {}", x, y, z, o, locationId);
 
     return true;    
+}
+
+// =====================================================
+// set the GuildEnclave boundries
+// =====================================================
+bool GuildEnclaveMgr::SetEnclaveBoundries(uint32_t locationId, float minX, float minY, float maxX, float maxY)
+{
+    GHLocation* location = GetLocation(locationId);
+    if (!location)
+        return false;
+
+    if (minX > maxX)
+        std::swap(minX, maxX);
+
+    if (minY > maxY)
+        std::swap(minY, maxY);
+
+    location->MinX = minX;
+    location->MaxX = maxX;
+    location->MinY = minY;
+    location->MaxY = maxY;
+
+    WorldDatabase.Execute("UPDATE guildenclave_locations SET minX = {}, maxX = {}, minY = {}, maxY = {} WHERE id = {}", minX, maxX, minY, maxY, locationId);
+    
+    return true;
+}
+
+// =====================================================
+// set GuildEnclave purchase price
+// =====================================================
+bool GuildEnclaveMgr::SetEnclavePrice(uint32_t locationId, uint64_t amount)
+{
+    GHLocation* location = GetLocation(locationId);
+    if (!location)
+        return false;
+
+    location->Price = amount;
+
+    WorldDatabase.Execute("UPDATE guildenclave_locations SET price = {} WHERE id = {}", amount, locationId);
+
+    return true;
+}
+
+// =====================================================
+// GuildEnclave enable/disable
+// =====================================================
+bool GuildEnclaveMgr::SetLocationEnabled(uint32_t locationId, bool enabled)
+{
+    auto itr = _locations.find(locationId);
+    if (itr == _locations.end())
+        return false;
+
+    GHLocation& location = itr->second;
+    location.Enabled = enabled;
+
+    WorldDatabase.Execute("UPDATE guildenclave_locations SET enabled = {} WHERE id = {}", enabled ? 1 : 0, locationId);
+
+    return true;
 }
 
 // =====================================================
