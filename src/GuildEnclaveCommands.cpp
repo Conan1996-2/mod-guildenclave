@@ -827,7 +827,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveBoundaries(ChatHandler* handler, ch
         return true;
     }
 
-    if (!sGuildEnclaveMgr.SetEnclaveBoundaries(locationId, minX, maxX, minY, maxY))
+    if (!sGuildEnclaveMgr.SetEnclaveBoundaries(locationId, minX, minY, maxX, maxY))
     {
         handler->PSendSysMessage("Failed to set boundaries for Guild Enclave {}.", locationId);
         return true;
