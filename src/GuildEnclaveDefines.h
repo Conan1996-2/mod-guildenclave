@@ -19,7 +19,7 @@ enum GHMapPosition
     GH_MAP_NORTH,
     GH_MAP_EAST,
     GH_MAP_SOUTH,
-    GH_MAP_NORTH
+    GH_MAP_WEST
 }
 
 // =====================================================
