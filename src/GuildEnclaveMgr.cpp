@@ -581,7 +581,7 @@ bool GuildEnclaveMgr::SetLocationPhasingEnabled(uint32_t locationId, bool enable
         return false;
 
     GHLocation& location = itr->second;
-    location.PhasingEnabled = enabled;
+    location.AllowPhasing = enabled;
 
     WorldDatabase.Execute("UPDATE guildenclave_locations SET phasingEnabled = {} WHERE id = {}", enabled ? 1 : 0, locationId);
 
