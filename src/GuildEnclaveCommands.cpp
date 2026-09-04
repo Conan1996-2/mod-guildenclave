@@ -924,7 +924,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveNEBoundary(ChatHandler* handler, ch
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_NORTH | GH_MAP_EAST))
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), static_cast<GHMapPosition>(GH_MAP_NORTH | GH_MAP_EAST)))
     {
         handler->PSendSysMessage("Usage: .ge enclave set boundary northeast <locationId>");
         handler->PSendSysMessage("Failed setting GuildEnclave border position.");
@@ -952,7 +952,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveNWBoundary(ChatHandler* handler, ch
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_NORTH | GH_MAP_WEST))
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), static_cast<GHMapPosition>(GH_MAP_NORTH | GH_MAP_WEST)))
     {
         handler->PSendSysMessage("Usage: .ge enclave set boundary northwest <locationId>");
         handler->PSendSysMessage("Failed setting GuildEnclave border position.");
@@ -980,7 +980,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveSEBoundary(ChatHandler* handler, ch
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_SOUTH | GH_MAP_EAST))
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), static_cast<GHMapPosition>(GH_MAP_SOUTH | GH_MAP_EAST)))
     {
         handler->PSendSysMessage("Usage: .ge enclave set boundary southeast <locationId>");
         handler->PSendSysMessage("Failed setting GuildEnclave border position.");
@@ -1008,7 +1008,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveSWBoundary(ChatHandler* handler, ch
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_SOUTH | GH_MAP_WEST))
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), static_cast<GHMapPosition>(GH_MAP_SOUTH | GH_MAP_WEST)))
     {
         handler->PSendSysMessage("Usage: .ge enclave set boundary southwest <locationId>");
         handler->PSendSysMessage("Failed setting GuildEnclave border position.");
