@@ -32,7 +32,7 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "wander",     HandleWanderAsset, SEC_PLAYER, Console::No }
     };
     
-    static ChatCommandTable boundaryTable =
+    static ChatCommandTable phasingTable =
     {
         { "enable",     HandleEnclavePhasingEnable,    SEC_GAMEMASTER, Console::No },
         { "disable",    HandleEnclavePhasingDisable,    SEC_GAMEMASTER, Console::No }
