@@ -49,6 +49,7 @@ public:
         if (!sGuildEnclaveMgr.IsMember(player))
             return;
 
+
         const GHGuildEnclave* house = sGuildEnclaveMgr.GetGuildEnclave(player->GetGuildId());
         if (!house)
             return;
@@ -56,6 +57,8 @@ public:
         GHLocation* location = sGuildEnclaveMgr.GetLocation(house->LocationId);
         if (!location)
             return;
+
+        LOG_INFO("server.loading", "OnPlayerMapChanged {}:{}", player->GetMapId(), location->MapId);
 
         if (player->GetMapId() == location->MapId)
             return;
