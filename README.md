@@ -309,14 +309,14 @@ _ARGUMENT_  indicates argument names
     - **`list`** -- Lists all enclaves and if enabled/disabled.  
       **Example Usage**:  
         - `.ge enclave list` 
-    - **`disable <_LOCATIONID_>`** -- Disables the Enclave to be purchased and used from the Broker.  
-      - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
-      **Example Usage**:  
-        - `.ge enclave set disable 4` 
     - **`enable <_LOCATIONID_>`** -- Enables the Enclave to be purchased and used from the Broker.  
       - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
       **Example Usage**:  
-        - `.ge enclave set enable 4` 
+        - `.ge enclave enable 4` 
+    - **`disable <_LOCATIONID_>`** -- Disables the Enclave to be purchased and used from the Broker.  
+      - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+      **Example Usage**:  
+        - `.ge enclave disable 4` 
     - **`set`**  
       - **`boundaries <_LOCATIONID_> <_MINX_> <_MINY_> <_MAXX_> <_MAXY_>`** -- Sets the boundaries of the Enclave, if the player goes beyond those boundaries then they will be teleported back to the port position.
         - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
@@ -332,14 +332,14 @@ _ARGUMENT_  indicates argument names
         **Example Usage**:  
           - `.ge enclave set boundary northeast 4` 
       - **`phasing`**  
-        - **`disable <_LOCATIONID_>`** -- Disables the use of phase sharing, players are ported from area when not in enclave.  
-          - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
-          **Example Usage**:  
-            - `.ge enclave set phasing disable 4` 
         - **`enable <_LOCATIONID_>`** -- Enables the use of phase sharing. All players can access the area.  
           - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
           **Example Usage**:  
             - `.ge enclave set phasing enable 4` 
+        - **`disable <_LOCATIONID_>`** -- Disables the use of phase sharing, players are ported from area when not in enclave.  
+          - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+          **Example Usage**:  
+            - `.ge enclave set phasing disable 4` 
       - **`portposition <_LOCATIONID_>`** -- Change the Enclaves port position to where the Game Master is standing.  
         - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
         **Example Usage**:  
