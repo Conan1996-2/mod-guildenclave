@@ -33,6 +33,10 @@ public:
     static bool HandleEnclaveSouthBoundary(ChatHandler* handler, char const* args);
     static bool HandleEnclaveEastBoundary(ChatHandler* handler, char const* args);
     static bool HandleEnclaveWestBoundary(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveNEBoundary(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveNWBoundary(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveSEBoundary(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveSWBoundary(ChatHandler* handler, char const* args);
 
     static bool HandleEnclavePrice(ChatHandler* handler, char const* args);
     static bool HandleEnclaveEnable(ChatHandler* handler, char const* args);
