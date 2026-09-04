@@ -38,7 +38,7 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "south",      HandleEnclaveSouthBoundary,    SEC_GAMEMASTER, Console::No },
         { "east",       HandleEnclaveEastBoundary,     SEC_GAMEMASTER, Console::No },
         { "west",       HandleEnclaveWestBoundary,     SEC_GAMEMASTER, Console::No }
-    }
+    };
 
     static ChatCommandTable setEnclaveTable =
     {
