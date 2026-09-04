@@ -26,7 +26,7 @@ namespace GuildEnclaveUtil
         if (!locationId)
             return true;
         
-        return sGuildEnclaveMgr.GetLocation(locationId).AllowPhasing;
+        return sGuildEnclaveMgr.GetLocation(locationId)->AllowPhasing;
     }
 
     // =====================================================
