@@ -31,9 +31,9 @@ public:
             return;
         }
     
-        timer = 3000; // check once per second
+        timer = 3000; // check once per three seconds
         
-        if (sGuildEnclaveMgr.IsMember(player))
+        if (sGuildEnclaveMgr.IsMember(player) && GuildEnclaveUtil::IsInGuildEnclavePhase(player))
         {
             sGuildEnclaveMgr.CheckBoundary(player);
             player->SetRestFlag(REST_FLAG_IN_CITY);
