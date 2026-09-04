@@ -454,7 +454,7 @@ uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, Player* player
     location.Z = z;
     location.O = o;
 
-    WorldDatabase.Execute("INSERT INTO guildenclave_locations (id, name, mapId, zoneId, areaId, positionX, positionY, positionZ, orientation, enabled) VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {}, {})",
+    WorldDatabase.Execute("INSERT INTO guildenclave_locations (id, name, mapId, zoneId, areaId, positionX, positionY, positionZ, orientation, allowPhasing, enabled) VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {}, {})",
         locationId, name, mapId, zoneId, areaId, x, y, z, o, location.AllowPhasing, location.Enabled);
 
     _locations.emplace(location.Id, std::move(location));
