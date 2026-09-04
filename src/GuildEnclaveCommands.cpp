@@ -794,22 +794,26 @@ bool GuildEnclaveCommandScript::HandleEnclavePortPosition(ChatHandler* handler, 
 
 bool GuildEnclaveCommandScript::HandleEnclaveNorthBoundary(ChatHandler* handler, char const* args)
 {
-    return false;
+    handler->PSendSysMessage("In North...");
+    return true;
 }
 
 bool GuildEnclaveCommandScript::HandleEnclaveSouthBoundary(ChatHandler* handler, char const* args)
 {
-    return false;
+    handler->PSendSysMessage("In South...");
+    return true;
 }
 
 bool GuildEnclaveCommandScript::HandleEnclaveEastBoundary(ChatHandler* handler, char const* args)
 {
-    return false;
+    handler->PSendSysMessage("In East...");
+    return true;
 }
 
 bool GuildEnclaveCommandScript::HandleEnclaveWestBoundary(ChatHandler* handler, char const* args)
 {
-    return false;
+    handler->PSendSysMessage("In West...");
+    return true;
 }
 
 // =====================================================
