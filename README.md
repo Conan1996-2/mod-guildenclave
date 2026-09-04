@@ -302,40 +302,53 @@ _ARGUMENT_  indicates argument names
         - `.ge npc broker`  
   
   - **`enclave`**
+    - **`create <_NAME_>`** -- Adds a new guild location where the Game master stands as the default port location, returning the _LOCATIONID_.  
+      - _NAME_ = Unique name of new enclave.  
+      **Example Usage**:  
+        - `.ge enclave create "goldshire"`  
     - **`list`** -- Lists all enclaves and if enabled/disabled.  
       **Example Usage**:  
-        - `.ge enclave list`  
-    - **`new "<_NAME_>" <_MAPID_> <_ZONEID_> <_AREAID_>`** -- Creates a new enclave, returning the _LOCATIONID_, also found by using the `.ge enclave list` command.  
-      - _NAME_ = Unique name of new enclave.  
-      - _MAP_ = MapId from .gps command.  
-      - _ZONE_ = ZoneId from .gps command.  
-      - _AREA_ = AreaId from .gps command.  
-      **Example Usage**:  
-        - `.ge enclave new "Goldshire" 0 12 87`  
-    - **`setspawn <_LOCATIONID_> <_POSITIONX_> <_POSITIONY_> <_POSITIONZ_> <_ORIENTATION_>`** -- Sets the spawn location for the player when entering.  
-      - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
-      - _POSITIONX_ = X position.  
-      - _POSITIONY_ = Y position.  
-      - _POSITIONZ_ = Z position.  
-      - _ORIENTATION_ = Orientation.  
-      **Example Usage**:  
-        - `.ge enclave setspawn 4 -9448.42 67.06755 56.22756 3.2`  
-    - **`setboundaries <_LOCATIONID_> <_MINX_> <_MINY_> <_MAXX_> <_MAXY_>`** -- Set the boundaries of the GuildEnclave. If anyone leaves the boundary, they are teleported back in.  
-      - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
-      - _MINX_ = X position.  
-      - _MINY_ = Y position.  
-      - _MAXX_ = Z position.  
-      - _MAXY_ = Z position.  
-      **Example Usage**:  
-        - `.ge enclave setboundaries 4 -9440 56 -9400 80`  
-    - **`enable <_LOCATIONID_>`** -- Enable the guildenclave so it can be used. They are disabled by default when created.  
+        - `.ge enclave list` 
+    - **`disable <_LOCATIONID_>`** -- Disables the Enclave to be purchased and used from the Broker.  
       - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
       **Example Usage**:  
-        - `.ge enclave enable 4`  
-    - **`disable <_LOCATIONID_>`** -- Disable the guildenclave so it can not be used. This is the default on a newly created guildenclave.  
+        - `.ge enclave set disable 4` 
+    - **`enable <_LOCATIONID_>`** -- Enables the Enclave to be purchased and used from the Broker.  
       - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
       **Example Usage**:  
-        - `.ge enclave disable 4`  
+        - `.ge enclave set enable 4` 
+    - **`set`**  
+      - **`boundaries <_LOCATIONID_> <_MINX_> <_MINY_> <_MAXX_> <_MAXY_>`** -- Sets the boundaries of the Enclave, if the player goes beyond those boundaries then they will be teleported back to the port position.
+        - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+        - _MINX_ = Smaller of the two X positions.  
+        - _MINY_ = Smaller of the two Y positions.  
+        - _MAXX_ = Larger of the two X positions.  
+        - _MAXY_ = Larger of the two Y positions.  
+        **Example Usage**:  
+          - `.ge enclave set boundaries 4 12.4 45.3 105.7 320.2` 
+      - **`boundary <_DIRECTION_> <_LOCATIONID_>`** -- Sets the boundaries of the Enclave using the players current standing position. if the player goes beyond those boundaries then they will be teleported back to the port position.
+        - _DIRECTION_ = Border you are changing, using the direction and map. Use anyone of: `north, northeast, east, southeast, south, southwest, west, northwest`.  
+        - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+        **Example Usage**:  
+          - `.ge enclave set boundary northeast 4` 
+      - **`phasing`**  
+        - **`disable <_LOCATIONID_>`** -- Disables the use of phase sharing, players are ported from area when not in enclave.  
+          - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+          **Example Usage**:  
+            - `.ge enclave set phasing disable 4` 
+        - **`enable <_LOCATIONID_>`** -- Enables the use of phase sharing. All players can access the area.  
+          - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+          **Example Usage**:  
+            - `.ge enclave set phasing enable 4` 
+      - **`portposition <_LOCATIONID_>`** -- Change the Enclaves port position to where the Game Master is standing.  
+        - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+        **Example Usage**:  
+          - `.ge enclave set portposition 4` 
+      - **`price <_LOCATIONID_> <_PRICE_>`** -- Set the price of the Enclave.  
+        - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
+        - _PRICE_ = Cost of the Enclave in copper.  
+        **Example Usage**:  
+          - `.ge enclave set price 4 5000000` 
   
   - **`gameobjects`**  
     - **`new <_CATALOGID_> <_CATEGORYID_> <_OBJECTID_> <_FACTIONID_> <_COST_>`** -- Adds a gameobject into the purchaseable catalog.  
