@@ -497,16 +497,16 @@ bool GuildEnclaveMgr::SetEnclaveBorderBoundary(uint32_t locationId, Player* play
     if (!location)
         return false;
 
-    if (position & GH_MAP_NORTH)
+    if (GuildEnclaveUtil::HasFlag(position, GH_MAP_NORTH))
         location->MaxX = player->GetPositionX();
         
-    if(position & GH_MAP_EAST)
+    if(GuildEnclaveUtil::HasFlag(position, GH_MAP_EAST))
         location->MinY = player->GetPositionY();
         
-    if(position & GH_MAP_SOUTH)
+    if(GuildEnclaveUtil::HasFlag(position, GH_MAP_SOUTH))
         location->MinX = player->GetPositionX();
         
-    if(position & case GH_MAP_WEST)
+    if(GuildEnclaveUtil::HasFlag(position, case GH_MAP_WEST))
         location->MaxY = player->GetPositionY();
 
     WorldDatabase.Execute("UPDATE guildenclave_locations SET minX = {}, maxX = {}, minY = {}, maxY = {} WHERE id = {}", location->MinX, location->MaxX, location->MinY, location->MaxY, locationId);
