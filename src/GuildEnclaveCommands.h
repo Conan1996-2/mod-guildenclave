@@ -41,6 +41,8 @@ public:
     static bool HandleEnclavePrice(ChatHandler* handler, char const* args);
     static bool HandleEnclaveEnable(ChatHandler* handler, char const* args);
     static bool HandleEnclaveDisable(ChatHandler* handler, char const* args);
+    static bool HandleEnclavePhasingEnable(ChatHandler* handler, char const* args);
+    static bool HandleEnclavePhasingDisable(ChatHandler* handler, char const* args);
 
     // =====================================================
     // ASSET MANAGEMENT
