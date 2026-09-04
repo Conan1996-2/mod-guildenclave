@@ -27,7 +27,12 @@ public:
     static bool HandleListEnclaves(ChatHandler* handler, char const*);
     static bool HandleNewEnclave(ChatHandler* handler, char const*);
     static bool HandleEnclavePortPosition(ChatHandler* handler, char const* args);
-    static bool HandleEnclaveBoundaries(ChatHandler* handler, char const* args);
+
+    static bool HandleEnclaveNorthBoundary(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveSouthBoundary(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveEastBoundary(ChatHandler* handler, char const* args);
+    static bool HandleEnclaveWestBoundary(ChatHandler* handler, char const* args);
+
     static bool HandleEnclavePrice(ChatHandler* handler, char const* args);
     static bool HandleEnclaveEnable(ChatHandler* handler, char const* args);
     static bool HandleEnclaveDisable(ChatHandler* handler, char const* args);
