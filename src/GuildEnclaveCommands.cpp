@@ -1267,7 +1267,7 @@ bool GuildEnclaveCommandScript::HandleEnclavePhasingDisable(ChatHandler* handler
         return true;
     }
 
-    if (!sGuildEnclaveMgr.SetLocationPhasingDisabled(locationId, true))
+    if (!sGuildEnclaveMgr.SetLocationPhasingEnabled(locationId, false))
     {
         handler->PSendSysMessage("Failed to disable Guild Enclave {} phasing.", locationId);
         return true;
