@@ -489,6 +489,38 @@ bool GuildEnclaveMgr::SetEnclavePortPosition(uint32_t locationId, Player* player
 // =====================================================
 // set the GuildEnclave boundries
 // =====================================================
+bool GuildEnclaveMgr::SetEnclaveBorderPosition(uint32_t locationId, Player* player, GHMapPosition position) {
+    if (!player)
+        return false;
+
+    GHLocation* location = GetLocation(locationId);
+    if (!location)
+        return false;
+
+    switch (position)
+    {
+        case GH_MAP_NORTH:
+            location->MaxX = player->GetPositionX();
+            break;
+        
+        case GH_MAP_EAST:
+            location->MinY = player->GetPositionY();
+            break;
+        
+        case GH_MAP_SOUTH:
+            location->MinX = player->GetPositionX();
+            break;
+        
+        case GH_MAP_WEST:
+            location->MaxY = player->GetPositionY();
+            break;
+    }
+
+    WorldDatabase.Execute("UPDATE guildenclave_locations SET minX = {}, maxX = {}, minY = {}, maxY = {} WHERE id = {}", location->MinX, location->MaxX, location->MinY, location->MaxY, locationId);
+
+    return true;    
+}
+
 bool GuildEnclaveMgr::SetEnclaveBoundaries(uint32_t locationId, float minX, float minY, float maxX, float maxY)
 {
     GHLocation* location = GetLocation(locationId);
