@@ -735,27 +735,15 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
         return true;
     }
 
-    std::string input(args);
-    if (input.front() != '"')
-    {
-        handler->PSendSysMessage("Enclave name must be enclosed in double quotes.");
-        return true;
-    }
+    std::string name(args);
+    size_t start = name.find_first_not_of(' ');
+    if (start != std::string::npos)
+        name.erase(0, start);
 
-    size_t closingQuote = input.find('"', 1);
-    if (closingQuote == std::string::npos)
-    {
-        handler->PSendSysMessage("Enclave name must be enclosed in double quotes.");
-        return true;
-    }
+    size_t end = name.find_last_not_of(' ');
+    if (end != std::string::npos)
+        name.erase(end + 1);
 
-    if (!input.substr(closingQuote + 1).empty())
-    {
-        handler->PSendSysMessage("Usage: .ge enclave create \"<name>\"");
-        return true;
-    }
-
-    std::string name = input.substr(1, closingQuote - 1);
     if (name.empty())
     {
         handler->PSendSysMessage("Enclave name cannot be empty.");
@@ -769,7 +757,7 @@ bool GuildEnclaveCommandScript::HandleNewEnclave(ChatHandler* handler, char cons
         return true;
     }
 
-    handler->PSendSysMessage("Guild Enclave and port {} created with ID: {}.", name.c_str(), locationId);
+    handler->PSendSysMessage("Guild Enclave and port {} created with ID: {}.", name, locationId);
 
     return true;
 }
