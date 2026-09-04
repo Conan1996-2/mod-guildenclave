@@ -242,12 +242,14 @@ _ARGUMENT_  indicates argument names
 ```
 **COMMAND**: **`.guildenclave | .ge`** -- (Player command) by itself will list all syntax available  
 
+---------------------------------------  
 ### All Guild Member or Game Master commands:  
   - **`enclave`**
     - **`tele | teleport`** -- Teleports the player to the guild enclave they own.  
       **Example Usage**:  
         - `.ge enclave tele`  
 
+---------------------------------------  
 ### Proper Guild Rank or Game Master commands:  
   - **`asset`**
     - **`list`** -- Lists all owned assets in the world, and their asset ID and status of the asset.  
@@ -295,6 +297,7 @@ _ARGUMENT_  indicates argument names
       **Example Usage**:  
         - `.ge npc wander 1 50`
   
+---------------------------------------  
 ### Game Master or higher commands:  
   - **`npc`**
     - **`broker`** -- Spawns a broker at the players position. There can be more then one.  
@@ -366,16 +369,16 @@ _ARGUMENT_  indicates argument names
       - _CATALOGID_ = Specific catalog asset listed in the above list.  
       **Example Usage**:  
         - `.ge build add 2101` -- Adds and spawns either a Stormwind or Orgrimmar portal depending on faction.
+    - **`remove <_ASSETID_>`** -- Despawns (if spawned) and removes a specific asset from your design.  
+      - _ASSETID_ = specific owned asset in your list (viewed by `.ge asset list`)  
+      **Example Usage**:  
+        - `.ge build remove 4`
     - **`clear`** -- Despawns all assets and removes them from your list.  
       **Example Usage**:  
         - `.ge build clear`
     - **`load`** -- Clears your asset list, then loads the default assets for the current GuildEnclave location placing them in the original position.  
       **Example Usage**:  
         - `.ge build load`
-    - **`remove <_ASSETID_>`** -- Despawns (if spawned) and removes a specific asset from your design.  
-      - _ASSETID_ = specific owned asset in your list (viewed by `.ge asset list`)  
-      **Example Usage**:  
-        - `.ge build remove 4`
     - **`save`** -- Saves all assets and changes to the build for the specific GuildEnclave location. Previous saved build will be overwritten.  
       **Example Usage**:  
         - `.ge build save`
