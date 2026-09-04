@@ -165,7 +165,7 @@ struct GHLocation
 
     uint32_t InUseBitMask = 0;
 
-    bool AloowPhasing = false;
+    bool AlowPhasing = false;
     bool Enabled = false;
 };
 
