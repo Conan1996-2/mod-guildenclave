@@ -18,6 +18,7 @@ CREATE TABLE `guildenclave_locations`
     `maxY` FLOAT NOT NULL DEFAULT 0,
 
     `price` BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    `allowPhasing` TINYINT(1) NOT NULL DEFAULT 0,
     `enabled` TINYINT(1) NOT NULL DEFAULT 1,
 
     PRIMARY KEY(`id`),
