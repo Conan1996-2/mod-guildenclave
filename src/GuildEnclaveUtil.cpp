@@ -21,6 +21,14 @@ namespace GuildEnclaveUtil
         }            
     }
 
+    bool CanLocationPhase(uint32_t locationId)
+    {
+        if (!locationId)
+            return true;
+        
+        return sGuildEnclaveMgr.GetLocation(locationId).AllowPhasing;
+    }
+
     // =====================================================
     // Is Player Inside Guild Enclave AREA, does not have to be a member
     // =====================================================
@@ -35,8 +43,8 @@ namespace GuildEnclaveUtil
 
         std::vector<const GHLocation*> _locations = sGuildEnclaveMgr.GetLocations(false);
         for (const GHLocation* location : _locations)
-        if (location->MapId == mapId && x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY)
-            return location->Id;
+            if (location->MapId == mapId && x >= location->MinX && x <= location->MaxX && y >= location->MinY && y <= location->MaxY)
+                return location->Id;
         
         return 0;
     }
