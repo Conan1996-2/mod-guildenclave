@@ -14,12 +14,15 @@
     GR_INITIATE     = 4
 */
 
-enum GHMapPosition
+// =====================================================
+// Map directions
+// =====================================================
+enum GHMapPosition : uint32_t
 {
-    GH_MAP_NORTH,
-    GH_MAP_EAST,
-    GH_MAP_SOUTH,
-    GH_MAP_WEST
+    GH_MAP_NORTH    = 1 << 0,
+    GH_MAP_EAST     = 1 << 1,
+    GH_MAP_SOUTH    = 1 << 2,
+    GH_MAP_WEST     = 1 << 3
 };
 
 // =====================================================
