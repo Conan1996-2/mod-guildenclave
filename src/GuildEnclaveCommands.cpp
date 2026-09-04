@@ -34,6 +34,12 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
     
     static ChatCommandTable boundaryTable =
     {
+        { "enable",     HandleEnclavePhasingEnable,    SEC_GAMEMASTER, Console::No },
+        { "disable",    HandleEnclavePhasingDisable,    SEC_GAMEMASTER, Console::No }
+    }
+
+    static ChatCommandTable boundaryTable =
+    {
         { "north",      HandleEnclaveNorthBoundary,    SEC_GAMEMASTER, Console::No },
         { "south",      HandleEnclaveSouthBoundary,    SEC_GAMEMASTER, Console::No },
         { "east",       HandleEnclaveEastBoundary,     SEC_GAMEMASTER, Console::No },
@@ -47,11 +53,12 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
     static ChatCommandTable setEnclaveTable =
     {
         { "portposition",   HandleEnclavePortPosition,  SEC_GAMEMASTER, Console::No },
-        { "boundary",       HandleEnclaveBoundaries,    SEC_GAMEMASTER, Console::No },
-        { "boundary",       boundaryTable },
         { "price",          HandleEnclavePrice,         SEC_GAMEMASTER, Console::No },
         { "enable",         HandleEnclaveEnable,        SEC_GAMEMASTER, Console::No },
-        { "disable",        HandleEnclaveDisable,       SEC_GAMEMASTER, Console::No }
+        { "disable",        HandleEnclaveDisable,       SEC_GAMEMASTER, Console::No },
+        { "boundary",       HandleEnclaveBoundaries,    SEC_GAMEMASTER, Console::No },
+        { "boundary",       boundaryTable },
+        { "phasing",        phasingTable }
     };
 
     static ChatCommandTable enclaveTable =
@@ -1195,6 +1202,78 @@ bool GuildEnclaveCommandScript::HandleEnclaveDisable(ChatHandler* handler, char 
     }
 
     handler->PSendSysMessage("Guild Enclave {} '{}' has been disabled.", locationId, name);
+
+    return true;
+}
+
+// =====================================================
+// Enables the ability to be in an enclave area without being ported away if not in the correct phase
+// =====================================================
+bool GuildEnclaveCommandScript::HandleEnclavePhasingEnable(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set phasing enable <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    const GHLocation* location = sGuildEnclaveMgr.GetLocation(locationId);
+    if (!location)
+    {
+        handler->PSendSysMessage("Guild Enclave location {} does not exist.", locationId);
+        return true;
+    }
+
+    if (!sGuildEnclaveMgr.SetLocationPhasingEnabled(locationId, true))
+    {
+        handler->PSendSysMessage("Failed to enable Guild Enclave {} phasing.", locationId);
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave {} '{}' phasing has been enabled.", locationId, location->Name);
+
+    return true;
+}
+
+// =====================================================
+// Disables the ability to be in an enclave area without being ported away if not in the correct phase
+// =====================================================
+bool GuildEnclaveCommandScript::HandleEnclavePhasingDisable(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set phasing disable <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    const GHLocation* location = sGuildEnclaveMgr.GetLocation(locationId);
+    if (!location)
+    {
+        handler->PSendSysMessage("Guild Enclave location {} does not exist.", locationId);
+        return true;
+    }
+
+    if (!sGuildEnclaveMgr.SetLocationPhasingDisabled(locationId, true))
+    {
+        handler->PSendSysMessage("Failed to disable Guild Enclave {} phasing.", locationId);
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave {} '{}' phasing has been disabled.", locationId, location->Name);
 
     return true;
 }
