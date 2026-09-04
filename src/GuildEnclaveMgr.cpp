@@ -500,7 +500,7 @@ bool GuildEnclaveMgr::SetEnclaveBorderBoundary(uint32_t locationId, Player* play
     switch (position)
     {
         case GH_MAP_NORTH:
-            location->MinX = player->GetPositionX();
+            location->MaxX = player->GetPositionX();
             break;
         
         case GH_MAP_EAST:
@@ -508,7 +508,7 @@ bool GuildEnclaveMgr::SetEnclaveBorderBoundary(uint32_t locationId, Player* play
             break;
         
         case GH_MAP_SOUTH:
-            location->MaxX = player->GetPositionX();
+            location->MinX = player->GetPositionX();
             break;
         
         case GH_MAP_WEST:
