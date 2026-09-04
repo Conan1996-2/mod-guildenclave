@@ -36,7 +36,7 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
     {
         { "enable",     HandleEnclavePhasingEnable,    SEC_GAMEMASTER, Console::No },
         { "disable",    HandleEnclavePhasingDisable,    SEC_GAMEMASTER, Console::No }
-    }
+    };
 
     static ChatCommandTable boundaryTable =
     {
