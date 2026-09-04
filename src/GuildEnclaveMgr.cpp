@@ -494,10 +494,10 @@ bool GuildEnclaveMgr::SetEnclaveBorderBoundary(uint32_t locationId, Player* play
         return false;
 
     GHLocation* location = GetLocation(locationId);
-    if (!location)
+    if(!location)
         return false;
 
-    if (GuildEnclaveUtil::HasFlag(position, GH_MAP_NORTH))
+    if(GuildEnclaveUtil::HasFlag(position, GH_MAP_NORTH))
         location->MaxX = player->GetPositionX();
         
     if(GuildEnclaveUtil::HasFlag(position, GH_MAP_EAST))
@@ -506,7 +506,7 @@ bool GuildEnclaveMgr::SetEnclaveBorderBoundary(uint32_t locationId, Player* play
     if(GuildEnclaveUtil::HasFlag(position, GH_MAP_SOUTH))
         location->MinX = player->GetPositionX();
         
-    if(GuildEnclaveUtil::HasFlag(position, case GH_MAP_WEST))
+    if(GuildEnclaveUtil::HasFlag(position, GH_MAP_WEST))
         location->MaxY = player->GetPositionY();
 
     WorldDatabase.Execute("UPDATE guildenclave_locations SET minX = {}, maxX = {}, minY = {}, maxY = {} WHERE id = {}", location->MinX, location->MaxX, location->MinY, location->MaxY, locationId);
@@ -517,13 +517,13 @@ bool GuildEnclaveMgr::SetEnclaveBorderBoundary(uint32_t locationId, Player* play
 bool GuildEnclaveMgr::SetEnclaveBoundaries(uint32_t locationId, float minX, float minY, float maxX, float maxY)
 {
     GHLocation* location = GetLocation(locationId);
-    if (!location)
+    if(!location)
         return false;
 
-    if (minX > maxX)
+    if(minX > maxX)
         std::swap(minX, maxX);
 
-    if (minY > maxY)
+    if(minY > maxY)
         std::swap(minY, maxY);
 
     location->MinX = minX;
