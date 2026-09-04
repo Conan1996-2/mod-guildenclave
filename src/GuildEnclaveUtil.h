@@ -28,6 +28,11 @@ namespace GuildEnclaveUtil
     void useStoneTeleport(Player* player);
 
     // =====================================================
+    // Check to see if player is allowed in a phase enclave area
+    // =====================================================
+    bool CanLocationPhase(uint32_t locationId);
+
+    // =====================================================
     // Guild Enclave checks
     // =====================================================
     uint32_t GetPlayerLocationId(Player* player);
