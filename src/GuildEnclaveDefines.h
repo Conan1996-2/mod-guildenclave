@@ -14,6 +14,14 @@
     GR_INITIATE     = 4
 */
 
+enum GHMapPosition : uint32_t
+{
+    GH_MAP_NORTH,
+    GH_MAP_EAST,
+    GH_MAP_SOUTH,
+    GH_MAP_NORTH
+}
+
 // =====================================================
 // Spawn Flags
 // =====================================================
