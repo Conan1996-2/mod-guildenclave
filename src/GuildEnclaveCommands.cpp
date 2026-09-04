@@ -37,7 +37,11 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "north",      HandleEnclaveNorthBoundary,    SEC_GAMEMASTER, Console::No },
         { "south",      HandleEnclaveSouthBoundary,    SEC_GAMEMASTER, Console::No },
         { "east",       HandleEnclaveEastBoundary,     SEC_GAMEMASTER, Console::No },
-        { "west",       HandleEnclaveWestBoundary,     SEC_GAMEMASTER, Console::No }
+        { "west",       HandleEnclaveWestBoundary,     SEC_GAMEMASTER, Console::No },
+        { "northeast",  HandleEnclaveNEBoundary,       SEC_GAMEMASTER, Console::No },
+        { "northwest",  HandleEnclaveNWBoundary,       SEC_GAMEMASTER, Console::No },
+        { "southeast",  HandleEnclaveSEBoundary,       SEC_GAMEMASTER, Console::No },
+        { "southwest",  HandleEnclaveSWBoundary,       SEC_GAMEMASTER, Console::No },
     };
 
     static ChatCommandTable setEnclaveTable =
@@ -900,6 +904,118 @@ bool GuildEnclaveCommandScript::HandleEnclaveWestBoundary(ChatHandler* handler, 
     }
 
     handler->PSendSysMessage("Guild Enclave West position set");
+
+    return true;
+}
+
+bool GuildEnclaveCommandScript::HandleEnclaveNEBoundary(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary northeast <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary northeast <locationId>");
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_NORTH | GH_MAP_EAST))
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary northeast <locationId>");
+        handler->PSendSysMessage("Failed setting GuildEnclave border position.");
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave northeast position set");
+
+    return true;
+}
+
+bool GuildEnclaveCommandScript::HandleEnclaveNWBoundary(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary northwest <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary northwest <locationId>");
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_NORTH | GH_MAP_WEST))
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary northwest <locationId>");
+        handler->PSendSysMessage("Failed setting GuildEnclave border position.");
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave northwest position set");
+
+    return true;
+}
+
+bool GuildEnclaveCommandScript::HandleEnclaveSEBoundary(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary southeast <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary southeast <locationId>");
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_SOUTH | GH_MAP_EAST))
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary southeast <locationId>");
+        handler->PSendSysMessage("Failed setting GuildEnclave border position.");
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave southeast position set");
+
+    return true;
+}
+
+bool GuildEnclaveCommandScript::HandleEnclaveSWBoundary(ChatHandler* handler, char const* args)
+{
+    if (!args || !*args)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary southwest <locationId>");
+        return true;
+    }
+
+    uint32_t locationId = std::atoi(args);
+    if (!locationId)
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary southwest <locationId>");
+        handler->PSendSysMessage("Invalid location ID.");
+        return true;
+    }
+
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_SOUTH | GH_MAP_WEST))
+    {
+        handler->PSendSysMessage("Usage: .ge enclave set boundary southwest <locationId>");
+        handler->PSendSysMessage("Failed setting GuildEnclave border position.");
+        return true;
+    }
+
+    handler->PSendSysMessage("Guild Enclave southwest position set");
 
     return true;
 }
