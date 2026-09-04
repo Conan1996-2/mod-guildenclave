@@ -15,7 +15,8 @@ public:
         if (sGuildEnclaveMgr.IsMember(player))
             return;
 
-        if (GuildEnclaveUtil::GetPlayerLocationId(player))
+        uint32_t locationId = GuildEnclaveUtil::GetPlayerLocationId(player);
+        if (locationId && !GuildEnclaveUtil::CanLocationPhase(locationId))
             if(!sGuildEnclaveMgr.EnterPhase(player))
                 GuildEnclaveUtil::useStoneTeleport(player);
     }
