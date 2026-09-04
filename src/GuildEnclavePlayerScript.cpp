@@ -36,7 +36,6 @@ public:
         if (sGuildEnclaveMgr.IsMember(player) && GuildEnclaveUtil::IsInGuildEnclavePhase(player))
         {
             float dist = sGuildEnclaveMgr.OutsideBoundaryDistance(player);
-            LOG_INFO("server.loading", "Distance {}", dist);
             if (dist > 100)
                 sGuildEnclaveMgr.LeavePhase(player);
             else
