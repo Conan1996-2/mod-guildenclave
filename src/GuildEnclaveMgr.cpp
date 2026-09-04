@@ -702,6 +702,30 @@ bool GuildEnclaveMgr::CheckBoundary(Player* player)
     return true;
 }
 
+float GuildEnclaveMgr::OutsideBoundaryDistance(Player* player)
+{
+    if (!player)
+        return 0;
+    
+    const GHLocation* location = GetGuildLocation(player->GetGuildId());
+    if (!location)
+        return 0;
+
+    float x = player->GetPositionX();
+    float y = player->GetPositionY();
+    
+    if (x < location->minX)
+        return location->minX - x;
+    if (x > location->maxX)
+        return x - location->maxX;
+    if (y < location->minY)
+        return location->minY - y;
+    if (y > location->maxY)
+        return y - location->maxY;
+
+    return 0;
+}
+
 // =====================================================
 // Assets
 // =====================================================
