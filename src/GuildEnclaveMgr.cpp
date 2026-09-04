@@ -714,14 +714,14 @@ float GuildEnclaveMgr::OutsideBoundaryDistance(Player* player)
     float x = player->GetPositionX();
     float y = player->GetPositionY();
     
-    if (x < location->minX)
-        return location->minX - x;
-    if (x > location->maxX)
-        return x - location->maxX;
-    if (y < location->minY)
-        return location->minY - y;
-    if (y > location->maxY)
-        return y - location->maxY;
+    if (x < location->MinX)
+        return location->MinX - x;
+    if (x > location->MaxX)
+        return x - location->MaxX;
+    if (y < location->MinY)
+        return location->MinY - y;
+    if (y > location->MaxY)
+        return y - location->MaxY;
 
     return 0;
 }
