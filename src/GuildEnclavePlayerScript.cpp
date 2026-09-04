@@ -37,7 +37,7 @@ public:
         {
             float dist = sGuildEnclaveMgr.OutsideBoundaryDistance(player);
             LOG_INFO("server.loading", "Distance {}", dist);
-            if (dist > 200)
+            if (dist > 100)
                 sGuildEnclaveMgr.LeavePhase(player);
             else
             {
