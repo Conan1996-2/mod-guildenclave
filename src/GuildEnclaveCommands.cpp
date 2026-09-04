@@ -56,7 +56,7 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "price",          HandleEnclavePrice,         SEC_GAMEMASTER, Console::No },
         { "enable",         HandleEnclaveEnable,        SEC_GAMEMASTER, Console::No },
         { "disable",        HandleEnclaveDisable,       SEC_GAMEMASTER, Console::No },
-        { "boundary",       HandleEnclaveBoundaries,    SEC_GAMEMASTER, Console::No },
+        { "boundaries",     HandleEnclaveBoundaries,    SEC_GAMEMASTER, Console::No },
         { "boundary",       boundaryTable },
         { "phasing",        phasingTable }
     };
