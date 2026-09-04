@@ -14,7 +14,7 @@
     GR_INITIATE     = 4
 */
 
-enum GHMapPosition : uint32_t
+enum GHMapPosition
 {
     GH_MAP_NORTH,
     GH_MAP_EAST,
