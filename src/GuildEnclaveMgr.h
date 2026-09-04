@@ -56,7 +56,6 @@ public:
     bool SetEnclavePrice(uint32_t locationId, uint64_t amount);
     bool SetLocationEnabled(uint32_t locationId, bool enabled);
     bool SetLocationPhasingEnabled(uint32_t locationId, bool enabled);
-    bool SetLocationPhasingDisabled(uint32_t locationId, bool enabled);
 
     // =====================================================
     // Money Management
