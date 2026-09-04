@@ -51,6 +51,7 @@ public:
             if (locationId && !GuildEnclaveUtil::CanLocationPhase(locationId))
                 if(!sGuildEnclaveMgr.EnterPhase(player))
                     GuildEnclaveUtil::useStoneTeleport(player);
+        }
     }
 
     void OnPlayerMapChanged(Player* player) override
