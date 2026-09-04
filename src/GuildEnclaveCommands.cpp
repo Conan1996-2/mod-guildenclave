@@ -54,8 +54,6 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
     {
         { "portposition",   HandleEnclavePortPosition,  SEC_GAMEMASTER, Console::No },
         { "price",          HandleEnclavePrice,         SEC_GAMEMASTER, Console::No },
-        { "enable",         HandleEnclaveEnable,        SEC_GAMEMASTER, Console::No },
-        { "disable",        HandleEnclaveDisable,       SEC_GAMEMASTER, Console::No },
         { "boundaries",     HandleEnclaveBoundaries,    SEC_GAMEMASTER, Console::No },
         { "boundary",       boundaryTable },
         { "phasing",        phasingTable }
@@ -68,6 +66,8 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "teleport",       HandleTeleportGuildEnclave, SEC_PLAYER, Console::No },
         { "list",           HandleListEnclaves,         SEC_GAMEMASTER, Console::No },
         { "create",         HandleNewEnclave,           SEC_GAMEMASTER, Console::No },
+        { "enable",         HandleEnclaveEnable,        SEC_GAMEMASTER, Console::No },
+        { "disable",        HandleEnclaveDisable,       SEC_GAMEMASTER, Console::No },
         { "set",            setEnclaveTable }
     };
 
