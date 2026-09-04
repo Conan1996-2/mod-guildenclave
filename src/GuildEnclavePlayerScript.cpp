@@ -35,8 +35,13 @@ public:
         
         if (sGuildEnclaveMgr.IsMember(player) && GuildEnclaveUtil::IsInGuildEnclavePhase(player))
         {
-            sGuildEnclaveMgr.CheckBoundary(player);
-            player->SetRestFlag(REST_FLAG_IN_CITY);
+            if (!sGuildenclaveMgr.OutsideBoundaryDistance(player) > 200)
+            {
+                sGuildEnclaveMgr.CheckBoundary(player);
+                player->SetRestFlag(REST_FLAG_IN_CITY);
+            }
+            else
+                sGuildEnclaveMgr.LeavePhase(player);
         } 
         else
             if (GuildEnclaveUtil::GetPlayerLocationId(player))
