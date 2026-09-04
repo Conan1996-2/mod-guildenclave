@@ -329,8 +329,7 @@ _ARGUMENT_  indicates argument names
         - _MAXY_ = Larger of the two Y positions.  
         **Example Usage**:  
           - `.ge enclave set boundaries 4 12.4 45.3 105.7 320.2` 
-      - **`boundary <_DIRECTION_> <_LOCATIONID_>`** -- Sets the boundaries of the Enclave using the players current standing position. if the player goes beyond those boundaries then they will be teleported back to the port position.
-        - _DIRECTION_ = Border you are changing, using the direction and map. Use anyone of: `north, northeast, east, southeast, south, southwest, west, northwest`.  
+      - **`boundary <north | northeast | east | southeast | south | southwest | west | northwest> <_LOCATIONID_>`** -- Sets the boundaries of the Enclave using the players current standing position. if the player goes beyond those boundaries then they will be teleported back to the port position.
         - _LOCATIONID_ = Id aquired by `.ge enclave list` or the returned id when created.  
         **Example Usage**:  
           - `.ge enclave set boundary northeast 4` 
