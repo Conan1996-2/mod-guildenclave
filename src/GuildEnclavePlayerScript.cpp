@@ -35,13 +35,15 @@ public:
         
         if (sGuildEnclaveMgr.IsMember(player) && GuildEnclaveUtil::IsInGuildEnclavePhase(player))
         {
-            if (!(sGuildEnclaveMgr.OutsideBoundaryDistance(player) > 200))
+            float dist = sGuildEnclaveMgr.OutsideBoundaryDistance(player);
+            LOG_INFO("server.loading", "Distance {}", dist);
+            if (dist > 200)
+                sGuildEnclaveMgr.LeavePhase(player);
+            else
             {
                 sGuildEnclaveMgr.CheckBoundary(player);
                 player->SetRestFlag(REST_FLAG_IN_CITY);
             }
-            else
-                sGuildEnclaveMgr.LeavePhase(player);
         } 
         else
             if (GuildEnclaveUtil::GetPlayerLocationId(player))
