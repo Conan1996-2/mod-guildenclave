@@ -80,6 +80,7 @@ public:
     // =====================================================
     bool IsInsideGuildEnclaveBoundary(uint32_t guildId, float x, float y) const;
     bool CheckBoundary(Player* player);
+    float OutsideBoundaryDistance(Player* player);
     const GHLocation* GetGuildLocation(uint32_t guildId) const;
 
     // =====================================================
