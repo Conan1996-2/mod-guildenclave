@@ -31,11 +31,20 @@ ChatCommandTable GuildEnclaveCommandScript::GetCommands() const
         { "broker",     HandleAddBroker,   SEC_GAMEMASTER, Console::No },
         { "wander",     HandleWanderAsset, SEC_PLAYER, Console::No }
     };
+    
+    static ChatCommandTable boundaryTable =
+    {
+        { "north",      HandleEnclaveNorthBoundary,    SEC_GAMEMASTER, Console::No },
+        { "south",      HandleEnclaveSouthBoundary,    SEC_GAMEMASTER, Console::No },
+        { "east",       HandleEnclaveEastBoundary,     SEC_GAMEMASTER, Console::No },
+        { "west",       HandleEnclaveWestBoundary,     SEC_GAMEMASTER, Console::No }
+    }
 
     static ChatCommandTable setEnclaveTable =
     {
         { "portposition",   HandleEnclavePortPosition,  SEC_GAMEMASTER, Console::No },
-        { "boundaries",     HandleEnclaveBoundaries,    SEC_GAMEMASTER, Console::No },
+        { "boundary",       HandleEnclaveBoundaries,    SEC_GAMEMASTER, Console::No },
+        { "boundary",       boundaryTable },
         { "price",          HandleEnclavePrice,         SEC_GAMEMASTER, Console::No },
         { "enable",         HandleEnclaveEnable,        SEC_GAMEMASTER, Console::No },
         { "disable",        HandleEnclaveDisable,       SEC_GAMEMASTER, Console::No }
@@ -781,6 +790,26 @@ bool GuildEnclaveCommandScript::HandleEnclavePortPosition(ChatHandler* handler, 
     handler->PSendSysMessage("Guild Enclave {} port position set", locationId);
 
     return true;
+}
+
+bool GuildEnclaveCommandScript::HandleEnclaveNorthBoundary(ChatHandler* handler, char const* args)
+{
+    return false;
+}
+
+bool GuildEnclaveCommandScript::HandleEnclaveSouthBoundary(ChatHandler* handler, char const* args)
+{
+    return false;
+}
+
+bool GuildEnclaveCommandScript::HandleEnclaveEastBoundary(ChatHandler* handler, char const* args)
+{
+    return false;
+}
+
+bool GuildEnclaveCommandScript::HandleEnclaveWestBoundary(ChatHandler* handler, char const* args)
+{
+    return false;
 }
 
 // =====================================================
