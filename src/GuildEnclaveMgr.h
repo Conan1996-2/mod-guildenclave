@@ -51,6 +51,7 @@ public:
 
     uint32_t CreateLocation(std::string const& name, Player* player);
     bool SetEnclavePortPosition(uint32_t locationId, Player* player);
+    bool SetEnclaveBorderBoundary(uint32_t locationId, Player* player, GHMapPosition position);
     bool SetEnclaveBoundaries(uint32_t locationId, float minX, float minY, float maxX, float maxY);
     bool SetEnclavePrice(uint32_t locationId, uint64_t amount);
     bool SetLocationEnabled(uint32_t locationId, bool enabled);
