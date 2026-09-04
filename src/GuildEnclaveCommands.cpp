@@ -808,7 +808,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveNorthBoundary(ChatHandler* handler,
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclaveBorderPosition(locationId, handler->GetSession()->GetPlayer(), GH_MAP_NORTH))
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_NORTH))
     {
         handler->PSendSysMessage("Usage: .ge enclave set boundary north <locationId>");
         handler->PSendSysMessage("Failed setting GuildEnclave border position.");
@@ -836,7 +836,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveSouthBoundary(ChatHandler* handler,
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclaveBorderPosition(locationId, handler->GetSession()->GetPlayer(), GH_MAP_SOUTH))
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_SOUTH))
     {
         handler->PSendSysMessage("Usage: .ge enclave set boundary south <locationId>");
         handler->PSendSysMessage("Failed setting GuildEnclave border position.");
@@ -864,7 +864,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveEastBoundary(ChatHandler* handler, 
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclaveBorderPosition(locationId, handler->GetSession()->GetPlayer(), GH_MAP_EAST))
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_EAST))
     {
         handler->PSendSysMessage("Usage: .ge enclave set boundary east <locationId>");
         handler->PSendSysMessage("Failed setting GuildEnclave border position.");
@@ -892,7 +892,7 @@ bool GuildEnclaveCommandScript::HandleEnclaveWestBoundary(ChatHandler* handler, 
         return true;
     }
 
-    if(!sGuildEnclaveMgr.SetEnclaveBorderPosition(locationId, handler->GetSession()->GetPlayer(), GH_MAP_WEST))
+    if(!sGuildEnclaveMgr.SetEnclaveBorderBoundary(locationId, handler->GetSession()->GetPlayer(), GH_MAP_WEST))
     {
         handler->PSendSysMessage("Usage: .ge enclave set boundary west <locationId>");
         handler->PSendSysMessage("Failed setting GuildEnclave border position.");
