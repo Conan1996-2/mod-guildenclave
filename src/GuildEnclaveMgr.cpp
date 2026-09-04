@@ -43,7 +43,7 @@ void GuildEnclaveMgr::Load()
         _nextAssetId = maxAssetId + 1;
     }
     
-    if(QueryResult result = WorldDatabase.Query("SELECT id,name,mapId,positionX,positionY,positionZ,orientation,minX,maxX,minY,maxY,price,enabled FROM guildenclave_locations"))
+    if(QueryResult result = WorldDatabase.Query("SELECT id,name,mapId,positionX,positionY,positionZ,orientation,minX,maxX,minY,maxY,price,allowPhasing,enabled FROM guildenclave_locations"))
     {
         do
         {
@@ -62,7 +62,8 @@ void GuildEnclaveMgr::Load()
             location.MinY = fields[9].Get<float>();
             location.MaxY = fields[10].Get<float>();
             location.Price = fields[11].Get<uint64_t>();
-            location.Enabled = fields[12].Get<bool>();
+            location.AllowPhasing = fields[12].Get<bool>();
+            location.Enabled = fields[13].Get<bool>();
 
             _locations.emplace(location.Id, location);
         }while(result->NextRow());
@@ -446,14 +447,15 @@ uint32_t GuildEnclaveMgr::CreateLocation(std::string const& name, Player* player
     location.Id = locationId;
     location.Name = name;
     location.MapId = mapId;
+    location.AllowPhasing = false;
     location.Enabled = false;
     location.X = x;
     location.Y = y;
     location.Z = z;
     location.O = o;
 
-    WorldDatabase.Execute("INSERT INTO guildenclave_locations (id, name, mapId, zoneId, areaId, positionX, positionY, positionZ, orientation, enabled) VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {})",
-        locationId, name, mapId, zoneId, areaId, x, y, z, o, location.Enabled);
+    WorldDatabase.Execute("INSERT INTO guildenclave_locations (id, name, mapId, zoneId, areaId, positionX, positionY, positionZ, orientation, enabled) VALUES ({}, '{}', {}, {}, {}, {}, {}, {}, {}, {}, {})",
+        locationId, name, mapId, zoneId, areaId, x, y, z, o, location.AllowPhasing, location.Enabled);
 
     _locations.emplace(location.Id, std::move(location));
 
