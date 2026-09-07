@@ -20,6 +20,8 @@ public:
 
     double GetRefundPercent() const;
 
+    const std::unordered_map<uint32_t, uint32_t> GetFreeObjects() { return _freeObjects; } const;
+
 private:
 
     GuildEnclaveConfig() = default;
@@ -32,6 +34,8 @@ private:
     int16_t _wanderDistance = 0;
 
     double _refundPercent = 0;
+
+    std::vector<uint32_t> _startingObjects;
 };
 
 #define sGuildEnclaveConfig GuildEnclaveConfig::Instance()
