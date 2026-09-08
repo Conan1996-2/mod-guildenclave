@@ -20,6 +20,20 @@ void GuildEnclaveConfig::Load()
     if (_refundPercent > 1)
         _refundPercent = 1;
 
+    _startingObjects.clear();
+    std::string startingObjects = sConfigMgr->GetOption<std::string>("GuildEnclave.StartingObjects", "0");
+    if (startingObjects != "0")
+    {
+        std::stringstream ss(startingObjects);
+        std::string value;
+        while (std::getline(ss, value, ','))
+        {
+            uint32_t catalogId = std::strtoul(value.c_str(), nullptr, 10);
+            if (catalogId)
+                _startingObjects.push_back(catalogId);
+        }
+    }
+    
     LOG_INFO("server.loading", "GuildEnclave: Configuration loaded.");
 }
 
@@ -51,4 +65,9 @@ bool GuildEnclaveConfig::AllWander() const
 int16_t GuildEnclaveConfig::WanderDistance() const
 {
     return _wanderDistance;
+}
+
+std::vector<uint32_t> GuildEnclaveConfig::GetStaringObjects() const
+{
+    return _startingObjects;
 }
