@@ -21,7 +21,7 @@ public:
 
     double GetRefundPercent() const;
 
-    std::vector<uint32_t> GetStaringObjects() const;
+    std::vector<uint32_t> GetStartingObjects() const;
 
 private:
 
