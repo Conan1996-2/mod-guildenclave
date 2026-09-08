@@ -1174,9 +1174,9 @@ bool GuildEnclaveMgr::WanderAsset(Player* player, uint32_t localAssetId, uint32_
 // =====================================================
 // Catalog Purchase
 // =====================================================
-bool GuildEnclaveMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId)
+bool GuildEnclaveMgr::PurchaseCatalogItem(Player* player, uint32_t catalogId, bool charge)
 {
-    uint32_t assetId = AddAsset(player, catalogId, true);
+    uint32_t assetId = AddAsset(player, catalogId, charge);
     if (assetId == 0)
     {
         ChatHandler(player->GetSession()).PSendSysMessage("Unable to add asset.");
