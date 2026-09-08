@@ -183,7 +183,7 @@ bool GuildEnclaveSalesman::OnGossipSelect(Player* player, Creature* creature, ui
     {
         uint32 catalogId = action - ACTION_CONFIRM;
     
-        if (!sGuildEnclaveMgr.PurchaseCatalogItem(player, catalogId))
+        if (!sGuildEnclaveMgr.PurchaseCatalogItem(player, catalogId, sGuildEnclaveConfig.IsFree()))
             ChatHandler(player->GetSession()).PSendSysMessage("Unable to purchase item.");
     
         CloseGossipMenuFor(player);
