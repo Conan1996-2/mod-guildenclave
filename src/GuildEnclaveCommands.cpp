@@ -1,5 +1,6 @@
 #include "GuildEnclaveCommands.h"
 
+#include "GuildEnclaveCommands.h"
 #include "GuildEnclaveDefines.h"
 #include "GuildEnclaveTypes.h"
 #include "GuildEnclaveUtil.h"
