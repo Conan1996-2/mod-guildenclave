@@ -30,7 +30,10 @@ void GuildEnclaveConfig::Load()
         {
             uint32_t catalogId = std::strtoul(value.c_str(), nullptr, 10);
             if (catalogId)
+            {
+                 LOG_INFO("server.loading", ">> GuildEnclaveConfig freecatalogsitems {}", catalogId);
                 _startingObjects.push_back(catalogId);
+            }
         }
     }
     
