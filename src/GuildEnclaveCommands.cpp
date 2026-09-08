@@ -685,7 +685,7 @@ bool GuildEnclaveCommandScript::HandlePurchaseCatalog(ChatHandler* handler, char
         return true;
     }
 
-    if (!sGuildEnclaveMgr.PurchaseCatalogItem(player, catalogId))
+    if (!sGuildEnclaveMgr.PurchaseCatalogItem(player, catalogId, sGuildEnclaveConfig.IsFree()))
     {
         handler->PSendSysMessage("Failed purchasing Guild House item.");
         return true;
