@@ -67,7 +67,7 @@ int16_t GuildEnclaveConfig::WanderDistance() const
     return _wanderDistance;
 }
 
-std::vector<uint32_t> GuildEnclaveConfig::GetStaringObjects() const
+std::vector<uint32_t> GuildEnclaveConfig::GetStartingObjects() const
 {
     return _startingObjects;
 }
