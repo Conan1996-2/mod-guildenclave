@@ -11,6 +11,7 @@ GuildEnclaveConfig& GuildEnclaveConfig::Instance()
 
 void GuildEnclaveConfig::Load()
 {
+     LOG_INFO("server.loading", "");
     _enabled = sConfigMgr->GetOption<bool>("GuildEnclave.Enable", false);
     _free = sConfigMgr->GetOption<bool>("GuildEnclave.Free", false);    
     _allWander = sConfigMgr->GetOption<bool>("GuildEnclave.NPCWander.Enabled", false);
