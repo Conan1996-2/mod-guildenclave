@@ -30,14 +30,14 @@ GuildEnclave.Enable = 0
 GuildEnclave.Free = 0
 
 #    GuildEnclave.StartingObjects
-#        Description: These are the Items all guilds will obtain for free when the guild is purchased, seperated by comma.
+#        Description: These are the Items all guilds will obtain for free when the guild is purchased, catalogid seperated by comma.
 #            If set to 0, then nothing is added to the guild.
 #
-#        Default:    101
-#            - Salesman
+#        Default:    2
+#            - 2 = Salesman
 #
 
-GuildEnclave.StartingObjects = 1101
+GuildEnclave.StartingObjects = 2
 
 #    GuildEnclave.Refund
 #        Description: Refund percentage of cost when returning an item or selling the Enclave.
