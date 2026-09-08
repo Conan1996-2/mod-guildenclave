@@ -383,10 +383,15 @@ bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint3
     house.LocationId = locationId;
     house.PhaseMask = 0;
     house.PurchasePrice = location->Price;
-
     _houses.emplace(guildId, house);
 
-    PurchaseCatalogItem(player, 2);
+    auto const& _startingObjects = sGuildEnclaveConfig.GetStartingObjects();
+    for (uint32_t catalogId : _startingObjects)
+    {
+        //PurchaseCatalogItem(player, 2);
+        PurchaseCatalogItem(player, catalogId);
+    }
+
     
     return true;
 }
