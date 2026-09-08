@@ -2,6 +2,7 @@
 #define MOD_GUILDENCLAVE_CONFIG_H
 
 #include <cstdint>
+#include <vector>
 
 class GuildEnclaveConfig
 {
@@ -20,7 +21,7 @@ public:
 
     double GetRefundPercent() const;
 
-    std::vector<uint32_t> GuildEnclaveConfig::GetStaringObjects() const
+    std::vector<uint32_t> GetStaringObjects() const
 
 private:
 
