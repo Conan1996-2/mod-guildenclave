@@ -109,7 +109,7 @@ public:
 // =====================================================
     // Catalog
     // =====================================================
-    bool PurchaseCatalogItem(Player* player, uint32_t catalogId);
+    bool PurchaseCatalogItem(Player* player, uint32_t catalogId, bool charge);
 
 private:
 
