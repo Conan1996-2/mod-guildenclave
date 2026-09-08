@@ -20,7 +20,7 @@ public:
 
     double GetRefundPercent() const;
 
-    const std::unordered_map<uint32_t, uint32_t> GetFreeObjects() { return _freeObjects; } const;
+    std::vector<uint32_t> GuildEnclaveConfig::GetStaringObjects() const
 
 private:
 
