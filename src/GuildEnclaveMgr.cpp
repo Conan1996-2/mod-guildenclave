@@ -389,7 +389,7 @@ bool GuildEnclaveMgr::CreateGuildEnclave(Player* player, uint32_t guildId, uint3
     for (uint32_t catalogId : _startingObjects)
     {
         //PurchaseCatalogItem(player, 2);
-        PurchaseCatalogItem(player, catalogId);
+        PurchaseCatalogItem(player, catalogId, false);
     }
 
     
